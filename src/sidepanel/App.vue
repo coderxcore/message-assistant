@@ -1,9 +1,11 @@
 <template>
-  <btn />
+  <button @click="toOptions">打开选项</button>
 </template>
 
 <script lang="ts" setup>
-import Btn from "./component/Btn.vue";
+function toOptions() {
+  chrome.runtime.openOptionsPage();
+}
 </script>
 
 

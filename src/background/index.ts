@@ -1,3 +1,6 @@
+import './services/SettingsService'
+import './services/LocalService'
+
 export default defineBackground({
 	main() {
 		chrome.sidePanel.setPanelBehavior({openPanelOnActionClick: true}).catch(console.log)
