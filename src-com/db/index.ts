@@ -12,7 +12,6 @@ export class Db {
 	static locales: IDataWriter<ILocaleRow> = Db.db.store(localesStoreSchema,'locale');
 
 	static get db(): IIDbPro {
-		console.log(localesStoreSchema)
 		return currentDb || (currentDb = new IDbPro({
 			name: 'socio-reply'
 		}));

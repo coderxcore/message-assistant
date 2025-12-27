@@ -19,13 +19,13 @@
     <settings-group :name="locale.dataMgr">
       <settings-row :title="locale.importData" :desc="locale.importDataDesc">
         <icon-btn>
-          <upload :size="14"/>
+          <download :size="14"/>
           {{ locale.importData }}
         </icon-btn>
       </settings-row>
       <settings-row :title="locale.exportData" :desc="locale.exportDataDesc">
         <icon-btn>
-          <download :size="14"/>
+          <upload :size="14"/>
           {{ locale.exportData }}
         </icon-btn>
       </settings-row>

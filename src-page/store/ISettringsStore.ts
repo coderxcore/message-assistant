@@ -8,7 +8,11 @@ const timer = new Timer()
 export interface ISettingsState extends ISettings {
 }
 
-export interface ISettingsStore extends ISettingsState {
+export interface ISettingsGetter {
+	readonly realTheme: string;
+}
+
+export interface ISettingsStore extends ISettingsState, ISettingsGetter {
 	loadSettings(): Promise<void>;
 
 	saveSettings(): Promise<void>;
@@ -20,6 +24,16 @@ export const useSettingsStore: () => ISettingsStore = defineStore('settings', {
 	state: (): ISettingsState => {
 		return {...defaultSettings};
 	},
+	getters: {
+		realTheme({theme}) {
+			if (theme === 'auto') if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				theme = 'dark';
+			} else {
+				theme = 'light';
+			}
+			return theme;
+		}
+	},
 	actions: {
 		async loadSettings() {
 			this.$patch(await Api.settings.getSettings());
@@ -27,20 +41,10 @@ export const useSettingsStore: () => ISettingsStore = defineStore('settings', {
 		},
 		async saveSettings() {
 			await timer.reWait();
-			const {language, theme} = this;
-			await Api.settings.setSettings({
-				language,
-				theme
-			})
+			await Api.settings.setSettings({...this.$state});
 		},
 		setPageTheme() {
-			let {theme} = this;
-			if (theme === 'auto') if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-				theme = 'dark';
-			} else {
-				theme = 'light';
-			}
-			document.documentElement.className = theme;
+			document.documentElement.className = this.realTheme;
 		}
 	}
 }) as any;
