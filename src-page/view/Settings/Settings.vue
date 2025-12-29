@@ -18,7 +18,7 @@
     </settings-group>
     <settings-group :name="locale.dataMgr">
       <settings-row :title="locale.importData" :desc="locale.importDataDesc">
-        <icon-btn>
+        <icon-btn @click="importData">
           <download :size="14"/>
           {{ locale.importData }}
         </icon-btn>
@@ -38,8 +38,9 @@ import {Download, Upload} from 'lucide-vue-next';
 import SettingsGroup from "./SettingsGroup.vue";
 import SettingsRow from "./SettingsRow.vue";
 import IconBtn from "../../part/IconBtn.vue";
-import {Locales, themes} from "/src-com";
+import {Locales, themes} from "/src-type";
 import {Store} from "../../store";
+import {openFileHandler} from "grain-sand-web-fs";
 
 const {settings, locale} = Store;
 
@@ -51,5 +52,12 @@ async function changeTheme() {
 async function changeLanguage() {
   await settings.saveSettings();
   await locale.reLoadMessages(true);
+}
+
+async function importData() {
+  const handler = await openFileHandler();
+  const file = await handler.getFile()
+  const buffer = await file.arrayBuffer()
+  console.log(buffer)
 }
 </script>

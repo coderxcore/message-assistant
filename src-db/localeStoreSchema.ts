@@ -1,15 +1,15 @@
 import {IStoreSchema} from "gs-idb-pro";
-import {ILocaleRow, LocalesAll, LocaleKey, LocaleRecord} from "./ILocaleRow";
-import {zh_CN} from "./default-values/zh_CN";
-import {all} from "./default-values/all";
-import {zh_TW} from "./default-values/zh_TW";
-import {ja} from "./default-values/ja";
-import {en} from "./default-values/en";
+import {zh_CN} from "./locale-default-values/zh_CN";
+import {all} from "./locale-default-values/all";
+import {zh_TW} from "./locale-default-values/zh_TW";
+import {ja} from "./locale-default-values/ja";
+import {en} from "./locale-default-values/en";
+import {ILocaleRow, LocaleRecord, LocalesAll} from "/src-type";
 
-export const localesStoreSchema: IStoreSchema = {
-	name: 'locales',
-	addedTimeField: false,
-	updatedTimeField: false,
+export const LocalStoreName = 'locale'
+
+export const localeStoreSchema: IStoreSchema = {
+	name: LocalStoreName,
 	indexSchemas: [
 		'locale',
 		{

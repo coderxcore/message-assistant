@@ -1,4 +1,4 @@
-import {LocaleRecord} from "../ILocaleRow";
+import {LocaleRecord} from "/src-type";
 
 export const all = <LocaleRecord>{
 	"zh-CN": "中文简体",

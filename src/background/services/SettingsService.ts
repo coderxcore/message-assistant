@@ -1,5 +1,5 @@
 import {setMsgMethod, StorageSync} from "gs-br-ext";
-import {defaultSettings, ISettings, ISettingsService, Locale} from "/src-com";
+import {defaultSettings, ISettings, ISettingsService, Locale} from "/src-type";
 
 const SettingsKey = 'settings';
 let cache: ISettings | undefined;

@@ -1,6 +1,7 @@
 import {setMsgMethod} from "gs-br-ext";
-import {Db, ILocaleRow, ILocaleService, LocaleKey, LocaleRecord} from "/src-com";
+import {ILocaleRow, ILocaleService, LocaleKey, LocaleRecord} from "/src-type";
 import {SettingsService} from "./SettingsService";
+import {Db} from "/src-db";
 
 let cache: LocaleRecord | undefined;
 
@@ -16,7 +17,7 @@ setMsgMethod<ILocaleService>({
 	async getMessages(): Promise<Record<LocaleKey, string>> {
 		if (cache) return cache;
 		const {language} = await SettingsService.getSettings();
-		return cache = await Db.locales.batchRead<any>(async reader => {
+		return cache = await Db.locale.batchRead<any>(async reader => {
 			return {
 				...toRecord(await reader.filter('all') as any),
 				...toRecord(await reader.filter(language) as any)

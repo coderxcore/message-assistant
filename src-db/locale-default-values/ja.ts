@@ -1,4 +1,4 @@
-import {LocaleRecord} from "../ILocaleRow";
+import {LocaleRecord} from "/src-type";
 
 export const ja = <LocaleRecord>{
 	title: 'ソーシャル返信アシスタント',

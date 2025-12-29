@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {defaultSettings, ISettings} from "/src-com";
+import {defaultSettings, ISettings} from "/src-type";
 import {Api} from "../api";
 import {Timer} from "gs-base";
 
