@@ -1,7 +1,6 @@
 export interface ISite {
 	title: string
-	postUrlPrefix: string
-	replyUrlPrefix: string
+	urlPrefix: string
 }
 
 export interface IScene {

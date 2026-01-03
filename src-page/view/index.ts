@@ -6,6 +6,7 @@ import History from './History.vue'
 import Trash from './Trash.vue'
 import References from './References.vue'
 import Settings from './Settings/Settings.vue'
+import ImportReferences from './ImportReferences.vue'
 
 export const router = createRouter({
 	history: createWebHashHistory(),
@@ -47,6 +48,11 @@ export const router = createRouter({
 					component: Trash
 				},
 			]
+		},
+		{
+			name: "importReferences",
+			path: "/importReferences",
+			component: ImportReferences
 		},
 	]
 });

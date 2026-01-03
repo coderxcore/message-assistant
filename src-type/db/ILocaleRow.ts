@@ -2,7 +2,8 @@ import {themes} from "../api/ISettingsApi";
 
 const settingsPageKeys = [
 	'language', 'languageDesc', 'theme', 'themeDesc', 'pref',
-	'dataMgr', 'exportData', 'exportDataDesc', 'importData','importDataDesc'
+	'dataMgr', 'exportData', 'exportDataDesc', 'importData','importDataDesc',
+	'importReferences'
 ] as const;
 
 export const Locales = ['zh-CN', 'zh-TW', 'en', 'ja'] as const;

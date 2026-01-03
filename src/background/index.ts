@@ -1,6 +1,6 @@
 import './services/SettingsService'
 import './services/LocalService'
-import './services/ReplyService'
+import './services/MessageService'
 
 export default defineBackground({
 	main() {

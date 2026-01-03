@@ -1,14 +1,14 @@
 import {ILocaleStore, useLocaleStore} from "./ILocaleStore";
 import {ISettingsStore, useSettingsStore} from "./ISettringsStore";
-import {IReplyStore, useReplyStore} from "./IReplyStore";
+import {IMessageStore, useMessageStore} from "./IMessageStore";
 
 export class Store {
-	static #replyStore?: IReplyStore
+	static #replyStore?: IMessageStore
 	static #localeStore?: ILocaleStore
 	static #settingsStore?: ISettingsStore
 
-	static get reply(): IReplyStore {
-		return Store.#replyStore || (Store.#replyStore = useReplyStore());
+	static get message(): IMessageStore {
+		return Store.#replyStore || (Store.#replyStore = useMessageStore());
 	}
 
 	static get locale(): ILocaleStore {

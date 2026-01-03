@@ -13,15 +13,13 @@ export default defineConfig({
 		plugins: [
 			vue(),
 		],
-	}),
-	dev: {
-		server: {
-			host: '0.0.0.0',
-			//  host: '172.15.0.2',
+		build:{
+			minify: null,
 		}
-	},
+	}),
+
 	outDir: 'dist',
 	entrypointsDir: 'src',
 	manifestVersion: 3,
-	manifest,
+	manifest
 });

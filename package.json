@@ -1,5 +1,5 @@
 {
-	"name": "socio-reply",
+	"name": "message-assistant",
 	"description": "一个插件",
 	"private": true,
 	"version": "1.0.0",
@@ -23,6 +23,7 @@
 		"gs-base": "^0.1.19",
 		"gs-br-ext": "^0.1.3",
 		"gs-dom": "^0.1.3",
+		"gs-idb-basic": "^0.1.6",
 		"gs-idb-pro": "^0.1.1",
 		"gs-search": "^0.1.3",
 		"gs-tokenizer": "^0.1.5",

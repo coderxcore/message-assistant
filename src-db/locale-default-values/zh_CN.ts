@@ -20,5 +20,6 @@ export const zh_CN = <LocaleRecord>{
 	exportData:'导出数据',
 	exportDataDesc:'下载所有内容的历史记录和草稿',
 	importData:'导入数据',
-	importDataDesc:'从备份文件恢复内容'
+	importDataDesc:'从备份文件恢复内容',
+	importReferences:'导入参考'
 };

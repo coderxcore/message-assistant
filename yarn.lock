@@ -1543,7 +1543,7 @@ gs-dom@^0.1.3:
   dependencies:
     gs-base latest
 
-gs-idb-basic@latest:
+gs-idb-basic@^0.1.6, gs-idb-basic@latest:
   version "0.1.6"
   resolved "https://registry.npmmirror.com/gs-idb-basic/-/gs-idb-basic-0.1.6.tgz#6eb2b0e76e6437256f4572828e50f8cab5332c98"
   integrity sha512-nrdSq5302v4hj3kQRBJZMl34gSgTcnQ95fKK7/gubQmlnIfKptbhdVED6Zb/DpJgPX3mRQHxjoB0Ls0SfLdTbw==

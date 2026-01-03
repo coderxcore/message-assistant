@@ -20,7 +20,7 @@ setMsgMethod<ILocaleService>({
 		return cache = await Db.locale.batchRead<any>(async reader => {
 			return {
 				...toRecord(await reader.filter('all') as any),
-				...toRecord(await reader.filter(language) as any)
+				...toRecord(await reader.filter(language as any) as any)
 			}
 		})
 	},

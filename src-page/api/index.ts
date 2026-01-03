@@ -1,4 +1,4 @@
-import {ILocaleApi, IReplyApi, ISettingsApi} from "../../src-type";
+import {ILocaleApi, IMessageApi, ISettingsApi} from "../../src-type";
 import {createMsgMethodProxy} from "gs-br-ext";
 
 
@@ -6,7 +6,7 @@ export class Api {
 
 	static #proxy?: any;
 
-	static get reply(): IReplyApi {
+	static get message(): IMessageApi {
 		return this.#api
 	}
 

@@ -1,7 +1,7 @@
 <template>
   <div class="HomeInput">
     <section>
-      <smart-input v-model="reply.input" @cursor:change="onCursorChange"/>
+      <smart-input v-model="message.input" @cursor:change="onCursorChange"/>
     </section>
     <footer>
       <button class="btn-lg">
@@ -26,14 +26,14 @@ import {Store} from "../../store";
 import {Timer} from "gs-base";
 import {Api} from "../../api";
 
-const {reply} = Store;
+const {message} = Store;
 
 const timer = new Timer();
 
 async function onCursorChange() {
   await timer.wait(300)
   await timer.wait(200)
-  await Api.reply.queryReply(reply.input)
+  await Api.message.queryReply(message.input)
 }
 
 
