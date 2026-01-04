@@ -4,6 +4,7 @@ export interface IFrontState {
 	showProgress: boolean;
 	progress: number;
 	message: string;
+	confirm?: (result: boolean) => void | Promise<void>;
 }
 
 export interface IFrontGetters {
@@ -19,11 +20,12 @@ export const useFrontStore: () => IFrontStore = defineStore('front', {
 			showProgress: false,
 			progress: 0,
 			message: '',
+			confirm: undefined
 		};
 	},
 	getters: {
-		show({showProgress, message}: IFrontState): boolean {
-			return Boolean(showProgress || message);
+		show({showProgress, message, confirm}: IFrontState): boolean {
+			return Boolean(showProgress || message || confirm);
 		}
 	},
 	actions: {}

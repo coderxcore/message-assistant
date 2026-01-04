@@ -1,10 +1,12 @@
 <template>
   <router-view/>
+  <Front/>
 </template>
 
 <script lang="ts" setup>
 import {onMounted} from "vue";
 import {Store} from "./store";
+import Front from "./view/Front.vue";
 
 onMounted(async () => {
   await Store.settings.loadSettings();
