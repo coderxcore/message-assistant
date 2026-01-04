@@ -1,4 +1,4 @@
-import {LocaleRecord} from "/src-type";
+import {LocaleRecord} from "/src-com";
 
 export const zh_CN = <LocaleRecord>{
 	title: '社交回复助手',
@@ -21,5 +21,11 @@ export const zh_CN = <LocaleRecord>{
 	exportDataDesc:'下载所有内容的历史记录和草稿',
 	importData:'导入数据',
 	importDataDesc:'从备份文件恢复内容',
-	importReferences:'导入参考'
+	importReferences:'导入参考',
+	mode:'模式',
+	preview:'预览',
+	eachLine:'每行',
+	blankLine:'空行',
+	custom:'自定义',
+	confirmImport:'确定导入'
 };

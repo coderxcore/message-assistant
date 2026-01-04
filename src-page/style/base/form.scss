@@ -1,7 +1,11 @@
-select{
+select, input {
   padding: 0.5rem;
   border-radius: 6px;
   border: 1px solid var(--color-border);
   background: var(--color-surface);
   color: var(--color-text-main);
+
+  &[readonly] {
+	color: var(--color-text-secondary);
+  }
 }

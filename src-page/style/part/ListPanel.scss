@@ -1,0 +1,68 @@
+.ListPanel {
+  > header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+	padding-bottom: 6px;
+	padding-top: 6px;
+	background: var(--color-bg);
+
+	h2 {
+	  font-size: 14px;
+	  color: var(--color-text-secondary);
+	  font-weight: 500;
+	  margin: 0;
+	}
+
+	a {
+	  background: none;
+	  border: none;
+	  color: var(--color-primary) !important;
+	  cursor: pointer;
+	  font-size: 13px;
+	}
+  }
+
+  > ul, > div {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding-bottom: 30vh;
+
+	> li, > pre {
+	  background: var(--color-surface);
+	  border-radius: var(--radius-md);
+	  padding: 12px 18px;
+	  box-shadow: var(--shadow-sm);
+	  border: 1px solid transparent;
+	  transition: all 0.2s ease;
+	  word-wrap: break-word;
+	}
+	>pre{
+	  font-size: 12px;
+	  line-height: 20px;
+	}
+  }
+
+  &.selectable {
+	>ul,>div{
+	  > li, > pre {
+		cursor: pointer;
+		&:hover {
+		  background: var(--color-card-hover);
+		  box-shadow: var(--shadow-md);
+		  border-color: var(--color-border);
+		  transform: translateY(-2px);
+		}
+	  }
+	}
+  }
+  &.header-sticky {
+	> header {
+	  position: sticky;
+	  top: 0;
+	  z-index: 100;
+	}
+  }
+}

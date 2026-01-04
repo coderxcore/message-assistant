@@ -1,5 +1,5 @@
 import {defaultStoreSchemaTemplate, IDataOperators, IDataWriter, IDbPro, IIDbPro} from "gs-idb-pro";
-import {ILocaleRow, IMessage, IScene, IWord} from "/src-type";
+import {ILocaleRow, IMessage, IScene, IWord} from "/src-com";
 import {localeStoreSchema} from "./localeStoreSchema";
 import {messageSchema, MessageStoreName} from "./messageSchema";
 import {wordSchema, WordStoreName} from "./wordSchema";

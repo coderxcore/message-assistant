@@ -1,4 +1,4 @@
-import {LocaleRecord} from "/src-type";
+import {LocaleRecord} from "/src-com";
 
 export const zh_TW = <LocaleRecord>{
 	title: '社交回覆助手',

@@ -40,6 +40,7 @@ import SettingsRow from "./SettingsRow.vue";
 import IconBtn from "../../part/IconBtn.vue";
 import {Store} from "../../store";
 import {openFileHandler} from "grain-sand-web-fs";
+import {Locales, themes} from "/src-com";
 
 const {settings, locale} = Store;
 

@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
-import {defaultSettings, ISettings} from "/src-type";
 import {Api} from "../api";
 import {Timer} from "gs-base";
+import {defaultSettings, ISettings} from "/src-com";
 
 const timer = new Timer()
 

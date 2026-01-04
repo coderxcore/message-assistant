@@ -4,7 +4,7 @@ import {all} from "./locale-default-values/all";
 import {zh_TW} from "./locale-default-values/zh_TW";
 import {ja} from "./locale-default-values/ja";
 import {en} from "./locale-default-values/en";
-import {ILocaleRow, LocaleRecord, LocalesAll} from "/src-type";
+import {ILocaleRow, LocaleRecord, LocalesAll} from "/src-com";
 
 export const LocalStoreName = 'locale'
 

@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {Api} from "../api";
-import {IMessageStatus} from "/src-type";
+import {IMessageStatus} from "/src-com";
 
 export interface IMessageState {
 	input: string

@@ -48,8 +48,8 @@ export const router = createRouter({
 					component: Trash
 				},
 				{
-					name: "importReferences",
-					path: "importReferences",
+					name: "import-references",
+					path: "import-references",
 					component: ImportReferences
 				},
 			]

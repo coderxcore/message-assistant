@@ -1,4 +1,4 @@
-import {ILocaleApi, IMessageApi, ISettingsApi} from "../../src-type";
+import {ILocaleApi, IMessageApi, ISettingsApi} from "/src-com";
 import {createMsgMethodProxy} from "gs-br-ext";
 
 

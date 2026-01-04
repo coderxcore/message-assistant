@@ -2,13 +2,27 @@
   width: 8px;
 }
 
+::-webkit-scrollbar {
+  transition: .3s;
+}
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  -webkit-box-shadow: inset 0 0 2.5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 2.5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  -webkit-box-shadow: inset 0 0 2.5px rgba(0, 0, 0, .2);
+  box-shadow: inset 0 0 2.5px rgba(0, 0, 0, .2);
   border-radius: 4px;
+  background-color: var(--color-border);
+  opacity: .6;
+  transition: opacity ease-in-out .3s;
+  &:hover{
+    opacity: 1;
+  }
 }
 
 :host, :root, textarea, input, select {

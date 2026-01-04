@@ -29,7 +29,7 @@
         </router-link>
       </nav>
     </header>
-    <router-view class="container"/>
+    <router-view class="container layout-body"/>
   </div>
 </template>
 

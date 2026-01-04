@@ -1,7 +1,7 @@
 import {setMsgMethod} from "gs-br-ext";
-import {ILocaleRow, ILocaleService, LocaleKey, LocaleRecord} from "/src-type";
+import {ILocaleRow, ILocaleService, LocaleKey, LocaleRecord} from "/src-com";
 import {SettingsService} from "./SettingsService";
-import {Db} from "/src-db";
+import {Db} from "../db";
 
 let cache: LocaleRecord | undefined;
 

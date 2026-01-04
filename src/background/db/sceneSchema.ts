@@ -1,5 +1,5 @@
 import {IStoreSchema} from "gs-idb-pro";
-import {IScene} from "../src-type";
+import {IScene} from "/src-com";
 
 export const SceneStoreName = 'scene'
 

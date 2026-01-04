@@ -1,4 +1,4 @@
-import {LocaleRecord} from "/src-type";
+import {LocaleRecord} from "/src-com";
 
 export const en = <LocaleRecord>{
 	title: 'Social Reply Assistant',

@@ -15,9 +15,9 @@
         <router-link v-if="message.status.referencesCount" to="/references" :title="locale.references">
           <book-open/>
         </router-link>
-        <router-link v-else to="/importReferences" :title="locale.importReferences">
+        <a v-else @click="Store.importReferences.selectFile()" :title="locale.importReferences">
           <file-down/>
-        </router-link>
+        </a>
         <router-link to="/settings" :title="locale.settings">
           <settings/>
         </router-link>

@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {Api} from "../api";
-import {LocaleObject, LocaleRecord} from "../../src-type";
+import {LocaleObject, LocaleRecord} from "/src-com";
 
 export interface ILocaleState extends LocaleRecord {
 }

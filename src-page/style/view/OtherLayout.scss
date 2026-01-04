@@ -2,7 +2,7 @@
   --nav-size: 50px;
   $max-width: 640px;
 
-  .container{
+  .container {
 	margin: 0 auto;
 	width: 100%;
 	max-width: $max-width;
@@ -18,9 +18,6 @@
 	height: var(--nav-size);
 	display: flex;
 	flex-flow: nowrap row;
-	position: sticky;
-	top: 0;
-	z-index: 100;
 	transition: background-color 0.3s, border-color 0.3s;
 
 	> nav {
@@ -35,19 +32,58 @@
 		gap: .5em;
 		font-size: 13px;
 		padding: .3em 18px;
-		border-top: none!important;
-		border-bottom: none!important;
+		border-top: none !important;
+		border-bottom: none !important;
 
 		> svg {
 		  width: 18px;
 		}
+
 		@media (max-width: $max-width) {
 		  padding: .3em 2vw;
-		  >span{
+		  > span {
 			display: none;
 		  }
 		}
 	  }
 	}
+  }
+
+  > .layout-body {
+	.IconBtn {
+	  background: var(--color-surface);
+
+	  &:hover {
+		background: transparent;
+	  }
+	}
+
+	> header, > header > label {
+	  display: flex;
+	  flex-flow: nowrap row;
+	  align-items: center;
+
+	  &.flex-right {
+		justify-content: flex-end;
+	  }
+
+	  &.flex-between {
+		justify-content: space-between;
+	  }
+	}
+
+	> header {
+	  padding-top: 12px;
+	  padding-bottom: 8px;
+	  min-height: 44px;
+	  max-height: 96px;
+	  height: 10vh;
+	  gap: 16px;
+
+	  > label {
+		gap: 6px;
+	  }
+	}
+
   }
 }

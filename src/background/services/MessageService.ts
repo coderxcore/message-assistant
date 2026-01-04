@@ -1,7 +1,7 @@
 import {setMsgMethod} from "gs-br-ext";
-import {IMessage, IMessageService, IMessageStatus, ISearchReply} from "/src-type";
-import {Db} from "/src-db";
 import {Bool} from "gs-idb-basic";
+import {IMessage, IMessageService, IMessageStatus, ISearchReply} from "/src-com";
+import {Db} from "../db";
 
 
 let statusCache: IMessageStatus | undefined;

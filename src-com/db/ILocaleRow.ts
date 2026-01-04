@@ -2,17 +2,22 @@ import {themes} from "../api/ISettingsApi";
 
 const settingsPageKeys = [
 	'language', 'languageDesc', 'theme', 'themeDesc', 'pref',
-	'dataMgr', 'exportData', 'exportDataDesc', 'importData','importDataDesc',
-	'importReferences'
+	'dataMgr', 'exportData', 'exportDataDesc', 'importData', 'importDataDesc',
+	'importReferences', 'mode', 'preview','confirmImport'
 ] as const;
+
+export const importModes = ['blankLine', 'eachLine', 'custom'] as const;
 
 export const Locales = ['zh-CN', 'zh-TW', 'en', 'ja'] as const;
 
 export const LocaleKeys = [
 	'title', 'settings', 'home', 'draft', 'trash', 'history', 'references',
 	...settingsPageKeys,
-	...themes
+	...themes,
+	...importModes,
 ] as const;
+
+export type ImportMode = typeof importModes[number];
 
 export type Locale = typeof Locales[number];
 
