@@ -6,23 +6,25 @@ export const SceneStoreName = 'scene'
 
 export const sceneSchema: IStoreSchema = {
 	name: SceneStoreName,
-	defaultData:<IScene[]>[
+	indexSchemas: [
 		{
-			id: -2,
-			name: 'allScene',
-			description: 'allSceneDesc',
-			sites: []
-		},
+			name: SceneStoreName,
+			unique: true
+		}
+	],
+	defaultData: <IScene[]>[
 		{
 			id: -1,
-			name: 'defaultScene',
-			description: 'defaultSceneDesc',
+			name: 'genericScene',
+			description: 'allSceneDesc',
+			isBuiltIn: true,
 			sites: []
 		},
 		{
 			id: 1,
 			name: 'aiScene',
 			description: 'aiSceneDesc',
+			isBuiltIn: true,
 			sites: [
 				{
 					title: 'chatgpt',
@@ -50,6 +52,7 @@ export const sceneSchema: IStoreSchema = {
 			id: 2,
 			name: 'socioScene',
 			description: 'socioSceneDesc',
+			isBuiltIn: true,
 			sites: [
 				{
 					title: 'facebook',
@@ -81,6 +84,7 @@ export const sceneSchema: IStoreSchema = {
 			id: 3,
 			name: 'videoScene',
 			description: 'videoSceneDesc',
+			isBuiltIn: true,
 			sites: [
 				{
 					title: 'youtube',

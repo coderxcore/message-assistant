@@ -6,15 +6,15 @@
           <home/>
           <span>{{ locale.home }}</span>
         </router-link>
-        <router-link to="/draft" :title="locale.draft" :class="{active: viewName === 'draft'}">
+        <router-link v-if="message.status.draftCount" to="/draft" :title="locale.draft" :class="{active: viewName === 'draft'}">
           <file-text/>
           <span>{{ locale.draft }}</span>
         </router-link>
-        <router-link to="/history" :title="locale.history" :class="{active: viewName === 'history'}">
+        <router-link v-if="message.status.historyCount" to="/history" :title="locale.history" :class="{active: viewName === 'history'}">
           <history/>
           <span>{{ locale.history }}</span>
         </router-link>
-        <router-link to="/trash" :title="locale.trash" :class="{active: viewName === 'trash'}">
+        <router-link v-if="message.status.trashCount" to="/trash" :title="locale.trash" :class="{active: viewName === 'trash'}">
           <trash/>
           <span>{{ locale.trash }}</span>
         </router-link>
@@ -39,7 +39,7 @@ import {Store} from '../store'
 import {computed} from "vue";
 import {router} from "./index";
 
-const {locale} = Store;
+const {locale, message} = Store;
 
 const viewName = computed(() => router.currentRoute.value.name);
 

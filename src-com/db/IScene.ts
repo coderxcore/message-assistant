@@ -7,5 +7,6 @@ export interface IScene {
 	id?: number
 	name: string
 	description?: string
+	isBuiltIn?: boolean
 	sites: Array<ISite>
 }

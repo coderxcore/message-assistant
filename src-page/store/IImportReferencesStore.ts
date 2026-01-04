@@ -9,6 +9,7 @@ export interface IImportReferencesState {
 	file?: File
 	pattern: string
 	preview: string[]
+	loading: false
 }
 
 export interface IImportReferencesGetter {
@@ -33,7 +34,8 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 		return {
 			file: undefined,
 			pattern: '(\\s*\\n+\\s*){2,}',
-			preview: []
+			preview: [],
+			loading: false
 		};
 	},
 	getters: {
@@ -48,40 +50,57 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 				if (!handle) {
 					return;
 				}
+				this.loading = true;
 				this.file = await handle.getFile();
 				if (router.currentRoute.value.name !== 'import-references') {
 					await router.push({name: 'import-references'});
 				}
 				await this.updatePreview();
 			} catch (e) {
+			} finally {
+				this.loading = false;
 			}
 		},
 		async updatePreview() {
 			await timer.reWait();
-			const {file, delimiter} = this;
-			this.preview.length = 0;
-			const tmp = [];
-			let n = 1;
-			for await (const part of splitFile(file, {delimiter})) {
-				tmp.push(part.replace(/\n/g,'<br>'));
-				if (n++ >= previewCount) {
-					break;
+			this.loading = true;
+			try{
+				const {file, delimiter} = this;
+				this.preview.length = 0;
+				const tmp = [];
+				let n = 1;
+				for await (const part of splitFile(file, {delimiter})) {
+					tmp.push(part.replace(/\n/g,'<br>'));
+					if (n++ >= previewCount) {
+						break;
+					}
 				}
+				this.preview = tmp;
+			} finally {
+				this.loading = false;
 			}
-			this.preview = tmp;
 		},
 		async confirmImport(onProgress?: ISplitOption['onProgress']) {
 			const {file, delimiter} = this;
-			const rows = [];
-			for await (const part of splitFile(file, {delimiter, onProgress})) {
-				rows.push(part);
-				if (rows.length >= taskItemCount) {
-					await Api.import.importReferences(rows);
-					rows.length = 0;
+			try{
+				let started = false;
+				const rows = [];
+				for await (const part of splitFile(file, {delimiter, onProgress})) {
+					rows.push(part);
+					if (!started) {
+						await Api.import.startImport(part);
+						started = true;
+					}
+					if (rows.length >= taskItemCount) {
+						await Api.import.importReferences(rows);
+						rows.length = 0;
+					}
 				}
-			}
-			if (rows.length) {
-				await Api.import.importReferences(rows);
+				if (rows.length) {
+					await Api.import.importReferences(rows);
+				}
+			} finally {
+				await Api.import.endImport();
 			}
 		}
 	}

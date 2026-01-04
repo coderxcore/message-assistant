@@ -1,4 +1,4 @@
-import {IImportApi, ILocaleApi, IMessageApi, ISettingsApi} from "/src-com";
+import {IImportApi, ILocaleApi, IMessageApi, ISceneApi, ISettingsApi} from "/src-com";
 import {createMsgMethodProxy} from "gs-br-ext";
 
 
@@ -7,6 +7,10 @@ export class Api {
 	static #proxy?: any;
 
 	static get import(): IImportApi {
+		return this.#api
+	}
+
+	static get scene(): ISceneApi {
 		return this.#api
 	}
 

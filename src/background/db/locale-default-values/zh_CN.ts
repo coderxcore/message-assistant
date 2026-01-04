@@ -27,5 +27,10 @@ export const zh_CN = <LocaleRecord>{
 	eachLine:'每行',
 	blankLine:'空行',
 	custom:'自定义',
-	confirmImport:'确定导入'
+	confirmImport:'确定导入',
+	emptyContent:'内容为空',
+	loading:'加载中，请稍后...',
+	importing:'导入中，请稍后...',
+	imported:'已导入',
+	importError:'导入失败',
 };

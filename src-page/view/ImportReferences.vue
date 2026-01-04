@@ -13,16 +13,31 @@
         {{ locale.importReferences }}
       </icon-btn>
     </header>
-    <card :header-sticky="true">
-      <template #header>
-        <h2>{{ locale.preview }}</h2>
-        <icon-btn @click="confirmImport">
-          <check-line :size="14"/>
-          {{ locale.confirmImport }}
-        </icon-btn>
-      </template>
-      <li v-for="(row,i) in ir.preview" :key="i" v-html="row"></li>
-    </card>
+    <template v-if="ir.file">
+      <card v-if="ir.preview.length" :header-sticky="true">
+        <template #header>
+          <h2>{{ locale.preview }}</h2>
+          <icon-btn @click="confirmImport">
+            <check-line :size="14"/>
+            {{ locale.confirmImport }}
+          </icon-btn>
+        </template>
+        <li v-for="(row,i) in ir.preview" :key="i" v-html="row"></li>
+        <template #footer>
+          <footer>
+            <button>按钮</button>
+          </footer>
+        </template>
+      </card>
+      <card v-else>
+        <li v-if="ir.loading">
+          {{ locale.loading }}
+        </li>
+        <li v-else>
+          {{ locale.emptyContent }}
+        </li>
+      </card>
+    </template>
   </div>
 </template>
 
@@ -34,7 +49,7 @@ import {ImportMode, importModes} from "/src-com";
 import {ref, watch} from "vue";
 import Card from "../part/ListPanel.vue";
 
-const {importReferences: ir, locale} = Store;
+const {importReferences: ir, locale, front} = Store;
 
 const RegexRecord = {
   eachLine: '\\s*\\n+\\s*',
@@ -54,9 +69,21 @@ function selectChange(e) {
 }
 
 async function confirmImport() {
-  await ir.confirmImport((loaded: number, total: number) => {
-    console.log(loaded, total);
-  });
+  front.message = '确定要导入当前全部数据？'
+  front.confirm = async (r) => {
+    if (!r || !ir.preview.length) return;
+    try {
+      ir.preview.length = 0;
+      front.showProgress = true;
+      await ir.confirmImport((loaded: number, total: number) => {
+        front.progress = Math.round(loaded / total * 100);
+      });
+      front.showProgress = false;
+      front.message = locale.imported;
+    } finally {
+      front.showProgress = false;
+    }
+  }
 }
 
 watch(() => ir.pattern, async () => {

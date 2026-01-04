@@ -12,6 +12,7 @@ onMounted(async () => {
   await Store.settings.loadSettings();
   await Store.locale.loadMessages(true);
   await Store.message.loadStatus();
+  await Store.scene.loadScenes();
 })
 
 

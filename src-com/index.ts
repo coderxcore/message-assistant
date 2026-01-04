@@ -2,6 +2,7 @@ export * from './api/ILocaleApi';
 export * from './api/IMessageApi';
 export * from './api/ISettingsApi';
 export * from './api/IImportApi';
+export * from './api/ISceneApi';
 
 export * from "./db/ILocaleRow";
 export * from "./db/IMessage";

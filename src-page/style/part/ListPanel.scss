@@ -1,12 +1,15 @@
 .ListPanel {
-  > header {
+  > header, > footer {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 8px;
 	padding-bottom: 6px;
 	padding-top: 6px;
 	background: var(--color-bg);
+  }
+
+  > header {
+	margin-bottom: 8px;
 
 	h2 {
 	  font-size: 14px;
@@ -49,10 +52,16 @@
 	}
   }
 
+  > footer {
+	position: sticky;
+	bottom: 0;
+  }
+
   &.selectable {
-	>ul,>div{
+	> ul, > div {
 	  > li, > pre {
 		cursor: pointer;
+
 		&:hover {
 		  background: var(--color-card-hover);
 		  box-shadow: var(--shadow-md);
@@ -62,6 +71,7 @@
 	  }
 	}
   }
+
   &.header-sticky {
 	> header {
 	  position: sticky;

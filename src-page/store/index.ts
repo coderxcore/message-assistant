@@ -3,6 +3,7 @@ import {ISettingsStore, useSettingsStore} from "./ISettringsStore";
 import {IMessageStore, useMessageStore} from "./IMessageStore";
 import {IImportReferencesStore, useImportReferencesStore} from "./IImportReferencesStore";
 import {IFrontStore, useFrontStore} from "./IFrontStore";
+import {ISceneStore, useSceneStore} from "./ISceneStore";
 
 export class Store {
 
@@ -11,6 +12,11 @@ export class Store {
 	static #settingsStore?: ISettingsStore
 	static #importReferencesStore?: IImportReferencesStore
 	static #frontStore?: IFrontStore
+	static #sceneStore?: ISceneStore;
+
+	static get scene(): ISceneStore {
+		return this.#sceneStore || (this.#sceneStore = useSceneStore());
+	}
 
 	static get front(): IFrontStore {
 		return this.#frontStore || (this.#frontStore = useFrontStore());
