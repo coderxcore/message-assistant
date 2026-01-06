@@ -1,4 +1,4 @@
-import {LexiconLoader, MultilingualTokenizer, tokenizeText} from "gs-tokenizer";
+import {LexiconLoader, MultilingualTokenizer} from "gs-tokenizer";
 import {FileData} from "../data";
 
 const tokenizer = new MultilingualTokenizer();
@@ -10,8 +10,7 @@ export async function messageTokens(text: string) {
 		await loadLexicon();
 		tokenInit = true;
 	}
-	let tokens = tokenizer.tokenizeText(text)
-	return tokens;
+	return tokenizer.tokenizeText(text);
 }
 
 async function loadLexicon() {

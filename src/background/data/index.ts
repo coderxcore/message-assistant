@@ -51,7 +51,7 @@ export class FileData {
 			{
 				words: (user_uncategorized as string).split(regex).filter(Boolean),
 				name: 'uncategorized',
-				priority: 200,
+				priority: 2000,
 			},
 			{
 				words: (user_book as string).split(regex).filter(Boolean),
