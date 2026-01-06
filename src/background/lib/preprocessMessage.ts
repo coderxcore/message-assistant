@@ -3,11 +3,14 @@ import {hash} from "gs-search";
 import {messageTokens} from "./messageTokens";
 
 export async function preprocessMessages(messages: IMessage[]): Promise<IMessage[]> {
-	return messages.map(preprocessMessage);
+	return await Promise.all(messages.map(preprocessMessage));
 }
 
-export function preprocessMessage(msg: IMessage): IMessage {
+export async function preprocessMessage(msg: IMessage,i:number): Promise<IMessage> {
 	msg.hash = hash(msg.text);
-	msg.tokens = messageTokens(msg.text);
+	msg.tokens = await messageTokens(msg.text);
+	console.log(i)
+	console.log(msg.text)
+	console.log(msg.tokens)
 	return msg;
 }

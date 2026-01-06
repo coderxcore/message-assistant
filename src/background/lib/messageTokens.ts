@@ -1,20 +1,26 @@
-import {MultilingualTokenizer, tokenize, LexiconLoader} from "gs-tokenizer";
+import {LexiconLoader, MultilingualTokenizer, tokenizeText} from "gs-tokenizer";
+import {FileData} from "../data";
 
 const tokenizer = new MultilingualTokenizer();
+
 let tokenInit: boolean = false;
 
-export function messageTokens(text: string) {
-	let tokens = tokenize(text).filter(t => t.type !== 'space');
-	console.log(tokens.map(t => t.txt))
-	console.log(toToken(text).filter(t => t.type !== 'space').map(t => t.txt))
-	return tokens.map(t => t.txt);
-}
-
-function toToken(text: string) {
+export async function messageTokens(text: string) {
 	if (!tokenInit) {
-		// LexiconLoader.getInstance()
+		await loadLexicon();
 		tokenInit = true;
 	}
-	return tokenizer.tokenize(text);
+	let tokens = tokenizer.tokenizeText(text)
+	return tokens;
 }
 
+async function loadLexicon() {
+	LexiconLoader.loadTo(tokenizer);
+	for (const {lang, words, name, priority} of await FileData.lexicon()) {
+		try {
+			tokenizer.addDictionary(words, name, priority, lang);
+		} catch (e) {
+			console.error(e)
+		}
+	}
+}
