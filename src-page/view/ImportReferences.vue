@@ -58,8 +58,9 @@ import {ImportMode, importModes} from "/src-com";
 import {ref, watch} from "vue";
 import Card from "../part/ListPanel.vue";
 import SingleChoice from "../part/SingleChoice.vue";
+import {wait} from "gs-base";
 
-const {importReferences: ir, locale, front,scene} = Store;
+const {importReferences: ir, locale, front, scene} = Store;
 
 const RegexRecord = {
   eachLine: '\\s*\\n+\\s*',
@@ -82,17 +83,23 @@ async function confirmImport() {
   front.message = '确定要导入当前全部数据？'
   front.confirm = async (r) => {
     if (!r || !ir.preview.length) return;
-    try {
-      ir.preview.length = 0;
-      front.showProgress = true;
-      await ir.confirmImport((loaded: number, total: number) => {
-        front.progress = Math.round(loaded / total * 100);
-      });
-      front.showProgress = false;
-      front.message = locale.imported;
-    } finally {
-      front.showProgress = false;
-    }
+    setTimeout(async ()=>{
+      try {
+        ir.preview.length = 0;
+        front.progress =0;
+        await ir.confirmImport((loaded: number, total: number) => {
+          front.progress = Math.round(loaded / total * 100);
+        });
+        front.progress = 100;
+        await wait(300);
+        front.progress = -1;
+        front.message = locale.imported;
+      } finally {
+        front.progress = -1;
+        await wait(1000);
+        front.message = '';
+      }
+    })
   }
 }
 

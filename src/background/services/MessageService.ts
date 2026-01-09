@@ -14,7 +14,7 @@ setMsgMethod<IMessageService>({
 		if (statusCache) {
 			return statusCache;
 		}
-		return statusCache = await Db.mesAndDraft.read(async (mes, draft) => ({
+		return statusCache = await Db.msgAndDraft.read(async (mes, draft) => ({
 			draftCount: await draft.count(),
 			historyCount: await mes.index('kind_deleted').count(['content', Bool.False]),
 			trashCount: await mes.index('deleted').count(Bool.True),

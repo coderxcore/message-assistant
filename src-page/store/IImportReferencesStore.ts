@@ -82,32 +82,55 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 				this.loading = false;
 			}
 		},
-		async confirmImport(onProgress?: ISplitOption['onProgress']) {
+		async confirmImport(fn?: ISplitOption['onProgress']) {
 			const {file, delimiter, sceneId} = this;
+			let onProgress: ISplitOption['onProgress'] = undefined, bytes = 0;
+			if (fn) {
+				onProgress = async (loaded: number, total: number) => {
+					bytes = total;
+					await fn(loaded / 2, total);
+				}
+			}
 			try {
 				let started = false;
 				const rows = [];
 				for await (const part of splitFile(file, {delimiter, onProgress})) {
 					rows.push(part);
 					if (!started) {
-						await Api.import.startImport(part);
 						started = true;
 					}
 					if (rows.length >= taskItemCount) {
 						await Api.import.importReferences(rows.map(text => ({text, sceneIds: [sceneId]})));
+						fn(len(rows, bytes), bytes)
 						rows.length = 0;
 					}
 				}
+				fn(len(rows, bytes), bytes)
 				if (rows.length) {
 					await Api.import.importReferences(rows.map(text => ({text, sceneIds: [sceneId]})));
 				}
+				fn(bytes, bytes)
 			} finally {
-				try{
+				try {
 					this.file = undefined;
 				} finally {
-					await Api.import.endImport();
+					// await Api.import.endImport();
 				}
 			}
 		}
 	}
 }) as any;
+
+
+function len(arr, bytes: number) {
+	let total = 0
+	for (let i = 0; i < arr.length; i++) {
+		total += arr[i].length
+	}
+	const tmp = bytes / 2;
+	total += tmp;
+	if (total <= bytes) {
+		return total;
+	}
+	return bytes;
+}

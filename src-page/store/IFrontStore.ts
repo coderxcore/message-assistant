@@ -1,7 +1,6 @@
 import {defineStore} from "pinia";
 
 export interface IFrontState {
-	showProgress: boolean;
 	progress: number;
 	message: string;
 	confirm?: (result: boolean) => void | Promise<void>;
@@ -9,6 +8,7 @@ export interface IFrontState {
 
 export interface IFrontGetters {
 	readonly show: boolean;
+	readonly showProgress: boolean;
 }
 
 export interface IFrontStore extends IFrontState, IFrontGetters {
@@ -17,8 +17,7 @@ export interface IFrontStore extends IFrontState, IFrontGetters {
 export const useFrontStore: () => IFrontStore = defineStore('front', {
 	state: (): IFrontState => {
 		return {
-			showProgress: false,
-			progress: 0,
+			progress: -1,
 			message: '',
 			confirm: undefined
 		};
@@ -26,7 +25,10 @@ export const useFrontStore: () => IFrontStore = defineStore('front', {
 	getters: {
 		show({showProgress, message, confirm}: IFrontState): boolean {
 			return Boolean(showProgress || message || confirm);
-		}
+		},
+		showProgress({progress}: IFrontState): boolean {
+			return progress >= 0;
+		},
 	},
 	actions: {}
 }) as any;

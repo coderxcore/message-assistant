@@ -35,6 +35,10 @@ export const sceneSchema: IStoreSchema = {
 					urlPrefix: 'bard.google.com',
 				},
 				{
+					title: 'gemini',
+					urlPrefix: 'gemini.google.com',
+				},
+				{
 					title: 'claude',
 					urlPrefix: 'claude.ai',
 				},

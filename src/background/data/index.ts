@@ -1,18 +1,18 @@
-import {StorageLocal} from "gs-br-ext";
-import stop_en from './stopwords/en.txt?raw'
-import stop_ja from './stopwords/ja.txt?raw'
-import stop_ko from './stopwords/ko.txt?raw'
-import stop_zh from './stopwords/zh.txt?raw'
+
 import user_uncategorized from './lexicon/user_uncategorized.txt?raw'
 import user_book from './lexicon/user_book.txt?raw'
 import user_game from './lexicon/user_game.txt?raw'
 import user_hot from './lexicon/user_hot.txt?raw'
+import user_location from './lexicon/user_location.txt?raw'
 import user_name from './lexicon/user_name.txt?raw'
 import user_org from './lexicon/user_org.txt?raw'
 
-
-
-const StopWordKey = 'stop-words'
+// import {StorageLocal} from "gs-br-ext";
+// import stop_en from './stopwords/en.txt?raw'
+// import stop_ja from './stopwords/ja.txt?raw'
+// import stop_ko from './stopwords/ko.txt?raw'
+// import stop_zh from './stopwords/zh.txt?raw'
+// const StopWordKey = 'stop-words'
 
 interface LexiconItem {
 	words: string[],
@@ -24,24 +24,24 @@ const regex = /\s*\n\s*/;
 
 export class FileData {
 
-	static #stopWords?: Set<string>;
 	static #lexicon?: LexiconItem[]
-
-	static async stopWords() {
-		if (this.#stopWords) {
-			return this.#stopWords;
-		}
-		let words = await StorageLocal.getValue(StopWordKey)
-		if (!words || !Array.isArray(words)) {
-			words = [
-				...(stop_en as string).split(regex).filter(Boolean),
-				...(stop_ja as string).split(regex).filter(Boolean),
-				...(stop_ko as string).split(regex).filter(Boolean),
-				...(stop_zh as string).split(regex).filter(Boolean),
-			];
-		}
-		return this.#stopWords = new Set(words);
-	}
+	// static #stopWords?: Set<string>;
+	//
+	// static async stopWords() {
+	// 	if (this.#stopWords) {
+	// 		return this.#stopWords;
+	// 	}
+	// 	let words = await StorageLocal.getValue(StopWordKey)
+	// 	if (!words || !Array.isArray(words)) {
+	// 		words = [
+	// 			...(stop_en as string).split(regex).filter(Boolean),
+	// 			...(stop_ja as string).split(regex).filter(Boolean),
+	// 			...(stop_ko as string).split(regex).filter(Boolean),
+	// 			...(stop_zh as string).split(regex).filter(Boolean),
+	// 		];
+	// 	}
+	// 	return this.#stopWords = new Set(words);
+	// }
 
 	static async lexicon() {
 		if (this.#lexicon) {
@@ -77,6 +77,11 @@ export class FileData {
 				words: (user_org as string).split(regex).filter(Boolean),
 				name: 'user_org',
 				priority: 202,
+			},
+			{
+				words: (user_location as string).split(regex).filter(Boolean),
+				name: 'user_location',
+				priority: 201,
 			},
 		];
 	}

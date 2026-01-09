@@ -14,6 +14,7 @@ export const messageSchema: IStoreSchema = {
 	},
 	softDeletedField: 'deleted',
 	indexSchemas: [
+		'hash',
 		'kind',
 		{
 			name: 'kind_deleted',
