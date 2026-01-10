@@ -18,10 +18,18 @@ export class Db {
 	static term: IDataWriter<ITerm> = Db.db.store(termSchema);
 	static scene: IDataWriter<IScene> = Db.db.store(sceneSchema);
 
-	static allMessage: IDataOperators<ITerm, IMessage> = Db.db.stores([TermStoreName, MessageStoreName, DraftStoreName])
-	static termAndMessage: IDataOperators<ITerm, IMessage> = Db.db.stores([TermStoreName, MessageStoreName])
-	static termAndDraft: IDataOperators<ITerm, IMessage> = Db.db.stores([TermStoreName, DraftStoreName])
 	static msgAndDraft: IDataOperators<ITerm, IMessage> = Db.db.stores([MessageStoreName, DraftStoreName])
+
+	static termHashAndMsgHash: IDataOperators<ITerm, IMessage> = Db.db.stores([
+		{
+			store: TermStoreName,
+			index: 'hash'
+		},
+		{
+			store: MessageStoreName,
+			index: 'hash'
+		}
+	])
 
 	static get db(): IIDbPro {
 		return currentDb || (currentDb = new IDbPro({

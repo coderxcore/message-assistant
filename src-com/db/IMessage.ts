@@ -6,10 +6,10 @@ export interface IMessage extends IDocumentBase {
 	hash?: number
 	text: string
 	sceneIds: number[],
-	kind?: 'reference' | 'content'
-	stage?: 'history' | 'draft'
-	scope?: 'body' | 'reply'
-	url?: string
+	is_reference?: Bool
+	is_content?: Bool
+	bodyUrls?: string[]
+	replyUrls?: string[]
 	added_at?: number
 	updated_at?: number
 	keywords?: string[]

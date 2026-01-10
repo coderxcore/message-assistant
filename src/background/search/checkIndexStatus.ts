@@ -1,7 +1,7 @@
-import {IndexStatus} from "./IndexStatus";
+import {IndexUpdatePayload} from "./IndexUpdatePayload";
 
 export async function checkIndexStatus() {
-	const start = await IndexStatus.getStart();
+	const start = await IndexUpdatePayload.get();
 	if (!start) {
 		return
 	}

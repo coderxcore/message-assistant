@@ -5,10 +5,10 @@ import {saveMessagePack} from "../repo/saveMessagePack";
 
 setMsgMethod<IImportService>({
 	async importReferences(references: IMessage[]): Promise<void> {
-		const time = Date.now();
 		try {
 			const packs = await preprocessMessages(references);
-			await saveMessagePack(packs);
+			const result = await saveMessagePack(packs);
+			console.log(result)
 		} catch (e) {
 			console.error(e)
 			throw e;

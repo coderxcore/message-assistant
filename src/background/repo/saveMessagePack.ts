@@ -1,15 +1,46 @@
 import {Db} from "../db";
-import {IMessagePack} from "../type";
-import {IndexStatus} from "../search/IndexStatus";
+import {IIndexUpdatePayload, IMessagePack} from "../type";
+import {IndexUpdatePayload} from "../search/IndexUpdatePayload";
+import {checkChangeMessage} from "./checkChangeMessage";
 
-export async function saveMessagePack(pack: IMessagePack): Promise<any> {
-	const {termAndMessage} = Db
+
+export async function saveMessagePack(pack: IMessagePack): Promise<IIndexUpdatePayload> {
+	const {termHashAndMsgHash} = Db
 	const {terms, messages} = pack;
-	return await termAndMessage.write(async (ts, ms) => {
-		const termStart = await ts.add(terms[0]);
-		await ts.addMany(terms.slice(1));
-		const messageStart = await ms.add(messages[0]);
-		await ms.addMany(messages.slice(1));
-		return await IndexStatus.markStart({messageId: messageStart.id, termId: termStart.id});
-	})
+	let payload = {} as IIndexUpdatePayload;
+	try {
+		await termHashAndMsgHash.write(async (ts, ms) => {
+			for (const term of terms) {
+				const dbTerm = await ts.get(term.hash);
+				if (term.text === dbTerm?.text) {
+					continue;
+				}
+				if (isNaN(payload.termFromId)) {
+					payload.termFromId = (await ts.add(term)).id;
+				} else {
+					await ts.add(term);
+				}
+			}
+			for (const message of messages) {
+				const dbMessage = await ms.get(message.hash);
+				if (message.text === dbMessage?.text) {
+					const changedMsg = checkChangeMessage(dbMessage, message);
+					if (changedMsg) {
+						await ms.replace(changedMsg);
+					}
+					continue;
+				}
+				if (isNaN(payload.msgFromId)) {
+					payload.msgFromId = (await ms.add(message)).id;
+				} else {
+					await ms.add(message);
+				}
+			}
+		})
+	} finally {
+		if (payload.msgFromId > 0 || payload.msgFromId > 0) {
+			payload = await IndexUpdatePayload.mark(payload);
+		}
+	}
+	return payload;
 }

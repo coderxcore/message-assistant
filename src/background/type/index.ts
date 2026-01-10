@@ -1,2 +1,2 @@
 export * from './IMessagePack'
-export * from './IIndexWaitStart'
+export * from './IIndexUpdatePayload'

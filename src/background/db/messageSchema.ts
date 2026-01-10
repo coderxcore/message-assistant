@@ -15,10 +15,13 @@ export const messageSchema: IStoreSchema = {
 	softDeletedField: 'deleted',
 	indexSchemas: [
 		'hash',
-		'kind',
 		{
-			name: 'kind_deleted',
-			keyPath: ['kind', 'deleted'],
+			name: 'is_reference_deleted',
+			keyPath: ['is_reference', 'deleted'],
+		},
+		{
+			name: 'is_content_deleted',
+			keyPath: ['is_content', 'deleted'],
 		},
 	]
 }

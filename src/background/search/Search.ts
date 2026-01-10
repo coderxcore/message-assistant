@@ -1,9 +1,27 @@
-// import {ISearchEngineConfig, SearchEngine} from "gs-search";
-// import {IMessage} from "/src-com";
+import {IndexingTokenizer, ISearchEngineOption} from "gs-search/type";
+import {IMessage, ITerm} from "/src-com";
 
-// const messageTokenize: ISearchEngineConfig['indexingTokenizer'] = (msg: Document): string[] => {
-// 	return [];
-// }
+function arrayToLower(arr: string[]): string[] {
+	for (let i = 0, len = arr.length; i < len; i++) {
+		arr[i] = arr[i].toLowerCase();
+	}
+	return arr;
+}
+
+const messageTokenize: IndexingTokenizer = (doc) => {
+	const msg = doc as IMessage;
+	return ([...(msg.keywords || []), ...(msg.tokens || [])]);
+}
+
+const termPrefixTokenize: IndexingTokenizer = doc => {
+	const msg = doc as ITerm;
+	return arrayToLower(msg.prefix || []);
+}
+
+const termFuzzyTokenize: IndexingTokenizer = doc => {
+	const msg = doc as ITerm;
+	return arrayToLower(msg.fuzzy || []);
+}
 
 // export class Search {
 //

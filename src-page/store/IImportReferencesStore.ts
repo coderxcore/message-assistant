@@ -4,6 +4,7 @@ import {router} from "../view";
 import {ISplitOption, splitFile} from "/src-com";
 import {Timer} from "gs-base";
 import {Api} from "../api";
+import {Bool} from "gs-idb-basic";
 
 export interface IImportReferencesState {
 	file?: File
@@ -100,14 +101,22 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 						started = true;
 					}
 					if (rows.length >= taskItemCount) {
-						await Api.import.importReferences(rows.map(text => ({text, sceneIds: [sceneId]})));
+						await Api.import.importReferences(rows.map(text => ({
+							text,
+							sceneIds: [sceneId],
+							is_reference: Bool.True
+						})));
 						fn(len(rows, bytes), bytes)
 						rows.length = 0;
 					}
 				}
 				fn(len(rows, bytes), bytes)
 				if (rows.length) {
-					await Api.import.importReferences(rows.map(text => ({text, sceneIds: [sceneId]})));
+					await Api.import.importReferences(rows.map(text => ({
+						text,
+						sceneIds: [sceneId],
+						is_reference: Bool.True
+					})));
 				}
 				fn(bytes, bytes)
 			} finally {
