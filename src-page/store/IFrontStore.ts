@@ -1,5 +1,42 @@
 import {defineStore} from "pinia";
 
+export interface IUpdateProgress {
+
+	/**
+	 * 当前进度值
+	 * - 未提供`total`时，将直接使用`process`
+	 * - 小于 `1`时，进度为 `Math.ceil(process*max)`
+	 * - 大于等 `max` 时，进度为 `max`
+	 */
+	progress: number,
+
+	/**
+	 * 总共进度值
+	 * - 未提供时，将直接使用`process`
+	 * - 提供时，进度为：`Math.ceil(process/total*max)`
+	 */
+	total?: number
+
+	/**
+	 * 进度条的基础值，默认值为 `0`
+	 * - 未提供时，将直接使用`process`
+	 * - 提供时，进度为：` base + process `
+	 */
+	base?: number
+
+	/**
+	 * 当前进度条允许的最大进度值，默认值为 100
+	 */
+	max?: number
+
+	/**
+	 * 进度条显示的消息
+	 * - 空字符串表示不显示消息
+	 * - `undefined` 表示不更新消息
+	 */
+	msg?: string
+}
+
 export interface IFrontState {
 	progress: number;
 	message: string;
@@ -12,6 +49,7 @@ export interface IFrontGetters {
 }
 
 export interface IFrontStore extends IFrontState, IFrontGetters {
+	updateProgress(progress: IUpdateProgress): void;
 }
 
 export const useFrontStore: () => IFrontStore = defineStore('front', {
@@ -30,5 +68,22 @@ export const useFrontStore: () => IFrontStore = defineStore('front', {
 			return progress >= 0;
 		},
 	},
-	actions: {}
+	actions: {
+		updateProgress({progress, total, base = 0, max = 100, msg}: IUpdateProgress) {
+			let calculatedProgress = 0;
+			total < 1 && (total = 1)
+			if (total !== undefined) {
+				calculatedProgress = Math.ceil((progress / total) * max);
+			} else if (progress < 1) {
+				calculatedProgress = Math.ceil(progress * max);
+			} else {
+				calculatedProgress = progress;
+			}
+			this.progress = Math.min(base + calculatedProgress, max);
+
+			if (msg !== undefined) {
+				this.message = msg;
+			}
+		}
+	}
 }) as any;

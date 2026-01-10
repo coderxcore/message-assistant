@@ -45,4 +45,9 @@ export const zh_CN = <LocaleRecord>{
 	videoSceneDesc:'视频场景，适用于YouTube、抖音、Bilibili等视频平台',
 	ok:'确定',
 	cancel:'取消',
+	askImport:'确定要导入当前全部数据？',
+	import_fileReading:'正在读取文件...',
+	import_dbSaving:'正在保存到数据库...',
+	import_indexing:'正在生成索引...',
+	import_done:'导入完成!',
 };

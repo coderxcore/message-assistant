@@ -1,14 +1,9 @@
 import {setMsgMethod} from "gs-br-ext";
-import {IMessage, IMessageService, IMessageStatus, ISearchReply} from "/src-com";
-import {messageStatus} from "../repo/messageStatus";
-
-
-let statusCache: IMessageStatus | undefined;
+import {IMessage, IMessageService, ISearchReply} from "/src-com";
+import {clearMessageStatusCache, messageStatus} from "../repo/messageStatus";
 
 setMsgMethod<IMessageService>({
-	clearStatusCache(): Promise<void> {
-		return Promise.resolve(statusCache = undefined);
-	},
+	clearMessageStatusCache,
 	messageStatus
 	, queryReply(text: ISearchReply): Promise<IMessage[]> {
 		return Promise.resolve([]);

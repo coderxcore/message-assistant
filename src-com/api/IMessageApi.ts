@@ -14,7 +14,7 @@ interface IMessageBase {
 
 	queryReply(text: ISearchReply): Promise<IMessage[]>;
 
-	clearStatusCache(): Promise<void>;
+	clearMessageStatusCache(): void | Promise<void>;
 
 	messageStatus(): Promise<IMessageStatus>;
 

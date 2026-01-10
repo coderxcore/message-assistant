@@ -4,7 +4,8 @@ const settingsPageKeys = [
 	'language', 'languageDesc', 'theme', 'themeDesc', 'pref',
 	'ok','cancel',
 	'dataMgr', 'exportData', 'exportDataDesc', 'importData', 'importDataDesc',
-	'importReferences', 'mode', 'preview','confirmImport','emptyContent','loading','importing','imported','importError',
+	'importReferences', 'mode', 'preview','confirmImport','emptyContent','loading','importing','imported','importError','askImport',
+	'import_fileReading','import_dbSaving','import_indexing','import_done',
 	'scene','importAs','genericScene','genericSceneDesc','aiScene','aiSceneDesc','socioScene','socioSceneDesc','videoScene','videoSceneDesc'
 ] as const;
 

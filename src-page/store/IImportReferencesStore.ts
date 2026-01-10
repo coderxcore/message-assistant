@@ -6,6 +6,12 @@ import {Timer} from "gs-base";
 import {Api} from "../api";
 import {Bool} from "gs-idb-basic";
 
+export interface IImportOption {
+	onFileRead?: ISplitOption['onProgress'],
+	onDbSave?: ISplitOption['onProgress'],
+	onIndexing?: ISplitOption['onProgress'],
+}
+
 export interface IImportReferencesState {
 	file?: File
 	pattern: string
@@ -23,7 +29,7 @@ export interface IImportReferencesStore extends IImportReferencesState, IImportR
 
 	updatePreview(): Promise<void>
 
-	confirmImport(onProgress?: ISplitOption['onProgress']): Promise<void>
+	confirmImport(option?: IImportOption): Promise<void>
 }
 
 const previewCount = 1000;
@@ -83,15 +89,13 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 				this.loading = false;
 			}
 		},
-		async confirmImport(fn?: ISplitOption['onProgress']) {
+		async confirmImport(option?: IImportOption) {
+			const {onFileRead, onDbSave, onIndexing} = option || {} as IImportOption;
 			const {file, delimiter, sceneId} = this;
-			let onProgress: ISplitOption['onProgress'] = undefined, bytes = 0;
-			if (fn) {
-				onProgress = async (loaded: number, total: number) => {
-					bytes = total;
-					await fn(loaded / 2, total);
-				}
-			}
+			let bytes = 0,onProgress: ISplitOption['onProgress'] = (loaded, total)=>{
+				bytes = total;
+				onFileRead?.(loaded, total);
+			};
 			try {
 				let started = false;
 				const rows = [];
@@ -106,11 +110,11 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 							sceneIds: [sceneId],
 							is_reference: Bool.True
 						})));
-						fn(len(rows, bytes), bytes)
+						onDbSave?.(len(rows, bytes), bytes)
 						rows.length = 0;
 					}
 				}
-				fn(len(rows, bytes), bytes)
+				onDbSave?.(len(rows, bytes), bytes)
 				if (rows.length) {
 					await Api.import.importReferences(rows.map(text => ({
 						text,
@@ -118,12 +122,15 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 						is_reference: Bool.True
 					})));
 				}
-				fn(bytes, bytes)
+				onDbSave?.(bytes, bytes)
 			} finally {
 				try {
+					this.preview.length = 0;
 					this.file = undefined;
 				} finally {
+					onIndexing?.(0, 1);
 					// await Api.import.endImport();
+					onIndexing?.(1, 1);
 				}
 			}
 		}

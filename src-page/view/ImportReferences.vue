@@ -80,15 +80,31 @@ function selectChange(e) {
 }
 
 async function confirmImport() {
-  front.message = '确定要导入当前全部数据？'
+  front.message = locale.askImport
   front.confirm = async (r) => {
     if (!r || !ir.preview.length) return;
-    setTimeout(async ()=>{
+    setTimeout(async () => {
       try {
-        ir.preview.length = 0;
-        front.progress =0;
-        await ir.confirmImport((loaded: number, total: number) => {
-          front.progress = Math.round(loaded / total * 100);
+        front.progress = 0;
+        await ir.confirmImport({
+          onFileRead: (loaded: number, total: number) => {
+            front.updateProgress({
+              progress: loaded, total, max: 20,
+              msg: locale.import_fileReading
+            });
+          },
+          onDbSave: (loaded: number, total: number) => {
+            front.updateProgress({
+              progress: loaded, total, max: 80, base: 20,
+              msg: locale.import_dbSaving
+            });
+          },
+          onIndexing: (loaded: number, total: number) => {
+            front.updateProgress({
+              progress: loaded, total, max: 100, base: 80,
+              msg: locale.import_indexing
+            });
+          },
         });
         front.progress = 100;
         await wait(300);

@@ -1,4 +1,6 @@
-import {IndexingTokenizer, ISearchEngineOption} from "gs-search/type";
+import {ISearchEngine} from "gs-search/type";
+import {SearchEngine} from "gs-search/core";
+import {BrowserStorage} from "gs-search/browser";
 import {IMessage, ITerm} from "/src-com";
 
 function arrayToLower(arr: string[]): string[] {
@@ -8,38 +10,35 @@ function arrayToLower(arr: string[]): string[] {
 	return arr;
 }
 
-const messageTokenize: IndexingTokenizer = (doc) => {
-	const msg = doc as IMessage;
-	return ([...(msg.keywords || []), ...(msg.tokens || [])]);
-}
+export class Search {
 
-const termPrefixTokenize: IndexingTokenizer = doc => {
-	const msg = doc as ITerm;
-	return arrayToLower(msg.prefix || []);
-}
+	static #message: ISearchEngine
 
-const termFuzzyTokenize: IndexingTokenizer = doc => {
-	const msg = doc as ITerm;
-	return arrayToLower(msg.fuzzy || []);
-}
+	static #termPrefix: ISearchEngine;
 
-// export class Search {
-//
-// 	static #message: SearchEngine
-//
-// 	static #termPrefix: SearchEngine;
-//
-// 	static #termFuzzy: SearchEngine;
-//
-// 	static get message() {
-// 		return this.#message || (this.#message = new SearchEngine({baseDir: 'message'}));
-// 	}
-//
-// 	static get termPrefix() {
-// 		return this.#termPrefix || (this.#termPrefix = new SearchEngine({baseDir: 'term-prefix'}));
-// 	}
-//
-// 	static get termFuzzy() {
-// 		return this.#termFuzzy || (this.#termFuzzy = new SearchEngine({baseDir: 'term-fuzzy'}));
-// 	}
-// }
+	static #termFuzzy: ISearchEngine;
+
+	static get message() {
+		return this.#message || (this.#message = new SearchEngine({
+			storage: new BrowserStorage('message'),
+			indexingTokenizer: (doc) => {
+				const msg = doc as IMessage;
+				return ([...(msg.keywords || []), ...(msg.tokens || [])]);
+			}
+		}));
+	}
+
+	static get termPrefix() {
+		return this.#termPrefix || (this.#termPrefix = new SearchEngine({
+			storage: new BrowserStorage('term-prefix'),
+			indexingTokenizer: doc => arrayToLower((doc as ITerm).prefix || [])
+		}));
+	}
+
+	static get termFuzzy() {
+		return this.#termFuzzy || (this.#termFuzzy = new SearchEngine({
+			storage: new BrowserStorage('term-fuzzy'),
+			indexingTokenizer: doc => arrayToLower((doc as ITerm).fuzzy || [])
+		}));
+	}
+}
