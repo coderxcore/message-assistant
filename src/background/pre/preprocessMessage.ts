@@ -24,7 +24,6 @@ export async function preprocessMessages(messages: IMessage[]): Promise<IMessage
 			terms.push(rs[i])
 		}
 	}
-	console.log(count, tokenSet.size, terms.length)
 	return {
 		messages,
 		terms

@@ -27,6 +27,15 @@ export class IndexUpdatePayload {
 		await StorageLocal.raw.remove(IndexUpdatePayloadKey);
 	}
 
+	static async replace(value: IIndexUpdatePayload): Promise<IIndexUpdatePayload> {
+		const {msgFromId, termFromId} = value;
+		if (isNaN(msgFromId) && isNaN(termFromId)) {
+			return;
+		}
+		await StorageLocal.setValue(IndexUpdatePayloadKey, value);
+		return value;
+	}
+
 	static async #change(newValue: IIndexUpdatePayload, oldValue: IIndexUpdatePayload): Promise<void> {
 		const {msgFromId: nm, termFromId: nt} = newValue;
 		const {msgFromId: om, termFromId: ot} = oldValue;

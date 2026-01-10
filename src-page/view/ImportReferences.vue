@@ -60,7 +60,7 @@ import Card from "../part/ListPanel.vue";
 import SingleChoice from "../part/SingleChoice.vue";
 import {wait} from "gs-base";
 
-const {importReferences: ir, locale, front, scene} = Store;
+const {importReferences: ir, locale, front, scene, message} = Store;
 
 const RegexRecord = {
   eachLine: '\\s*\\n+\\s*',
@@ -114,6 +114,7 @@ async function confirmImport() {
         front.progress = -1;
         await wait(1000);
         front.message = '';
+        await message.loadStatus();
       }
     })
   }

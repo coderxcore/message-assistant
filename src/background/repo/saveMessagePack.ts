@@ -2,6 +2,7 @@ import {Db} from "../db";
 import {IIndexUpdatePayload, IMessagePack} from "../type";
 import {IndexUpdatePayload} from "../search/IndexUpdatePayload";
 import {checkChangeMessage} from "./checkChangeMessage";
+import {clearMessageStatusCache} from "./messageStatus";
 
 
 export async function saveMessagePack(pack: IMessagePack): Promise<IIndexUpdatePayload> {
@@ -40,6 +41,7 @@ export async function saveMessagePack(pack: IMessagePack): Promise<IIndexUpdateP
 	} finally {
 		if (payload.msgFromId > 0 || payload.msgFromId > 0) {
 			payload = await IndexUpdatePayload.mark(payload);
+			clearMessageStatusCache();
 		}
 	}
 	return payload;
