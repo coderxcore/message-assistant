@@ -1,5 +1,5 @@
 import {MsgMethods, RemoteMethods} from "gs-br-ext";
-import {IMessage, ISearchReply} from "../db/IMessage";
+import {IMessage, ISearchedMessage} from "../db/IMessage";
 
 export interface IMessageStatus {
 	draftCount: number;

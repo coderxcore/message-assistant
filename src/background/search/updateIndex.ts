@@ -35,7 +35,7 @@ async function updateMsgIndex(msgFromId: number, termFromId: number) {
 			await IndexUpdatePayload.replace({msgFromId, termFromId});
 			result = await Db.message.all(keyGt(msgFromId) as any, 100)
 		}
-		await IndexUpdatePayload.clear();
+		await IndexUpdatePayload.replace({msgFromId: undefined, termFromId});
 	} finally {
 		await Search.message.endBatch();
 	}
@@ -46,14 +46,14 @@ async function updateTermIndex(termFromId: number) {
 		Search.termPrefix.startBatch();
 		Search.termFuzzy.startBatch();
 		let result = await Db.term.all(keyGte(termFromId) as any, 100)
-		if (result[result.length - 1]?.id !== termFromId) while (result.length) {
+		while (result.length) {
 			termFromId = result[result.length - 1].id;
 			await Search.termPrefix.addDocumentsIfMissing(result as any);
 			await Search.termFuzzy.addDocumentsIfMissing(result as any);
 			await IndexUpdatePayload.replace({msgFromId: undefined, termFromId});
 			result = await Db.term.all(keyGt(termFromId) as any, 100)
 		}
-		await IndexUpdatePayload.replace({msgFromId: undefined, termFromId: undefined});
+		await IndexUpdatePayload.clear();
 	} finally {
 		try {
 			await Search.termPrefix.endBatch();

@@ -1,4 +1,5 @@
 import {IDocument} from "gs-search/type";
+import {IResult} from "gs-search";
 
 export interface ITerm extends IDocument {
 	id?: number
@@ -6,4 +7,8 @@ export interface ITerm extends IDocument {
 	text: string
 	prefix: string[]
 	fuzzy: string[]
+}
+
+export interface ISearchTerm extends IResult {
+	text: string
 }

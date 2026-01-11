@@ -1,8 +1,8 @@
-import {IDocumentBase, ISearchEngine, ISearchEngineOption} from "gs-search/type";
+import {IDocumentBase, ISearchEngine} from "gs-search/type";
 import {SearchEngine} from "gs-search/core";
 import {BrowserStorage} from "gs-search/browser";
-import {IMessage, ITerm, safeSlice} from "/src-com";
-import {messageTokens} from "../pre/messageTokens";
+import {IMessage, ITerm} from "/src-com";
+import {messageLastToken, messageTokens} from "../pre/messageTokens";
 import {buildFuzzy, buildPrefix} from "../pre/multiLangTokenizer";
 
 function arrayToLower(arr: string[]): string[] {
@@ -32,7 +32,7 @@ export class Search {
 
 	static get termPrefix() {
 		return this.#termPrefix || (this.#termPrefix = new SearchEngine({
-			storage: new BrowserStorage('term-prefix'),
+			storage: new BrowserStorage('termPrefix'),
 			indexingTokenizer: doc => arrayToLower((doc as ITerm).prefix || [])
 			// indexingTokenizer: doc => {
 			// 	const r = arrayToLower((doc as ITerm).prefix || []);
@@ -44,7 +44,7 @@ export class Search {
 
 	static get termFuzzy() {
 		return this.#termFuzzy || (this.#termFuzzy = new SearchEngine({
-			storage: new BrowserStorage('term-fuzzy'),
+			storage: new BrowserStorage('termFuzzy'),
 			indexingTokenizer: doc => arrayToLower((doc as ITerm).fuzzy || [])
 			// indexingTokenizer: doc => {
 			// 	const r = arrayToLower((doc as ITerm).fuzzy || []);
@@ -55,20 +55,23 @@ export class Search {
 	}
 
 	static async searchTerm(text: string) {
-		const suffix = safeSlice(text, -2);
+		if (!text) return []
+		text = await messageLastToken(text)
+		console.log(text)
+		if (!text) return []
 		const term = {
-			text: suffix,
-			prefix: [suffix, ...buildPrefix(suffix, 2)]
+			text: text,
+			prefix: [text, ...buildPrefix(text, 2)]
 		}
-		const result = await this.termPrefix.search(term as any);
+		const result = await this.termPrefix.search(term);
 		if (result?.length > 0) {
 			return result;
 		}
 		const term2 = {
-			text,
-			fuzzy: [suffix, ...buildFuzzy(suffix, {} as any)],
+			text: text,
+			fuzzy: [text, ...buildFuzzy(text, {} as any)],
 		}
-		return await this.termFuzzy.search(term2 as any);
+		return await this.termFuzzy.search(term2);
 	}
 
 	static async searchMsg(text: string) {
@@ -76,6 +79,6 @@ export class Search {
 			text,
 			tokens: await messageTokens(text),
 		} as IDocumentBase;
-		return await this.message.search(doc as any);
+		return await this.message.search(doc);
 	}
 }

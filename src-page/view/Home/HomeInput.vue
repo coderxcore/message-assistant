@@ -35,9 +35,13 @@ async function onCursorChange() {
   await timer.wait(200)
 }
 async function onSend() {
-  console.log(await Api.search.searchTerm('lo'))
+  await search('其实很多人')
 }
 
+async function search(msg:string) {
+  console.log('msg', await Api.search.searchMsg(msg))
+  console.log('term',await Api.search.searchTerm(msg))
+}
 
 
 </script>

@@ -18,8 +18,9 @@ export interface IMessage extends IDocumentBase {
 	tokens?: string[]
 }
 
-export interface ISearchReply extends IMessage, IDocument {
+export interface ISearchedMessage extends IMessage, IDocument {
+	id: number,
 	text: string
 	sceneIds: number[]
-	tokens: string[]
+	searchedTokens: string[]
 }
