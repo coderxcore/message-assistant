@@ -5,7 +5,7 @@ const IndexUpdatePayloadKey = 'index-update-payload';
 
 export class IndexUpdatePayload {
 
-	static async get(): Promise<IIndexUpdatePayload> {
+	static async get(): Promise<IIndexUpdatePayload | undefined> {
 		return await StorageLocal.getValue(IndexUpdatePayloadKey);
 	}
 

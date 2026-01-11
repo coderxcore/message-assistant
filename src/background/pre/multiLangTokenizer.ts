@@ -1,5 +1,5 @@
-import { ITerm } from "/src-com"
-import { hash } from "gs-search/core"
+import {ITerm} from "/src-com"
+import {hash} from "gs-search/core"
 
 export interface TokenizeOptions {
 	maxPrefix?: number
@@ -27,7 +27,11 @@ const RE_CJK = /[\u4e00-\u9fff]/
 /* ======================= Utils ======================= */
 
 function safeDecode(s: string) {
-	try { return decodeURIComponent(s) } catch { return s }
+	try {
+		return decodeURIComponent(s)
+	} catch {
+		return s
+	}
 }
 
 function isStructured(text: string) {
@@ -42,14 +46,14 @@ function isCJKWord(w: string) {
 	return [...w].every(ch => RE_CJK.test(ch))
 }
 
-function buildPrefix(word: string, maxPrefix: number): string[] {
+export function buildPrefix(word: string, maxPrefix: number): string[] {
 	const res: string[] = []
 	const limit = Math.min(word.length - 1, maxPrefix)
 	for (let i = 1; i <= limit; i++) res.push(word.slice(0, i))
 	return res
 }
 
-function buildFuzzy(
+export function buildFuzzy(
 	word: string,
 	options: Required<TokenizeOptions>
 ): string[] {
@@ -110,7 +114,7 @@ export function tokenizeMultiLang(
 	input: string,
 	opts?: TokenizeOptions
 ): ITerm[] {
-	const options:TokenizeOptions = { ...DEFAULT_OPTIONS, ...opts }
+	const options: TokenizeOptions = {...DEFAULT_OPTIONS, ...opts}
 	const results: ITerm[] = []
 	const visited = new Set<string>()
 

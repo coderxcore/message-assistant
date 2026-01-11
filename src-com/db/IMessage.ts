@@ -5,7 +5,7 @@ export interface IMessage extends IDocumentBase {
 	id?: number
 	hash?: number
 	text: string
-	sceneIds: number[],
+	sceneIds?: number[],
 	is_reference?: Bool
 	is_content?: Bool
 	bodyUrls?: string[]

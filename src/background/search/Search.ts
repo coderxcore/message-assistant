@@ -1,7 +1,9 @@
-import {ISearchEngine} from "gs-search/type";
+import {IDocumentBase, ISearchEngine} from "gs-search/type";
 import {SearchEngine} from "gs-search/core";
 import {BrowserStorage} from "gs-search/browser";
-import {IMessage, ITerm} from "/src-com";
+import {IMessage, ITerm, safeSlice} from "/src-com";
+import {messageTokens} from "../pre/messageTokens";
+import {buildFuzzy, buildPrefix} from "../pre/multiLangTokenizer";
 
 function arrayToLower(arr: string[]): string[] {
 	for (let i = 0, len = arr.length; i < len; i++) {
@@ -40,5 +42,31 @@ export class Search {
 			storage: new BrowserStorage('term-fuzzy'),
 			indexingTokenizer: doc => arrayToLower((doc as ITerm).fuzzy || [])
 		}));
+	}
+
+	static async searchTerm(text: string) {
+		const suffix = safeSlice(text, -2);
+		const term = {
+			text: suffix,
+			prefix: buildPrefix(suffix, 2),
+		}
+		const result = await this.termPrefix.search(term as any);
+		if (result?.length > 0) {
+			return result;
+		}
+		const term2 = {
+			text,
+			fuzzy: buildFuzzy(text, {} as any),
+		}
+		return await this.termFuzzy.search(term2 as any);
+	}
+
+	static async searchMsg(text: string) {
+		const doc = {
+			text,
+			tokens: await messageTokens(text),
+		} as IDocumentBase;
+		console.log('准备搜索',doc)
+		return this.message.search(doc as any);
 	}
 }

@@ -3,6 +3,7 @@ import './services/LocalService'
 import './services/MessageService'
 import './services/ImportService'
 import './services/SceneService'
+import './services/IndexService'
 
 export default defineBackground({
 	main() {

@@ -50,6 +50,8 @@ export interface IFrontGetters {
 
 export interface IFrontStore extends IFrontState, IFrontGetters {
 	updateProgress(progress: IUpdateProgress): void;
+
+	hide(): void;
 }
 
 export const useFrontStore: () => IFrontStore = defineStore('front', {
@@ -84,6 +86,11 @@ export const useFrontStore: () => IFrontStore = defineStore('front', {
 			if (msg !== undefined) {
 				this.message = msg;
 			}
+		},
+		hide() {
+			this.progress = -1;
+			this.message = '';
+			this.confirm = undefined;
 		}
 	}
 }) as any;

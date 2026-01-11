@@ -22,11 +22,15 @@
           <download :size="14"/>
           {{ locale.importData }}
         </icon-btn>
-      </settings-row>
-      <settings-row :title="locale.exportData" :desc="locale.exportDataDesc">
         <icon-btn>
           <upload :size="14"/>
           {{ locale.exportData }}
+        </icon-btn>
+      </settings-row>
+      <settings-row title="索引管理" desc="如果没有出现异常情况，请不要使用此功能">
+        <icon-btn @click="updateIndex">
+          <refresh-cw :size="14"/>
+          检查更新索引
         </icon-btn>
       </settings-row>
     </settings-group>
@@ -34,15 +38,25 @@
 </template>
 
 <script lang="ts" setup>
-import {Download, Upload} from 'lucide-vue-next';
+import {Download, Upload, RefreshCw} from 'lucide-vue-next';
 import SettingsGroup from "./SettingsGroup.vue";
 import SettingsRow from "./SettingsRow.vue";
 import IconBtn from "../../part/IconBtn.vue";
 import {Store} from "../../store";
 import {openFileHandler} from "grain-sand-web-fs";
 import {Locales, themes} from "/src-com";
+import {Api} from "../../api";
+import {wait} from "gs-base";
 
-const {settings, locale} = Store;
+const {settings, locale, front} = Store;
+
+async function updateIndex() {
+  front.updateProgress({progress: 0, msg: '检查更新索引中……'})
+  console.log(await Api.index.updateIndex())
+  front.updateProgress({progress: 100, msg: '完成'})
+  await wait(1000);
+  front.hide();
+}
 
 async function changeTheme() {
   await settings.saveSettings();

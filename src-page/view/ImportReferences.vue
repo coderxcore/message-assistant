@@ -32,11 +32,6 @@
           </icon-btn>
         </template>
         <li v-for="(row,i) in ir.preview" :key="i" v-html="row"></li>
-        <template #footer>
-          <footer>
-            <button>按钮</button>
-          </footer>
-        </template>
       </card>
       <card v-else>
         <li v-if="ir.loading">
