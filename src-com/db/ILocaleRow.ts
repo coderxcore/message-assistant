@@ -2,11 +2,13 @@ import {themes} from "../api/ISettingsApi";
 
 const settingsPageKeys = [
 	'language', 'languageDesc', 'theme', 'themeDesc', 'pref',
-	'ok','cancel',
+	'ok','cancel','selectAll',
 	'dataMgr', 'exportData', 'exportDataDesc', 'importData', 'importDataDesc',
 	'importReferences', 'mode', 'preview','confirmImport','emptyContent','loading','importing','imported','importError','askImport',
 	'import_fileReading','import_dbSaving','import_indexing','import_done',
-	'scene','importAs','genericScene','genericSceneDesc','aiScene','aiSceneDesc','socioScene','socioSceneDesc','videoScene','videoSceneDesc'
+	'scene','importAs','genericScene','genericSceneDesc','aiScene','aiSceneDesc','socioScene','socioSceneDesc','videoScene','videoSceneDesc',
+	'shoppingScene','shoppingSceneDesc','initTitle','initSubtitle','importCustomReference','selectLanguage','selectCategory','category','import',
+	'ai_prompts','ecommerce','general','movie','social'
 ] as const;
 
 export const importModes = ['blankLine', 'eachLine', 'custom'] as const;
