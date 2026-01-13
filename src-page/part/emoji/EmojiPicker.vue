@@ -1,47 +1,49 @@
 <template>
   <div class="EmojiPicker" @click.stop>
-    <template v-if="emoji.recentEmojis.length">
-      <div class="section-title">最近使用</div>
-      <div class="recent-grid">
-        <button
-            v-for="(emj, idx) in emoji.recentEmojis"
-            :key="'rec-'+idx"
-            class="emoji-btn"
-            @click="selectEmoji(emj)"
-        >
-          {{ emj }}
-        </button>
-      </div>
-      <div class="divider"></div>
-    </template>
+    <div class="emoji-content">
+      <template v-if="emoji.recentEmojis.length">
+        <div class="section-title">最近使用</div>
+        <div class="recent-grid">
+          <button
+              v-for="(emj, idx) in emoji.recentEmojis"
+              :key="'rec-'+idx"
+              class="emoji-btn"
+              @click="selectEmoji(emj)"
+          >
+            {{ emj }}
+          </button>
+        </div>
+        <div class="divider"></div>
+      </template>
 
-    <div class="emoji-scroll-area">
-      <div class="section-title">{{ categoryNames[activeTab] }}</div>
-      <div class="emoji-grid">
+      <div class="emoji-scroll-area">
+        <div class="section-title">{{ categoryNames[activeTab] }}</div>
+        <div class="emoji-grid">
+          <button
+              v-for="(emj, idx) in emoji.emojiCategories[activeTab]"
+              :key="activeTab+'-'+idx"
+              class="emoji-btn"
+              @click="selectEmoji(emj)"
+          >
+            {{ emj }}
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-bar">
         <button
-            v-for="(emj, idx) in emoji.emojiCategories[activeTab]"
-            :key="activeTab+'-'+idx"
-            class="emoji-btn"
-            @click="selectEmoji(emj)"
+            v-for="(icon, key) in tabIcons"
+            :key="key"
+            class="tab-btn"
+            :class="{ active: activeTab === key }"
+            @click="activeTab = key as string"
+            :title="categoryNames[key]"
         >
-          {{ emj }}
+          <component :is="icon" :size="18"/>
         </button>
       </div>
     </div>
-
-    <div class="tab-bar">
-      <button
-          v-for="(icon, key) in tabIcons"
-          :key="key"
-          class="tab-btn"
-          :class="{ active: activeTab === key }"
-          @click="activeTab = key as string"
-          :title="categoryNames[key]"
-      >
-        <component :is="icon" :size="18"/>
-      </button>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

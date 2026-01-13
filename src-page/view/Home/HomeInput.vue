@@ -19,7 +19,7 @@
 import {Save} from 'lucide-vue-next';
 import SmartInput from "../../part/SmartInput.vue";
 import {Store} from "../../store";
-import {Timer} from "gs-base";
+import {isNumber, Timer} from "gs-base";
 import {ICursorChangeEvent} from "../../type";
 import {watch} from "vue";
 import {ISearchTerm} from "/src-com";
@@ -35,7 +35,7 @@ const timer = new Timer();
 let lastChange: ICursorChangeEvent;
 
 async function selectEmoji(e) {
-  if(lastChange.end) {
+  if (isNumber(lastChange?.end)) {
     message.input = message.input.slice(0, lastChange.end) + e + message.input.slice(lastChange.end);
   } else {
     message.input += e;
@@ -73,7 +73,7 @@ function fullTerm(term: ISearchTerm) {
   }
   message.input = text;
   message.terms.length = 0;
-  if(term.termType==='emoji') {
+  if (term.termType === 'emoji') {
     Store.emoji.addRecentEmoji(Array.from(term.text)[0]);
   }
   onCursorChange({start: text.length, end: text.length, editText: text})
