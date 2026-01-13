@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {openFileHandler} from "grain-sand-web-fs";
 import {router} from "../view";
-import {ISplitOption, splitFile} from "/src-com";
+import {ISplitOption, splitFile} from "/src-com/lib/splitFile";
 import {Timer} from "gs-base";
 import {Api} from "../api";
 import {Bool} from "gs-idb-basic";

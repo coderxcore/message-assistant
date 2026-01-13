@@ -10,7 +10,3 @@ export * from "./db/ILocaleRow";
 export * from "./db/IMessage";
 export * from "./db/ITerm";
 export * from "./db/IScene";
-
-export * from "./lib/splitFile";
-export * from "./lib/safeSlice";
-export * from "./lib/findLongest";

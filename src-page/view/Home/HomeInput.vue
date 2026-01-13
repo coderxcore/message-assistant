@@ -24,9 +24,10 @@ import {Store} from "../../store";
 import {Timer} from "gs-base";
 import {ICursorChangeEvent} from "../../type";
 import {watch} from "vue";
-import {findLongest, ISearchTerm} from "/src-com";
+import {ISearchTerm} from "/src-com";
 import {detectChar} from "gs-tokenizer/core";
-import {Lang} from "gs-tokenizer";
+import {Lang} from "gs-tokenizer/type";
+import {findLongest} from "/src-com/lib/findLongest";
 
 const {message} = Store;
 

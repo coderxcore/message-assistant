@@ -1,5 +1,6 @@
 import {Db} from "../db";
-import {findLongest, ISearchTerm} from "/src-com";
+import {ISearchTerm} from "/src-com";
+import {findLongest} from "/src-com/lib/findLongest";
 
 export async function queryTermBySearch(results: ISearchTerm[], text: string): Promise<ISearchTerm[]> {
 	return await Db.term.batchRead(async (store) => {
