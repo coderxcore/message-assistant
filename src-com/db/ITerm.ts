@@ -11,5 +11,5 @@ export interface ITerm extends IDocument {
 
 export interface ISearchTerm extends Partial<IResult> {
 	text: string
-	isEmoji: boolean
+	termType: 'prefix' | 'fuzzy' | 'emoji'
 }

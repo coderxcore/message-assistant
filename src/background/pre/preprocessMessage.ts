@@ -1,5 +1,5 @@
 import {IMessage, ITerm} from "/src-com";
-import {hash} from "gs-search/core";
+import {murmur3_32} from "gs-search/core";
 import {messageTokens} from "./messageTokens";
 import {asyncMap} from "gs-base";
 import {tokenizeMultiLang} from "./multiLangTokenizer";
@@ -31,7 +31,7 @@ export async function preprocessMessages(messages: IMessage[]): Promise<IMessage
 }
 
 export async function preprocessMessage(msg: IMessage): Promise<IMessage> {
-	msg.hash = hash(msg.text);
+	msg.hash = murmur3_32(msg.text);
 	msg.tokens = await messageTokens(msg.text);
 	return msg;
 }

@@ -1,5 +1,5 @@
 import {ITerm} from "/src-com"
-import {hash} from "gs-search/core"
+import {murmur3_32} from "gs-search/core"
 
 export interface TokenizeOptions {
 	maxPrefix?: number
@@ -144,7 +144,7 @@ export function tokenizeMultiLang(
 
 		results.push({
 			text: word,
-			hash: hash(word),
+			hash: murmur3_32(word),
 			prefix,
 			fuzzy: [...fuzzy],
 		})

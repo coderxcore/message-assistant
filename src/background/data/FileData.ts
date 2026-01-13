@@ -4,7 +4,13 @@ import {getEmoji, getEmojiCategories} from "./getEmoji";
 
 export class FileData {
 
+	static emojisDict = getEmoji
 	static #lexicon?: LexiconItem[];
+	static #emojiCategories?: any
+
+	static get emojiCategories() {
+		return this.#emojiCategories || (this.#emojiCategories = getEmojiCategories());
+	}
 
 	static async lexicon() {
 		if (this.#lexicon) {
@@ -12,9 +18,5 @@ export class FileData {
 		}
 		return this.#lexicon = getLexicon();
 	}
-
-	static emojisDict = getEmoji
-
-	static emojiCategories = getEmojiCategories;
 
 }
