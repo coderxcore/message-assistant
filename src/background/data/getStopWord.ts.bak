@@ -1,0 +1,23 @@
+// import {StorageLocal} from "gs-br-ext";
+// import stop_en from './stopwords/en.txt?raw'
+// import stop_ja from './stopwords/ja.txt?raw'
+// import stop_ko from './stopwords/ko.txt?raw'
+// import stop_zh from './stopwords/zh.txt?raw'
+// const StopWordKey = 'stop-words'
+// static #stopWords?: Set<string>;
+//
+// static async stopWords() {
+// 	if (this.#stopWords) {
+// 		return this.#stopWords;
+// 	}
+// 	let words = await StorageLocal.getValue(StopWordKey)
+// 	if (!words || !Array.isArray(words)) {
+// 		words = [
+// 			...(stop_en as string).split(regex).filter(Boolean),
+// 			...(stop_ja as string).split(regex).filter(Boolean),
+// 			...(stop_ko as string).split(regex).filter(Boolean),
+// 			...(stop_zh as string).split(regex).filter(Boolean),
+// 		];
+// 	}
+// 	return this.#stopWords = new Set(words);
+// }
