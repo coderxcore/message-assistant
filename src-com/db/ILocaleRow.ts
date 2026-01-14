@@ -1,14 +1,14 @@
 import {themes} from "../api";
+import {BuiltInSceneKeys} from "./IScene";
 
 const settingsPageKeys = [
 	'language', 'languageDesc', 'theme', 'themeDesc', 'pref',
 	'ok', 'cancel', 'selectAll',
 	'dataMgr', 'exportData', 'exportDataDesc', 'importData', 'importDataDesc',
 	'importReferences', 'mode', 'preview', 'confirmImport', 'emptyContent', 'loading', 'importing', 'imported', 'importError', 'askImport',
-	'import_fileReading', 'import_dbSaving', 'import_indexing', 'import_done','showImportBuiltIn',
-	'scene', 'importAs', 'genericScene', 'genericSceneDesc',
-	'initTitle', 'initSubtitle', 'importCustomReference', 'selectImportLanguage',
-	'selectScene', 'aiScene', 'ecommerceScene', 'ecommerceSceneDesc','aiScene', 'aiSceneDesc', 'socioScene', 'socioSceneDesc', 'videoScene', 'videoSceneDesc',
+	'import_fileReading', 'import_dbSaving', 'import_indexing', 'import_done', 'showImportBuiltIn',
+	'scene', 'importAs', 'initTitle', 'initSubtitle', 'importCustomReference', 'selectImportLanguage',
+	'genericSceneDesc', 'unresolvedSceneDesc', 'selectScene', 'ecommerceSceneDesc', 'aiSceneDesc', 'socioSceneDesc', 'videoSceneDesc',
 ] as const;
 
 export const importModes = ['blankLine', 'eachLine', 'custom'] as const;
@@ -17,6 +17,7 @@ export const Locales = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko'] as const;
 
 export const LocaleKeys = [
 	'title', 'settings', 'home', 'draft', 'trash', 'history', 'references',
+	...BuiltInSceneKeys,
 	...settingsPageKeys,
 	...themes,
 	...importModes,

@@ -5,8 +5,8 @@ import {Bool} from "gs-idb-basic";
 export function checkChangeMessage(baseMsg: IMessage, newMsg: IMessage): IMessage | undefined {
 	let props: Partial<IMessage> = {};
 
-	if (!arraysEqualIgnoreOrder(baseMsg.sceneIds || [], newMsg.sceneIds || [])) {
-		props.sceneIds = Array.from(new Set([...baseMsg.sceneIds || [], ...newMsg.sceneIds || []]))
+	if (newMsg.sceneId !== baseMsg.sceneId) {
+		props.sceneId = newMsg.sceneId
 	}
 	if (newMsg.is_reference && !baseMsg.is_reference) {
 		props.is_reference = Bool.True
@@ -14,7 +14,6 @@ export function checkChangeMessage(baseMsg: IMessage, newMsg: IMessage): IMessag
 	if (newMsg.is_content && !baseMsg.is_content) {
 		props.is_content = Bool.True
 	}
-
 	if (!arraysEqualIgnoreOrder(baseMsg.bodyUrls || [], newMsg.bodyUrls || [])) {
 		props.bodyUrls = Array.from(new Set([...baseMsg.bodyUrls || [], ...newMsg.bodyUrls || []]))
 	}

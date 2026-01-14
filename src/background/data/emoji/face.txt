@@ -24,12 +24,12 @@
 🥴 头晕 困惑 不适 めまい 困惑 不快 健康 어지럽다 혼란 woozy
 🥵 热 出汗 不适 暑い 汗 不快 温度 덥다 땀 흘리 hot
 🥶 冷 发抖 不适 寒い 震え 不快 温度 추워하다 떨다 cold
-😀 大笑 笑 哈哈 乐 快乐 大笑み 楽しい 笑顔 明るい 행복 grinning
+😀 大笑 笑 哈哈 乐 快乐 高兴 大笑み 楽しい 笑顔 明るい 행복 grinning
 😂 笑哭 哭 快乐 乐 大笑 笑い泣き 楽しい 涙 행복 tears of joy
 😃 露齿笑 快乐 笑顔 楽しい 明るい 행복 broad grin happy
-😄 开心笑 开心 笑 哈哈 快乐 笑顔 楽しい 明るい 행복 smiley happy grin
+😄 开心笑 开心 笑 哈哈 快乐 高兴 笑顔 楽しい 明るい 행복 smiley happy grin
 😅 汗笑 尴尬 嘿嘿 汗顔 恥ずかしい 汗 낯을 뜨다 grinning sweat happy
-😆 张嘴笑 快乐 大笑 笑顔 楽しい 大笑い 明るい 행복 grinning squinting happy
+😆 张嘴笑 快乐 大笑 高兴 笑顔 楽しい 大笑い 明るい 행복 grinning squinting happy
 😇 天使 善良 快乐 天使 優しい 純粋 착하다 행복 smiling halo
 😉 眨眼 调皮 幽默 ウインク いたずら ユーモラス 軽快 장난 winking
 😊 微笑 愉快 愉悦 微笑み 楽しい 笑顔 満足 즐겁다 만족 smile happy pleased cheerful delight

@@ -30,7 +30,7 @@ export async function preprocessMessages(messages: IMessage[]): Promise<IMessage
 	}
 }
 
-export async function preprocessMessage(msg: IMessage): Promise<IMessage> {
+async function preprocessMessage(msg: IMessage): Promise<IMessage> {
 	msg.hash = murmur3_32(msg.text);
 	msg.tokens = await messageTokens(msg.text);
 	return msg;

@@ -45,6 +45,8 @@ export const zh_CN = <LocaleRecord>{
 	videoSceneDesc: '视频场景，适用于YouTube、抖音、Bilibili等视频平台',
 	ecommerceScene: '购物场景',
 	ecommerceSceneDesc: '购物场景，适用于淘宝、京东、亚马逊等购物平台',
+	unresolvedScene: '未确定场景',
+	unresolvedSceneDesc: '未确定场景，适用于其他未分类场景',
 	initTitle: '初次使用，建议导入参考发言',
 	initSubtitle: '请选择需要导入的内置参考',
 	importCustomReference: '导入自定义参考',

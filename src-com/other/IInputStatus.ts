@@ -1,4 +1,5 @@
 export interface IInputStatus {
+	id: number
 
 	tabId?: number;
 
@@ -12,6 +13,8 @@ export interface IInputStatus {
 	currentInput?: string;
 
 	mainContent?: string;
+
+	isReply?: boolean;
 
 	/**
 	 * 是否可写

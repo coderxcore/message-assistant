@@ -160,5 +160,12 @@ export const sceneSchema: IStoreSchema = {
 				}
 			]
 		},
+		{
+			id: builtInSceneIds.unresolvedScene,
+			name: 'unresolvedScene',
+			description: 'unresolvedSceneDesc',
+			isBuiltIn: true,
+			sites: []
+		},
 	]
 }
