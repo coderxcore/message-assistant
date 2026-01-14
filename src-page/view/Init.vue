@@ -71,7 +71,7 @@
 
 <script lang="ts" setup>
 import {Store} from "../store";
-import {builtInSceneIds, BuiltInSceneKey, Locale} from "/src-com";
+import {builtInSceneIds, BuiltInSceneKey, IMessage, Locale} from "/src-com";
 import {wait} from "gs-base";
 import {Api} from "../api";
 import {Bool} from "gs-idb-basic";
@@ -95,7 +95,7 @@ const onConfirm = async () => {
         const sceneId = builtInSceneIds[sceneKey];
         const path = `data/references/${lang.replace(/-/, '_')}/${sceneKey}.txt`;
         const data = (await fetch(path).then(r => r.text())).split(/\s*[\r\n]\s*/).filter(Boolean)
-        const msgs = data.map(text => ({sceneId, text, is_reference: Bool.True}))
+        const msgs:IMessage[] = data.map(text => ({sceneId, text, is_reference: Bool.True}))
         await Api.import.importReferences(msgs)
         // console.log(await Api.import.importReferences(msgs))
         init.addSaveData(lang, sceneKey, true)
@@ -117,6 +117,7 @@ const onConfirm = async () => {
       // console.log(await Api.index.updateIndex())
       front.updateProgress({progress: total, total, msg: locale.imported})
       await wait(800)
+      await message.loadMessage();
     } finally {
       init.hideInit();
       front.hide();

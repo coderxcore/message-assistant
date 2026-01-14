@@ -1,7 +1,9 @@
 import {MsgMethods, RemoteMethods} from "gs-br-ext";
 
 interface IDataBase {
-	getEmojiCategories(): Record<string, string[]>|Promise<Record<string, string[]>>;
+	getEmojiCategories(): Record<string, string[]> | Promise<Record<string, string[]>>;
+
+	preload(): Promise<void>;
 }
 
 export interface IDataApi extends IDataBase, RemoteMethods {

@@ -1,18 +1,24 @@
 .Home {
-  $max-width:1024px;
-  max-width: $max-width;
+  $max-width: 640px;
   width: 100%;
   margin: auto;
+  padding-top: 1px;
+  background-color: var(--color-bg);
   @media (max-width: $max-width) {
 	padding: 0 5vw;
   }
+
   > header {
 	width: 100%;
-	margin: 5vh auto 0;
+	margin: 50px auto 0;
+	max-width: $max-width;
+	background-color: var(--color-bg);
+	position: sticky;
+	top: -21px;
+	padding-bottom: 10px;
 
 	> nav, > div {
 	  margin: auto;
-	  max-width: 640px;
 	  width: 100%;
 	}
 
@@ -24,6 +30,7 @@
 	  height: 24px;
 	  line-height: 24px;
 	  font-size: 12px;
+	  margin-bottom: 6px;
 
 	  a {
 		display: flex;
@@ -33,14 +40,20 @@
 		padding: 0 .5em;
 		border-radius: .5em;
 		cursor: pointer;
+
 		> svg {
 		  width: 16px;
 		}
 
 		&:hover {
-		  background: var(--color-surface)!important;
+		  background: var(--color-surface) !important;
 		}
 	  }
 	}
+  }
+
+  > section {
+	max-width: $max-width;
+	margin: 0 auto;
   }
 }

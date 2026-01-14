@@ -24,5 +24,21 @@ export const messageSchema: IStoreSchema = {
 			name: 'is_content_deleted',
 			keyPath: ['is_content', 'deleted'],
 		},
+		{
+			name: 'sceneId',
+			keyPath: 'sceneId'
+		},
+		{
+			name: 'sceneId_deleted',
+			keyPath: ['sceneId', 'deleted'],
+		},
+		{
+			name: 'sceneId_is_content_deleted',
+			keyPath: ['sceneId','is_content', 'deleted'],
+		},
+		{
+			name: 'sceneId_reference_deleted',
+			keyPath: ['sceneId', 'is_reference', 'deleted'],
+		},
 	]
 }

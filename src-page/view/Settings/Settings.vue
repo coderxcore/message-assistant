@@ -22,14 +22,14 @@
           <download :size="14"/>
           {{ locale.showImportBuiltIn }}
         </icon-btn>
-        <icon-btn @click="importData">
+<!--        <icon-btn @click="importData">
           <download :size="14"/>
           {{ locale.importData }}
         </icon-btn>
         <icon-btn>
           <upload :size="14"/>
           {{ locale.exportData }}
-        </icon-btn>
+        </icon-btn>-->
       </settings-row>
       <settings-row title="索引管理" desc="如果没有出现异常情况，请不要使用此功能">
         <icon-btn @click="updateIndex">
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import {Download, Upload, RefreshCw} from 'lucide-vue-next';
+import {Download, RefreshCw} from 'lucide-vue-next';
 import SettingsGroup from "./SettingsGroup.vue";
 import SettingsRow from "./SettingsRow.vue";
 import IconBtn from "../../part/IconBtn.vue";

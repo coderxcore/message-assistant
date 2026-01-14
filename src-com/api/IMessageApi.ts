@@ -1,11 +1,11 @@
 import {MsgMethods, RemoteMethods} from "gs-br-ext";
-import {IMessage, ISearchedMessage} from "../db/IMessage";
+import {IMessage, IMessageQuery} from "../db/IMessage";
 
 export interface IMessageStatus {
 	draftCount: number;
 	historyCount: number;
 	trashCount: number;
-	referencesCount: number;
+	referencesCount: number
 }
 
 interface IMessageBase {
@@ -13,6 +13,8 @@ interface IMessageBase {
 	clearMessageStatusCache(): void | Promise<void>;
 
 	messageStatus(): Promise<IMessageStatus>;
+
+	loadMessage(query: IMessageQuery): Promise<IMessage[]>;
 
 }
 

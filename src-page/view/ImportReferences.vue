@@ -23,7 +23,7 @@
       </icon-btn>
     </header>
     <template v-if="ir.file">
-      <card v-if="ir.preview.length" :header-sticky="true">
+      <list-panel v-if="ir.preview.length" :header-sticky="true">
         <template #header>
           <h2>{{ locale.preview }}</h2>
           <icon-btn @click="confirmImport">
@@ -32,15 +32,15 @@
           </icon-btn>
         </template>
         <li v-for="(row,i) in ir.preview" :key="i" v-html="row"></li>
-      </card>
-      <card v-else>
+      </list-panel>
+      <list-panel v-else>
         <li v-if="ir.loading">
           {{ locale.loading }}
         </li>
         <li v-else>
           {{ locale.emptyContent }}
         </li>
-      </card>
+      </list-panel>
     </template>
   </div>
 </template>
@@ -51,7 +51,7 @@ import {CheckLine, FileDown} from 'lucide-vue-next'
 import {Store} from "../store";
 import {ImportMode, importModes} from "/src-com";
 import {ref, watch} from "vue";
-import Card from "../part/ListPanel.vue";
+import ListPanel from "../part/ListPanel.vue";
 import SingleChoice from "../part/SingleChoice.vue";
 import {wait} from "gs-base";
 

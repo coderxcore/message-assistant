@@ -69,7 +69,6 @@ export function buildFuzzy(
 			}
 			res.add(word.slice(-2))
 		}
-		res.add(word.slice(-1))
 	}
 	if (
 		options.fuzzyCharMode === "all" ||

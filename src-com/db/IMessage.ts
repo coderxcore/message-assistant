@@ -1,13 +1,16 @@
 import {IDocument, IDocumentBase} from "gs-search/type";
 import {Bool} from "gs-idb-basic";
 
-export interface IMessage extends IDocumentBase {
+export interface IMessageQuery {
+	sceneId?: number[],
+	is_reference?: Bool
+	is_content?: Bool
+}
+
+export interface IMessage extends IDocumentBase,IMessageQuery {
 	id?: number
 	hash?: number
 	text: string
-	sceneIds?: number[],
-	is_reference?: Bool
-	is_content?: Bool
 	bodyUrls?: string[]
 	replyUrls?: string[]
 	added_at?: number
@@ -18,7 +21,7 @@ export interface IMessage extends IDocumentBase {
 	tokens?: string[]
 }
 
-export interface ISearchedMessage extends IMessage, IDocument {
+export interface ISearchMessage extends IMessage, IDocument {
 	id: number,
 	text: string
 	sceneIds: number[]

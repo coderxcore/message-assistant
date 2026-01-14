@@ -24,13 +24,15 @@
       </nav>
       <home-input/>
     </header>
+    <home-body/>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {Settings, FileText, History, BookOpen, Trash, FileDown} from 'lucide-vue-next';
-import {Store} from '../../store'
 import HomeInput from "./HomeInput.vue";
+import HomeBody from "./HomeBody.vue";
+import {Store} from '../../store'
 
 const {locale, message} = Store;
 </script>

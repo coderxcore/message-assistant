@@ -108,7 +108,7 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 					if (rows.length >= taskItemCount) {
 						await Api.import.importReferences(rows.map(text => ({
 							text,
-							sceneIds: [sceneId],
+							sceneId,
 							is_reference: Bool.True
 						})));
 						onDbSave?.(len(rows, bytes), bytes)
@@ -119,7 +119,7 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 				if (rows.length) {
 					await Api.import.importReferences(rows.map(text => ({
 						text,
-						sceneIds: [sceneId],
+						sceneId,
 						is_reference: Bool.True
 					})));
 				}

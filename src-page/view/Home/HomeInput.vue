@@ -8,7 +8,7 @@
       <ul class="terms">
         <li v-for="term in message.terms" :key="term" @click="fullTerm(term)">{{ term.text }}</li>
       </ul>
-      <button class="btn-lg">
+      <button class="btn-lg" :disabled="!message.input.length">
         <save/>
       </button>
     </footer>
@@ -30,7 +30,8 @@ import EmojiSelector from "../../part/emoji/EmojiSelector.vue";
 
 const {message} = Store;
 
-const timer = new Timer();
+const termTimer = new Timer(200);
+const msgTimer = new Timer(500);
 
 let lastChange: ICursorChangeEvent;
 
@@ -40,10 +41,11 @@ async function selectEmoji(e) {
   } else {
     message.input += e;
   }
+  await message.queryTerm(e);
 }
 
 async function onCursorChange(e: ICursorChangeEvent) {
-  await timer.wait(200)
+  await termTimer.reWait();
   const {editText} = e;
   if (!editText) {
     message.terms.length = 0;
@@ -82,7 +84,10 @@ function fullTerm(term: ISearchTerm) {
 watch(() => message.input, async (input) => {
   if (!input) {
     message.terms.length = 0;
+    return;
   }
+  await msgTimer.reWait();
+  await message.queryMessage();
 })
 
 </script>

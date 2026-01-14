@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {Api} from "../api";
-import {copyObject} from "gs-base";
 
 export interface IEmojiState {
 	emojiCategories: Record<string, string[]>;
@@ -23,7 +22,7 @@ export const useEmojiStore: () => IEmojiStore = defineStore('emoji-store', {
 	state: (): IEmojiState => {
 		return {
 			emojiCategories: {},
-			recentEmojis: [],
+			recentEmojis: ['🤮'],
 		};
 	},
 	getters: {},
@@ -31,7 +30,6 @@ export const useEmojiStore: () => IEmojiStore = defineStore('emoji-store', {
 		async loadEmojiCategories() {
 			if(Object.keys(this.emojiCategories).length) return;
 			this.emojiCategories = await Api.data.getEmojiCategories();
-			console.log(copyObject(this.emojiCategories))
 		},
 		addRecentEmoji(emoji: string) {
 			this.recentEmojis = this.recentEmojis.filter(e => e !== emoji);
