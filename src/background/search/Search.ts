@@ -15,7 +15,7 @@ export class Search {
 			storage: new BrowserStorage('message'),
 			indexingTokenizer: (doc) => {
 				const msg = doc as IMessage;
-				return ([...(msg.keywords || []), ...(msg.tokens || [])]);
+				return arrayToLower([...(msg.keywords || []), ...(msg.tokens || [])]);
 			}
 		}));
 	}

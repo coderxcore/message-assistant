@@ -7,8 +7,9 @@ export function toPreviewMessage(msg: Partial<ISearchMessage>, input: string): I
 		srcMsg: msg,
 		parts: [
 			{
-				type: PartType.Result,
+				type: PartType.Replace,
 				text: msg.text || '',
+				src: input,
 			}
 		]
 	});

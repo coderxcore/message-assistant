@@ -19,7 +19,7 @@ export async function preprocessMessages(messages: IMessage[]): Promise<IMessage
 		}
 	}
 	for (const tk of tokenSet) {
-		const rs = tokenizeMultiLang(tk, {maxPrefix: 2, fuzzyKeepMultiWhenChar: true});
+		const rs = tokenizeMultiLang(tk, {maxPrefix: 5, fuzzyKeepMultiWhenChar: true});
 		for (let i = 0; i < rs.length; i++) {
 			terms.push(rs[i])
 		}

@@ -45,7 +45,7 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 			this.terms = (await Api.search.searchTerm(text))
 				.filter(t => {
 					const len = t.text.length;
-					const txt = input.slice(start - len, end + len);
+					const txt = input.slice(Math.max(0, start - len), Math.max(end + len, t.text.length));
 					return !txt.includes(t.text);
 				});
 		},

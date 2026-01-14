@@ -20,6 +20,7 @@ export async function queryMessageBySearch(results: IResult[], text: string): Pr
 					searchedTokens: result.tokens
 				} as any);
 			}
+			if (msgs.length > 30) break;
 		}
 		return msgs;
 	})
