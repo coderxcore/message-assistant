@@ -1,11 +1,11 @@
 import {createMsgMethodProxy} from "gs-br-ext";
-import {IContentToBgService} from "/src-com";
+import {IContentToBgApi} from "/src-com";
 
 export class Api {
 
 	static #proxy?: any;
 
-	static get contentToBg(): IContentToBgService {
+	static get contentToBg(): IContentToBgApi {
 		return this.#api
 	}
 

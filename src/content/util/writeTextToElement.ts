@@ -31,38 +31,63 @@ function writeToInput(
 	el: HTMLInputElement | HTMLTextAreaElement,
 	text: string
 ) {
-	const start = el.selectionStart ?? el.value.length;
-	const end   = el.selectionEnd   ?? el.value.length;
+	// const start = el.selectionStart ?? el.value.length;
+	// const end   = el.selectionEnd   ?? el.value.length;
+	//
+	// el.value = el.value.slice(0, start) +
+	// 	text +
+	// 	el.value.slice(end);
+	el.value = text;
 
-	el.value = el.value.slice(0, start) +
-		text +
-		el.value.slice(end);
+	// const pos = start + text.length;
+	// el.setSelectionRange(pos, pos);
 
-	const pos = start + text.length;
-	el.setSelectionRange(pos, pos);
-
-	el.dispatchEvent(new Event("input",  { bubbles: true }));
-	el.dispatchEvent(new Event("change", { bubbles: true }));
+	el.dispatchEvent(new Event("input", {bubbles: true}));
+	el.dispatchEvent(new Event("change", {bubbles: true}));
 }
 
 function writeToContentEditable(el: HTMLElement, text: string) {
-	const sel = window.getSelection();
-	if (!sel || !sel.rangeCount) return;
+	// 清空原有内容
+	el.innerText = "";
 
-	const range = sel.getRangeAt(0);
-	range.deleteContents();
-
+	// 写入新内容
 	const node = document.createTextNode(text);
-	range.insertNode(node);
+	el.appendChild(node);
 
-	// 光标移动到插入文本之后
+	// 光标移动到末尾
+	const range = document.createRange();
 	range.setStartAfter(node);
 	range.setEndAfter(node);
-	sel.removeAllRanges();
-	sel.addRange(range);
 
+	const sel = window.getSelection();
+	if (sel) {
+		sel.removeAllRanges();
+		sel.addRange(range);
+	}
+
+	// 触发 input 事件
 	el.dispatchEvent(new Event("input", { bubbles: true }));
 }
+
+
+// function writeToContentEditable(el: HTMLElement, text: string) {
+// 	const sel = window.getSelection();
+// 	if (!sel || !sel.rangeCount) return;
+//
+// 	const range = sel.getRangeAt(0);
+// 	range.deleteContents()
+//
+// 	const node = document.createTextNode(text);
+// 	range.insertNode(node);
+//
+// 	// 光标移动到插入文本之后
+// 	range.setStartAfter(node);
+// 	range.setEndAfter(node);
+// 	sel.removeAllRanges();
+// 	sel.addRange(range);
+//
+// 	el.dispatchEvent(new Event("input", {bubbles: true}));
+// }
 
 /* ===== 输入法保护（建议全局只注册一次）===== */
 

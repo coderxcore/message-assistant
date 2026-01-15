@@ -1,5 +1,5 @@
 import {builtInSceneIds, IInputStatus, IMessage} from "/src-com";
-import {StorageLocal} from "gs-br-ext";
+import {callTabMsgMethod, StorageLocal} from "gs-br-ext";
 import {Scene} from "../repo/Scene";
 import {preprocessMessages} from "../pre/preprocessMessage";
 import {saveMessagePack} from "../repo/saveMessagePack";
@@ -20,13 +20,20 @@ export async function setInputStatus(status: IInputStatus) {
 
 export async function setTmpMessage(message: string) {
 	const inputStatus = await StorageLocal.getValue<IInputStatus>(inputStatusKey);
-	if (!inputStatus) {
+	if (!inputStatus || !message) {
 		return;
 	}
+	console.log(message)
 	await checkAndSaveTmpMsg(inputStatus)
 	await StorageLocal.setValue(tmpMessageKey, {
 		inputStatus,
 		text: message,
+	})
+	await callTabMsgMethod({
+		id: inputStatus.tabId,
+		method: 'setInputValue',
+		arg: message,
+		hasReturn: true
 	})
 }
 
@@ -52,8 +59,7 @@ async function saveTmpMsg({text, inputStatus: {url, isReply}}: ITmpMsg) {
 	} else {
 		msg.bodyUrls = [url];
 	}
-	const pack = await preprocessMessages([msg]);
-	await saveMessagePack(pack);
+	await saveMessagePack(await preprocessMessages([msg]));
 	await updateIndex();
 }
 

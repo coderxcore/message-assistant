@@ -1,4 +1,5 @@
 import"./dom/event-register";
+import './services/ContentService'
 
 export default defineContentScript({
 	matches: ['<all_urls>'],    //这里填写你需要监听的网页路径

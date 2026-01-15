@@ -5,7 +5,10 @@ import {setInputStatus} from "../input/InputStatus";
 setMsgMethod<IContentToBgService>({
 	async setInputStatus(status, sender): Promise<void> {
 		const tabId = status.tabId = sender.tab?.id;
-		(chrome.sidePanel as any).open({tabId});
+		try{
+			(chrome.sidePanel as any).open({tabId});
+		} catch (e) {
+		}
 		await setInputStatus(status);
 	}
 })

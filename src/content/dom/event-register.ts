@@ -1,7 +1,7 @@
 import {isEditable} from "../util/isEditable";
-import {sendStatus} from "../util/sendStatus";
 import {getInputValue} from "../util/getInputValue";
 import {Timer} from "gs-base";
+import {Hub} from "../hub/Hub";
 
 const timer = new Timer(300);
 
@@ -18,7 +18,7 @@ async function check() {
 			lastInputEl = el;
 			addInputListeners();
 		}
-		await sendStatus(el);
+		await Hub.sendStatus(el);
 	}
 }
 
@@ -38,9 +38,9 @@ function compositionstart() {
 	composing = true;   // 输入法开始
 }
 
-function compositionend() {
+async function compositionend() {
 	composing = false;  // 输入法结束
-	read();
+	await read();
 }
 
 function onInput() {

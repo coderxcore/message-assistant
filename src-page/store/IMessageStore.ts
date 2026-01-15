@@ -29,7 +29,7 @@ export interface IMessageStore extends IMessageState {
 export const useMessageStore: () => IMessageStore = defineStore('message', {
 	state: (): IMessageState => {
 		return {
-			input: localStorage.messageInput || '',
+			input: '',
 			terms: [],
 			status: {} as any,
 			searchMessages: [],
@@ -56,7 +56,6 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 				return;
 			}
 			this.searchMessages = await Api.search.searchMsg(this.input);
-			localStorage.messageInput = this.input;
 		},
 		async loadStatus() {
 			this.status = await Api.message.messageStatus();
