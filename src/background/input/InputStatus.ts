@@ -4,6 +4,7 @@ import {Scene} from "../repo/Scene";
 import {preprocessMessages} from "../pre/preprocessMessage";
 import {saveMessagePack} from "../repo/saveMessagePack";
 import {updateIndex} from "../search/updateIndex";
+import {Bool} from "gs-idb-basic";
 
 const tmpMessageKey = "tmp-message";
 const inputStatusKey = "input-status";
@@ -53,6 +54,7 @@ async function saveTmpMsg({text, inputStatus: {url, isReply}}: ITmpMsg) {
 	const msg: IMessage = {
 		text,
 		sceneId: scene?.id || builtInSceneIds.unresolvedScene,
+		is_content: Bool.True
 	}
 	if (isReply) {
 		msg.replyUrls = [url];

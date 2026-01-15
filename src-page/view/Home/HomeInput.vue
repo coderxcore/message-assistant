@@ -8,9 +8,9 @@
       <ul class="terms">
         <li v-for="term in message.terms" :key="term" @click="fullTerm(term)">{{ term.text }}</li>
       </ul>
-      <button class="btn-lg" :disabled="!message.input.length">
-        <save/>
-      </button>
+<!--      <button class="btn-lg" :disabled="!message.input.length">-->
+<!--        <save/>-->
+<!--      </button>-->
     </footer>
   </div>
 </template>
