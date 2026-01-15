@@ -9,7 +9,11 @@ import {setTmpMessage} from "../input/InputStatus";
 
 setMsgMethod<ISearchService>({
 	async searchMsg(text: string): Promise<ISearchMessage[]> {
-		await setTmpMessage(text)
+		try{
+			await setTmpMessage(text)
+		} catch (e) {
+			console.warn(e)
+		}
 		return await queryMessageBySearch(await searchMsg(text),text);
 	},
 	async searchTerm(text: string): Promise<ISearchTerm[]> {

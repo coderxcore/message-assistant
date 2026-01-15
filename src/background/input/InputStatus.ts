@@ -1,10 +1,11 @@
 import {builtInSceneIds, IInputStatus, IMessage} from "/src-com";
-import {callTabMsgMethod, StorageLocal} from "gs-br-ext";
+import {StorageLocal} from "gs-br-ext";
 import {Scene} from "../repo/Scene";
 import {preprocessMessages} from "../pre/preprocessMessage";
 import {saveMessagePack} from "../repo/saveMessagePack";
 import {updateIndex} from "../search/updateIndex";
 import {Bool} from "gs-idb-basic";
+import {sendInputValueToContent} from "../lib/sendInputValueToContent";
 
 const tmpMessageKey = "tmp-message";
 const inputStatusKey = "input-status";
@@ -24,18 +25,12 @@ export async function setTmpMessage(message: string) {
 	if (!inputStatus || !message) {
 		return;
 	}
-	console.log(message)
 	await checkAndSaveTmpMsg(inputStatus)
 	await StorageLocal.setValue(tmpMessageKey, {
 		inputStatus,
 		text: message,
 	})
-	await callTabMsgMethod({
-		id: inputStatus.tabId,
-		method: 'setInputValue',
-		arg: message,
-		hasReturn: true
-	})
+	await sendInputValueToContent(inputStatus.tabId, message);
 }
 
 async function checkAndSaveTmpMsg(inputStatus: IInputStatus): Promise<void> {
