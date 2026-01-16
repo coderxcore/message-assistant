@@ -45,10 +45,14 @@
                   {{ locale.exportData }}
                 </icon-btn>-->
       </settings-row>
-      <settings-row title="索引管理" desc="如果没有出现异常情况，请不要使用此功能">
-        <icon-btn @click="updateIndex">
+      <settings-row title="异常情况处理" desc="如果不清楚此操作，请不要使用此功能">
+        <icon-btn @click="clearAllData">
+          <eraser :size="14"/>
+          清除所有数据
+        </icon-btn>
+        <icon-btn @click="rebuildIndex">
           <refresh-cw :size="14"/>
-          检查更新索引
+          完全重建索引
         </icon-btn>
       </settings-row>
     </settings-group>
@@ -56,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-import {Download, RefreshCw} from 'lucide-vue-next';
+import {Download, RefreshCw, Eraser} from 'lucide-vue-next';
 import SettingsGroup from "./SettingsGroup.vue";
 import SettingsRow from "./SettingsRow.vue";
 import IconBtn from "../../part/IconBtn.vue";
@@ -69,9 +73,24 @@ import {watch} from "vue";
 
 const {settings, locale, front, init} = Store;
 
-async function updateIndex() {
+async function clearAllData() {
+  if (!await front.showConfirm('确定要完全清除所有数据吗？<br/>这是一个危险操作,将清除所有参考与发言记录！')) {
+    return;
+  }
+  if (!confirm('危险操作二次确认！\n你确定要清除所有数据吗？')) {
+    return;
+  }
+  await Api.specialCase.clearAllData();
+  await front.showMessage('所有数据已清除',1);
+  location.reload();
+}
+
+async function rebuildIndex() {
+  if (!await front.showConfirm('确定要完全重建索引吗？<br/>这将是一个需要长久等待的耗时操作！')) {
+    return;
+  }
   front.updateProgress({progress: 0, msg: '检查更新索引中……'})
-  console.log(await Api.index.updateIndex())
+  await Api.specialCase.fullRebuildIndex();
   front.updateProgress({progress: 100, msg: '完成'})
   await wait(1000);
   front.hide();

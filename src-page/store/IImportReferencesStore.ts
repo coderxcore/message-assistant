@@ -130,7 +130,7 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 					this.file = undefined;
 				} finally {
 					onIndexing?.(0, 1);
-					const result = await Api.index.updateIndex();
+					const result = await Api.specialCase.updateIndex();
 					console.log(result)
 					onIndexing?.(1, 1);
 				}

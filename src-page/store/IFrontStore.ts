@@ -55,6 +55,8 @@ export interface IFrontStore extends IFrontState, IFrontGetters {
 	hide(): void;
 
 	showMessage(msg: string, time?: number): Promise<void>;
+
+	showConfirm(msg: string): Promise<boolean>;
 }
 
 export const useFrontStore: () => IFrontStore = defineStore('front', {
@@ -100,6 +102,14 @@ export const useFrontStore: () => IFrontStore = defineStore('front', {
 			this.message = msg;
 			await wait(time * 1000);
 			this.hide();
+		},
+		showConfirm(msg: string): Promise<boolean> {
+			this.hide();
+			this.message = msg;
+			// noinspection TypeScriptValidateTypes
+			return new Promise<boolean>((resolve) => {
+				this.confirm = (result: boolean) => resolve(result);
+			});
 		}
 	}
 }) as any;

@@ -93,9 +93,12 @@ const onConfirm = async () => {
       const [lang, sceneKey] = keys[i];
       try {
         const sceneId = builtInSceneIds[sceneKey];
+        if (sceneId === builtInSceneIds.unresolvedScene) {
+          continue;
+        }
         const path = `data/references/${lang.replace(/-/, '_')}/${sceneKey}.txt`;
         const data = (await fetch(path).then(r => r.text())).split(/\s*[\r\n]\s*/).filter(Boolean)
-        const msgs:IMessage[] = data.map(text => ({sceneId, text, is_reference: Bool.True}))
+        const msgs: IMessage[] = data.map(text => ({sceneId, text, is_reference: Bool.True}))
         await Api.import.importReferences(msgs)
         // console.log(await Api.import.importReferences(msgs))
         init.addSaveData(lang, sceneKey, true)
@@ -113,7 +116,7 @@ const onConfirm = async () => {
     try {
       init.selectedMap.clear();
       front.updateProgress({progress: 80, total: 100, msg: locale.import_indexing})
-      await Api.index.updateIndex()
+      await Api.specialCase.updateIndex()
       // console.log(await Api.index.updateIndex())
       front.updateProgress({progress: total, total, msg: locale.imported})
       await wait(800)

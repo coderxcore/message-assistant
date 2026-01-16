@@ -1,9 +1,7 @@
 import {defineStore} from "pinia";
-import {BuiltInSceneKey, BuiltInSceneKeys, Locale, Locales} from "/src-com";
+import {BuiltInSceneKey, BuiltInSceneKeys, InitStorageKey, Locale, Locales} from "/src-com";
 import {StorageLocal} from "gs-br-ext";
 import {copyObject} from "gs-base";
-
-const InitStorageKey = 'init-store';
 
 export interface IInitState {
 	savedData: Record<Locale, BuiltInSceneKey[]>

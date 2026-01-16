@@ -1,4 +1,4 @@
-import {IDataApi, IImportApi, IIndexApi, ILocaleApi, IMessageApi, ISceneApi, ISearchApi, ISettingsApi} from "/src-com";
+import {IDataApi, IImportApi, ISpecialCaseApi, ILocaleApi, IMessageApi, ISceneApi, ISearchApi, ISettingsApi} from "/src-com";
 import {createMsgMethodProxy} from "gs-br-ext";
 
 
@@ -30,7 +30,7 @@ export class Api {
 		return this.#api
 	}
 
-	static get index(): IIndexApi {
+	static get specialCase(): ISpecialCaseApi {
 		return this.#api
 	}
 

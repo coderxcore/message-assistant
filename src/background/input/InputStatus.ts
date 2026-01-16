@@ -15,6 +15,19 @@ interface ITmpMsg {
 	text: string;
 }
 
+export async function clearInputStatusAndTmpMsg() {
+	try {
+		await StorageLocal.raw.remove(tmpMessageKey);
+	} catch (e) {
+		console.error("clearInputStatusAndTmpMsg tmpMessage error", e);
+	}
+	try {
+		await StorageLocal.raw.remove(inputStatusKey);
+	} catch (e) {
+		console.error("clearInputStatusAndTmpMsg inputStatus error", e);
+	}
+}
+
 export async function setInputStatus(status: IInputStatus) {
 	await checkAndSaveTmpMsg(status)
 	await StorageLocal.setValue(inputStatusKey, status);

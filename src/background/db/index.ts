@@ -33,6 +33,7 @@ export class Db {
 	static get db(): IIDbPro {
 		return currentDb || (currentDb = new IDbPro({
 			name: dbName,
+			version: 1,
 			storeTemplate: {
 				...defaultStoreSchemaTemplate,
 				addedTimeField: false,

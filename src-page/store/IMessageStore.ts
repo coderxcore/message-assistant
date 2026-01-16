@@ -73,14 +73,14 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 			this.previewMessages = toPreviewMessage(msg, this.input);
 		},
 		async remove(msgProp: keyof IMessageState, msg: Partial<ISearchMessage>) {
-			console.log(msg)
 			const {id} = msg;
 			if (!id) return;
 			const msgs = this[msgProp] as (ISearchMessage | IMessage)[];
 			const index = msgs.findIndex(m => m.id === id);
-			if (index < 1) return;
+			if (index < 0) return;
 			msgs.splice(index, 1);
 			await Api.message.removeMessage(msg.id);
+			await this.loadStatus();
 		}
 	}
 }) as any;

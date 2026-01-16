@@ -3,9 +3,7 @@
     <div class="content" @click.stop>
       <!-- 确认对话框 - 优先级最高 -->
       <div v-if="front.confirm" class="confirm">
-        <div v-if="front.message" class="message">
-          {{ front.message }}
-        </div>
+        <div v-if="front.message" class="message" v-html="front.message"></div>
         <div class="buttons">
           <icon-btn @click="handleConfirm(false)">
             {{locale.cancel}}
@@ -25,15 +23,11 @@
           {{ front.progress }}%
         </div>
         <!-- 进度条模式下也可以显示消息 -->
-        <div v-if="front.message" class="message">
-          {{ front.message }}
-        </div>
+        <div v-if="front.message" class="message" v-html="front.message"></div>
       </div>
 
       <!-- 仅消息显示 - 优先级最低 -->
-      <div v-else-if="front.message" class="message">
-        {{ front.message }}
-      </div>
+      <div v-else-if="front.message" class="message" v-html="front.message"></div>
     </div>
   </div>
 </template>
@@ -47,7 +41,6 @@ const {front,locale} = Store
 // 点击隐藏功能，仅当showProgress为false且没有confirm时生效
 const handleClick = () => {
   if (!front.showProgress && !front.confirm) {
-    front.showProgress = false
     front.progress = 0
     front.message = ''
   }
