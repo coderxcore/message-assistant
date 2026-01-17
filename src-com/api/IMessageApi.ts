@@ -1,5 +1,6 @@
 import {MsgMethods, RemoteMethods} from "gs-br-ext";
 import {IMessage, IMessageQuery} from "../db";
+import {IMessageState} from "../../src-page/store/IMessageStore";
 
 export interface IMessageStatus {
 	// draftCount: number;
@@ -19,6 +20,8 @@ interface IMessageBase {
 	sendMessageToContent(msg: string): void | Promise<void>;
 
 	removeMessage(id: number): Promise<void>;
+
+	addMessage(msg: IMessage): Promise<any>;
 
 }
 

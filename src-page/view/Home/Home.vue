@@ -5,9 +5,12 @@
         <!--        <router-link v-if="message.status.draftCount > 0" to="/draft" :title="locale.draft">-->
         <!--          <file-text/>-->
         <!--        </router-link>-->
-        <router-link :to="message.status.historyCount?'/history':''" :title="locale.history" :disabled="!message.status.historyCount">
+        <router-link v-if="message.status.historyCount" to="/history" :title="locale.history" :disabled="!message.status.historyCount">
           <history/>
         </router-link>
+<!--        <router-link :to="message.status.historyCount?'/history':''" :title="locale.history" :disabled="!message.status.historyCount">-->
+<!--          <history/>-->
+<!--        </router-link>-->
         <router-link v-if="message.status.trashCount" to="/trash" :title="locale.trash">
           <trash/>
         </router-link>

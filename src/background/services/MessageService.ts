@@ -1,52 +1,19 @@
 import {setMsgMethod} from "gs-br-ext";
-import {IMessage, IMessageQuery, IMessageService} from "/src-com";
+import {IMessage, IMessageService} from "/src-com";
 import {clearMessageStatusCache, messageStatus} from "../repo/messageStatus";
 import {Db} from "../db";
-import {isNumber} from "gs-base";
-import {IGetAllArgs} from "gs-idb-pro";
 import {Bool} from "gs-idb-basic";
 import {setTmpMessage} from "../input/InputStatus";
-
-const DefaultCount = 30;
+import {updateIndex} from "../search/updateIndex";
+import {getSettings} from "./SettingsService";
+import {saveMessagePack} from "../repo/saveMessagePack";
+import {preprocessMessages} from "../pre/preprocessMessage";
+import {loadMessage} from "../repo/loadMessage";
 
 setMsgMethod<IMessageService>({
 	clearMessageStatusCache,
 	messageStatus,
-	async loadMessage(query: IMessageQuery): Promise<IMessage[]> {
-		const param: IGetAllArgs<any> = {count: DefaultCount, direction: 'prev'};
-		if (!query || Object.keys(query).length < 1) {
-			try {
-
-				return await Db.message.index('deleted').all({query: Bool.False, ...param});
-			} catch (e) {
-				console.warn(e);
-				return [];
-			}
-		}
-		if (isNumber(query.sceneId)) {
-			if (query.is_content && query.is_reference) {
-				return await Db.message.index('sceneId_deleted')
-					.all({query: [query.sceneId, Bool.False], ...param});
-			}
-			if (query.is_content) {
-				return await Db.message.index('sceneId_is_content_deleted')
-					.all({query: [query.sceneId, Bool.True, Bool.False], ...param});
-			}
-			if (query.is_reference) {
-				return await Db.message.index('sceneId_reference_deleted')
-					.all({query: [query.sceneId, Bool.True, Bool.False], ...param});
-			}
-		}
-		if (query.is_content) {
-			return await Db.message.index('is_content_deleted')
-				.all({query: [Bool.True, Bool.False], ...param});
-		}
-		if (query.is_reference) {
-			return await Db.message.index('is_reference_deleted')
-				.all({query: [Bool.True, Bool.False], ...param});
-		}
-		return await Db.message.index('deleted').all({query: Bool.False, ...param});
-	},
+	loadMessage,
 	async sendMessageToContent(msg: string): Promise<void> {
 		try {
 			await setTmpMessage(msg);
@@ -57,6 +24,18 @@ setMsgMethod<IMessageService>({
 	removeMessage(id: number): Promise<void> {
 		clearMessageStatusCache();
 		return Db.message.delete(id)
+	},
+	async addMessage(msg: IMessage): Promise<any> {
+		const {minSaveLength} = await getSettings();
+		if (msg.text.length < minSaveLength) {
+			throw new Error(`msg.text.length should be greater than ${minSaveLength}`);
+		}
+		msg.is_reference = Bool.True;
+		const addedResult = await saveMessagePack(await preprocessMessages([msg]))
+		clearMessageStatusCache();
+		return {
+			addedResult,
+			indexResult: await updateIndex()
+		}
 	}
-
 })

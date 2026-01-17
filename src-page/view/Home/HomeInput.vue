@@ -8,9 +8,9 @@
       <ul class="terms">
         <li v-for="term in message.terms" :key="term" @click="fullTerm(term)">{{ term.text }}</li>
       </ul>
-<!--      <button class="btn-lg" :disabled="!message.input.length">-->
-<!--        <save/>-->
-<!--      </button>-->
+      <button class="btn-lg" :disabled="message.input.length<=settings.minSaveLength">
+        <save/>
+      </button>
     </footer>
   </div>
 </template>
@@ -30,7 +30,7 @@ import EmojiSelector from "../../part/emoji/EmojiSelector.vue";
 import {isSidePanel} from "../../lib/isSlidePanel";
 import {Api} from "../../api";
 
-const {message} = Store;
+const {message, settings} = Store;
 
 const termTimer = new Timer(200);
 const msgTimer = new Timer(500);
@@ -93,10 +93,10 @@ watch(() => message.input, async (input) => {
     return;
   }
   await msgTimer.reWait();
-  try{
+  try {
     await message.queryMessage();
   } finally {
-    if(isSidePanel()) {
+    if (isSidePanel()) {
       await Api.message.sendMessageToContent(input);
     }
   }
