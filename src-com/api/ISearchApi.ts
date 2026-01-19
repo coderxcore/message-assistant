@@ -1,11 +1,11 @@
 import {MsgMethods, RemoteMethods} from "gs-br-ext";
-import {ISearchMessage, ISearchTerm} from "../db";
+import {IMessageQuery, ISearchMessage, ISearchTerm} from "../db";
 
 interface ISearchBase {
 
 	searchTerm(text: string): Promise<ISearchTerm[]>;
 
-	searchMsg(text: string): Promise<ISearchMessage[]>;
+	searchMsg(text: string, query: IMessageQuery): Promise<ISearchMessage[]>;
 }
 
 export interface ISearchApi extends ISearchBase, RemoteMethods {

@@ -2,15 +2,19 @@
   <div class="Home container">
     <header>
       <nav>
+        <single-choice
+            :options="scene.scenes"
+            v-model="message.query.sceneId"
+            :text-field="(item) => locale[item.name]"
+            value-field="id"
+        />
+        <div class="space"></div>
         <!--        <router-link v-if="message.status.draftCount > 0" to="/draft" :title="locale.draft">-->
         <!--          <file-text/>-->
         <!--        </router-link>-->
         <router-link v-if="message.status.historyCount" to="/history" :title="locale.history" :disabled="!message.status.historyCount">
           <history/>
         </router-link>
-<!--        <router-link :to="message.status.historyCount?'/history':''" :title="locale.history" :disabled="!message.status.historyCount">-->
-<!--          <history/>-->
-<!--        </router-link>-->
         <router-link v-if="message.status.trashCount" to="/trash" :title="locale.trash">
           <trash/>
         </router-link>
@@ -36,6 +40,9 @@ import {BookOpen, FileDown, History, Settings, Trash} from 'lucide-vue-next';
 import HomeInput from "./HomeInput.vue";
 import HomeBody from "./HomeBody.vue";
 import {Store} from '../../store'
+import SingleChoice from "../../part/SingleChoice.vue";
 
-const {locale, message} = Store;
+const {locale, message, scene} = Store;
+
+
 </script>

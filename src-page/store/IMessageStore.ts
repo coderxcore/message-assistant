@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {Api} from "../api";
-import {IMessage, IMessageQuery, IMessageStatus, ISearchMessage, ISearchTerm} from "/src-com";
+import {builtInSceneIds, IMessage, IMessageQuery, IMessageStatus, ISearchMessage, ISearchTerm} from "/src-com";
 import {IMessagePreview} from "../type";
 import {toPreviewMessage} from "../lib/toPreviewMessage";
 
@@ -14,7 +14,10 @@ export interface IMessageState {
 	previewMessages: IMessagePreview[]
 }
 
-export interface IMessageStore extends IMessageState {
+export interface IMessageGetters {
+}
+
+export interface IMessageStore extends IMessageState, IMessageGetters {
 	queryTerm(text: string, start: number, end: number): Promise<void>;
 
 	queryMessage(): Promise<void>;
@@ -36,10 +39,13 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 			status: {} as any,
 			searchMessages: [],
 			lastMessages: [],
-			query: {},
+			query: {
+				sceneId: builtInSceneIds.genericScene,
+			},
 			previewMessages: [],
 		};
 	},
+	getters: {},
 	actions: <IMessageStore>{
 		async queryTerm(text, start, end) {
 			this.terms.length = 0;
@@ -57,7 +63,7 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 				this.searchMessages.length = [];
 				return;
 			}
-			this.searchMessages = await Api.search.searchMsg(this.input);
+			this.searchMessages = await Api.search.searchMsg(this.input, this.query);
 		},
 		async loadStatus() {
 			this.status = await Api.message.messageStatus();

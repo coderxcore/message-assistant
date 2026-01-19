@@ -21,7 +21,7 @@ export interface INotifyActions {
    * @param timeout 通知显示时间，单位秒
    */
   addNotification(msg: string, timeout?: number): void;
-  
+
   /**
    * 移除通知
    * @param id 通知ID
@@ -42,10 +42,10 @@ export const useNotifyStore: () => INotifyStore = defineStore('notify-store', {
   },
   getters: {},
   actions: <INotifyActions>{
-    addNotification(msg: string, timeout: number = 3): void {
+    addNotification(msg: string, timeout: number = 2): void {
       // 生成唯一ID
       const id = this.nextId++;
-      
+
       // 添加通知到数组头部
       const notification: INotifyItem = { id, text: msg };
       this.texts.unshift(notification);
@@ -56,7 +56,7 @@ export const useNotifyStore: () => INotifyStore = defineStore('notify-store', {
         this.removeNotification(id);
       }, timeout * 1000);
     },
-    
+
     removeNotification(id: number): void {
       // 找到并移除指定ID的通知
       const index = this.texts.findIndex(item => item.id === id);

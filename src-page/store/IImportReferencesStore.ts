@@ -5,6 +5,7 @@ import {ISplitOption, splitFile} from "/src-com/lib/splitFile";
 import {Timer} from "gs-base";
 import {Api} from "../api";
 import {Bool} from "gs-idb-basic";
+import {builtInSceneIds} from "/src-com";
 
 export interface IImportOption {
 	onFileRead?: ISplitOption['onProgress'],
@@ -44,7 +45,7 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 			pattern: '(\\s*\\n+\\s*){2,}',
 			preview: [],
 			loading: false,
-			sceneId: -1
+			sceneId: builtInSceneIds.genericScene
 		};
 	},
 	getters: {

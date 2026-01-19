@@ -1,8 +1,8 @@
 import {MsgMethods, RemoteMethods} from "gs-br-ext";
-import {IScene} from "../db/IScene";
+import {IScene} from "../db";
 
 interface ISceneBase {
-	
+
 	queryScenes(): Promise<IScene[]>;
 
 	saveScene(scene: IScene): Promise<IScene>;

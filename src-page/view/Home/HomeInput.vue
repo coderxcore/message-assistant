@@ -10,7 +10,8 @@
       </ul>
       <button
           class="btn-lg"
-          @click="notify.addNotification(`保存fdsafdsafdasfddafdas成功${i++}`)"
+          :disabled="!showSaveBtn"
+          @click="savReference"
       >
         <save/>
       </button>
@@ -24,7 +25,7 @@ import SmartInput from "../../part/SmartInput.vue";
 import {Store} from "../../store";
 import {isNumber, Timer} from "gs-base";
 import {ICursorChangeEvent} from "../../type";
-import {watch} from "vue";
+import {computed, watch} from "vue";
 import {ISearchTerm} from "/src-com";
 import {detectChar} from "gs-tokenizer/core";
 import {Lang} from "gs-tokenizer/type";
@@ -41,6 +42,12 @@ const termTimer = new Timer(200);
 const msgTimer = new Timer(500);
 
 let lastChange: ICursorChangeEvent;
+
+const showSaveBtn = computed(() => message.input.length >= settings.minSaveLength && !isSidePanel())
+
+async function savReference() {
+
+}
 
 async function selectEmoji(e) {
   if (isNumber(lastChange?.end)) {

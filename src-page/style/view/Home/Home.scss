@@ -54,6 +54,19 @@
 		  opacity: 0.8;
 		}
 	  }
+
+	  >.SingleChoice{
+		font-size: 12px;
+		transform: translate(-15px,-2px);
+		z-index: 2000;
+		>.SingleChoice__trigger{
+		  border: none;
+		  background: none;
+		  >.SingleChoice__arrow{
+			margin-left: 0;
+		  }
+		}
+	  }
 	}
   }
 
