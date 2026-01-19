@@ -13,21 +13,12 @@
       </span>
     </li>
     <li
-        v-else-if="message.input" v-for="msg in message.searchMessages"
-        :key="msg.id"
+        v-else v-for="msg in message.messages" :key="msg.id"
         @click="message.toPreviewMessage(msg)"
         class="btn-row"
     >
       <span>{{ msg.text }}</span>
-      <button  @click.stop="message.remove('searchMessages',msg)">&times;</button>
-    </li>
-    <li
-        v-else v-for="msg in message.lastMessages" :key="msg.id"
-        @click="message.toPreviewMessage(msg)"
-        class="btn-row"
-    >
-      <span>{{ msg.text }}</span>
-      <button @click.stop="message.remove('lastMessages',msg)">&times;</button>
+      <button @click.stop="message.remove(msg)">&times;</button>
     </li>
   </list-panel>
 </template>
@@ -35,19 +26,14 @@
 <script lang="ts" setup>
 import ListPanel from "../../part/ListPanel.vue";
 import {Store} from '../../store'
-import {onMounted} from "vue";
 import {IMessagePreview, PartType} from "../../type";
 
 const {locale, message} = Store;
 
 function fullInput(msg: IMessagePreview) {
   message.previewMessages.length = 0;
-  message.input = msg.parts.map(({text}) => text).join('');
+  message.query.text = msg.parts.map(({text}) => text).join('');
   message.terms.length = 0;
 }
-
-onMounted(async () => {
-  await message.loadMessage();
-})
 
 </script>

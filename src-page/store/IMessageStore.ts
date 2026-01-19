@@ -3,13 +3,12 @@ import {Api} from "../api";
 import {builtInSceneIds, IMessage, IMessageQuery, IMessageStatus, ISearchMessage, ISearchTerm} from "/src-com";
 import {IMessagePreview} from "../type";
 import {toPreviewMessage} from "../lib/toPreviewMessage";
+import {Timer} from "gs-base";
 
 export interface IMessageState {
-	input: string
 	terms: ISearchTerm[]
 	status: IMessageStatus
-	searchMessages: ISearchMessage[]
-	lastMessages: IMessage[]
+	messages: IMessage[]
 	query: IMessageQuery,
 	previewMessages: IMessagePreview[]
 }
@@ -20,27 +19,27 @@ export interface IMessageGetters {
 export interface IMessageStore extends IMessageState, IMessageGetters {
 	queryTerm(text: string, start: number, end: number): Promise<void>;
 
-	queryMessage(): Promise<void>;
-
 	loadStatus(): Promise<void>;
 
 	loadMessage(): Promise<void>;
 
 	toPreviewMessage(msg: Partial<ISearchMessage>): void
 
-	remove(msgProp: keyof IMessageState, msg: Partial<ISearchMessage>): Promise<void>;
+	remove(msg: Partial<ISearchMessage>): Promise<void>;
 }
+
+const termTimer = new Timer(200);
+const msgTimer = new Timer(500);
 
 export const useMessageStore: () => IMessageStore = defineStore('message', {
 	state: (): IMessageState => {
 		return {
-			input: '',
 			terms: [],
 			status: {} as any,
-			searchMessages: [],
-			lastMessages: [],
+			messages: [],
 			query: {
 				sceneId: builtInSceneIds.genericScene,
+				text: ''
 			},
 			previewMessages: [],
 		};
@@ -48,8 +47,9 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 	getters: {},
 	actions: <IMessageStore>{
 		async queryTerm(text, start, end) {
+			await termTimer.reWait();
 			this.terms.length = 0;
-			const {input} = this as IMessageStore;
+			const {query:{text:input}} = this as IMessageStore;
 			this.terms = (await Api.search.searchTerm(text))
 				.filter(t => {
 					const len = t.text.length;
@@ -57,31 +57,20 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 					return !txt.includes(t.text);
 				});
 		},
-		async queryMessage() {
-			this.previewMessages.length = 0;
-			if (!this.input) {
-				this.searchMessages.length = [];
-				return;
-			}
-			this.searchMessages = await Api.search.searchMsg(this.input, this.query);
-		},
 		async loadStatus() {
 			this.status = await Api.message.messageStatus();
 		},
 		async loadMessage() {
-			this.lastMessages = await Api.message.loadMessage(this.query);
-			if (this.input) {
-				await this.queryTerm(this.input)
-				await this.queryMessage()
-			}
+			await msgTimer.reWait();
+			this.messages = await Api.message.loadMessage(this.query);
 		},
 		toPreviewMessage(msg: Partial<ISearchMessage>) {
-			this.previewMessages = toPreviewMessage(msg, this.input);
+			this.previewMessages = toPreviewMessage(msg, this.query.text);
 		},
-		async remove(msgProp: keyof IMessageState, msg: Partial<ISearchMessage>) {
+		async remove(msg: Partial<ISearchMessage>) {
 			const {id} = msg;
 			if (!id) return;
-			const msgs = this[msgProp] as (ISearchMessage | IMessage)[];
+			const msgs = this.messages as (ISearchMessage | IMessage)[];
 			const index = msgs.findIndex(m => m.id === id);
 			if (index < 0) return;
 			msgs.splice(index, 1);

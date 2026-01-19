@@ -1,7 +1,7 @@
 <template>
   <div class="HomeInput">
     <section>
-      <smart-input v-model="message.input" @cursor:change="onCursorChange"/>
+      <smart-input v-model="message.query.text" @cursor:change="onCursorChange"/>
     </section>
     <footer>
       <emoji-selector @select="selectEmoji"/>
@@ -38,12 +38,9 @@ let i = 0;
 
 const {message, settings, notify} = Store;
 
-const termTimer = new Timer(200);
-const msgTimer = new Timer(500);
-
 let lastChange: ICursorChangeEvent;
 
-const showSaveBtn = computed(() => message.input.length >= settings.minSaveLength && !isSidePanel())
+const showSaveBtn = computed(() => message.query.text.length >= settings.minSaveLength && !isSidePanel())
 
 async function savReference() {
 
@@ -51,17 +48,16 @@ async function savReference() {
 
 async function selectEmoji(e) {
   if (isNumber(lastChange?.end)) {
-    message.input = message.input.slice(0, lastChange.end) + e + message.input.slice(lastChange.end);
+    message.query.text = message.query.text.slice(0, lastChange.end) + e + message.query.text.slice(lastChange.end);
   } else {
-    message.input += e;
+    message.query.text += e;
   }
-  const len = message.input.length;
+  const len = message.query.text.length;
   const {start, end} = lastChange || {start: len, end: len};
   await message.queryTerm(e, start, end);
 }
 
 async function onCursorChange(e: ICursorChangeEvent) {
-  await termTimer.reWait();
   const {editText} = e;
   if (!editText) {
     message.terms.length = 0;
@@ -82,7 +78,7 @@ async function onCursorChange(e: ICursorChangeEvent) {
 }
 
 function fullTerm(term: ISearchTerm) {
-  let text = message.input;
+  let text = message.query.text;
   const token = findLongest(term.tokens);
   // todo 大小写优化
   const {index} = text.match(new RegExp(`(${token})`, 'i'));
@@ -91,7 +87,7 @@ function fullTerm(term: ISearchTerm) {
   } else {
     text = text.slice(0, index) + term.text + text.slice(index + token.length);
   }
-  message.input = text;
+  message.query.text = text;
   message.terms.length = 0;
   if (term.termType === 'emoji') {
     Store.emoji.addRecentEmoji(Array.from(term.text)[0]);
@@ -99,19 +95,18 @@ function fullTerm(term: ISearchTerm) {
   onCursorChange({start: text.length, end: text.length, editText: text})
 }
 
-watch(() => message.input, async (input) => {
-  if (!input) {
-    message.terms.length = 0;
-    return;
-  }
-  await msgTimer.reWait();
-  try {
-    await message.queryMessage();
-  } finally {
-    if (isSidePanel()) {
-      await Api.message.sendMessageToContent(input);
-    }
-  }
-})
+watch(() => message.query, async () => {
+  message.terms.length = 0;
+  await message.loadMessage();
+}, {deep: true, immediate: true})
+
+
+if (isSidePanel()) {
+  const timer = new Timer(500);
+  watch(() => message.query.text, async (text: string) => {
+    await timer.reWait();
+    await Api.message.sendMessageToContent(text);
+  }, {deep: true, immediate: true})
+}
 
 </script>

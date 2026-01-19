@@ -5,6 +5,7 @@ export interface IMessageQuery {
 	sceneId?: number,
 	is_reference?: Bool
 	is_content?: Bool
+	text: string
 }
 
 export interface IMessage extends IDocumentBase,IMessageQuery {
