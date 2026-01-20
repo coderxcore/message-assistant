@@ -1,0 +1,5 @@
+ @mixin flex($direction: row, $wrap:no-wrap,$align:center) {
+  display: flex;
+  flex-flow: $wrap $direction;
+  align-items: $align;
+}

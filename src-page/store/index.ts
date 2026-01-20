@@ -7,6 +7,7 @@ import {ISceneStore, useSceneStore} from "./ISceneStore";
 import {IInitStore, useInitStore} from "./IInitStore";
 import {IEmojiStore, useEmojiStore} from "./IEmojiStore";
 import {INotifyStore, useNotifyStore} from "./INotifyStore";
+import {IMsgMgrStore, useMsgMgrStore} from "./IMsgMgrStore";
 
 export class Store {
 
@@ -19,6 +20,11 @@ export class Store {
 	static #initStore?: IInitStore;
 	static #emojiStore?: IEmojiStore;
 	static #notifyStore?: INotifyStore;
+	static #msgMgrStore?: IMsgMgrStore;
+
+	static get msgMgr(): IMsgMgrStore {
+		return this.#msgMgrStore || (this.#msgMgrStore = useMsgMgrStore())
+	}
 
 	static get notify(): INotifyStore {
 		return this.#notifyStore || (this.#notifyStore = useNotifyStore());

@@ -2,7 +2,7 @@ import {setMsgMethod} from "gs-br-ext";
 import {IMessage, IMsgMgrService, IPageParam} from "/src-com";
 import {Db} from "../db";
 import {Bool} from "gs-idb-basic";
-import {strToRegex} from "../../../src-com/lib/strToRegex";
+import {strToRegex} from "/src-com/lib/strToRegex";
 import {FindFn} from "gs-idb-pro";
 
 const DefaultPageParam: IPageParam = Object.freeze({
@@ -11,7 +11,7 @@ const DefaultPageParam: IPageParam = Object.freeze({
 })
 
 function createFn(regex?: string): FindFn<IMessage> | undefined {
-	if (!regex) {
+	if (!regex?.trim()?.length) {
 		return undefined;
 	}
 	const reg = strToRegex(regex);

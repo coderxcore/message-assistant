@@ -17,3 +17,33 @@ select, input {
 select {
   cursor: pointer;
 }
+
+.btn{
+  &{
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  &.primary {
+    background-color: var(--color-primary);
+    color: white;
+    &:hover { opacity: 0.9; }
+  }
+
+  &-close{
+    background: none;
+    border: none;
+    color: var(--color-text-main);
+    cursor: pointer;
+    font-size: 16px;
+    margin: -8px 0;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+}

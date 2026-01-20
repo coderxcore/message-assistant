@@ -16,10 +16,9 @@
     <li
         v-else v-for="msg in message.messages" :key="msg.id"
         @click="message.toPreviewMessage(msg)"
-        class="btn-row"
     >
-      <div v-html="formatText(msg.text)"></div>
-      <button @click.stop="message.remove(msg)">&times;</button>
+      <section v-html="formatText(msg.text)"></section>
+      <button @click.stop="message.remove(msg)" class="btn-close">&times;</button>
     </li>
   </list-panel>
 </template>
