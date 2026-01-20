@@ -8,16 +8,17 @@
         class="preview-message"
         @click="fullInput(msg)"
     >
-      <span v-for="part in msg.parts" :class="PartType[part.type]">
-        {{ part.text }}
-      </span>
+      <div v-for="part in msg.parts" :class="PartType[part.type]"
+           v-html="formatText(part.text)"
+      >
+      </div>
     </li>
     <li
         v-else v-for="msg in message.messages" :key="msg.id"
         @click="message.toPreviewMessage(msg)"
         class="btn-row"
     >
-      <span>{{ msg.text }}</span>
+      <div v-html="formatText(msg.text)"></div>
       <button @click.stop="message.remove(msg)">&times;</button>
     </li>
   </list-panel>
@@ -27,6 +28,7 @@
 import ListPanel from "../../part/ListPanel.vue";
 import {Store} from '../../store'
 import {IMessagePreview, PartType} from "../../type";
+import {formatText} from "../../lib/formatText";
 
 const {locale, message} = Store;
 

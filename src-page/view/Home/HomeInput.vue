@@ -1,7 +1,7 @@
 <template>
   <div class="HomeInput">
     <section>
-      <smart-input v-model="message.query.text" @cursor:change="onCursorChange"/>
+      <smart-input :rows="rows" v-model="message.query.text" @cursor:change="onCursorChange"/>
     </section>
     <footer>
       <emoji-selector @select="selectEmoji"/>
@@ -13,14 +13,14 @@
           :disabled="!showSaveBtn"
           @click="savReference"
       >
-        <save/>
+        <plus/>
       </button>
     </footer>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {Save} from 'lucide-vue-next';
+import {Plus} from 'lucide-vue-next';
 import SmartInput from "../../part/SmartInput.vue";
 import {Store} from "../../store";
 import {isNumber, Timer} from "gs-base";
@@ -33,10 +33,13 @@ import {findLongest} from "/src-com/lib/findLongest";
 import EmojiSelector from "../../part/emoji/EmojiSelector.vue";
 import {isSidePanel} from "../../lib/isSlidePanel";
 import {Api} from "../../api";
+import {countLines} from "/src-com/other/countLines";
 
 let i = 0;
 
 const {message, settings, notify} = Store;
+
+const rows = computed(() => countLines(message.query.text, {min: 2, max: 10}))
 
 let lastChange: ICursorChangeEvent;
 
@@ -59,6 +62,7 @@ async function selectEmoji(e) {
 
 async function onCursorChange(e: ICursorChangeEvent) {
   const {editText} = e;
+  console.log(e)
   if (!editText) {
     message.terms.length = 0;
     lastChange = undefined;
@@ -70,7 +74,7 @@ async function onCursorChange(e: ICursorChangeEvent) {
   }
   lastChange = e;
   const lang = detectChar(editText.charCodeAt(editText.length - 1));
-  if (lang === Lang.WHITESPACE || lang === Lang.SYMBOL_HALF || lang === Lang.SYMBOL_FULL) {
+  if (lang === Lang.WHITESPACE ) {
     message.terms.length = 0;
     return
   }

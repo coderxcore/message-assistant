@@ -6,4 +6,6 @@ import './SceneService'
 import './SpecialCaseService'
 import './TermService'
 import './DataService'
+import './MsgMgrService'
+
 import './ContentToBgService'

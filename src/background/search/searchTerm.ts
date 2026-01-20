@@ -4,7 +4,7 @@ import {Search} from "./Search";
 import {ISearchTerm} from "/src-com";
 
 export async function searchTerm(text: string): Promise<ISearchTerm[]> {
-	if (!text) return []
+	if (!text?.length) return []
 	const lastToken = await messageLastToken(text)
 	if (!lastToken) return []
 	const map = new Map<number, ISearchTerm>();

@@ -1,10 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import Home from './Home/Home.vue'
 import OtherLayout from './OtherLayout.vue'
-// import Draft from './Draft.vue'
-import History from './History.vue'
-import Trash from './Trash.vue'
-import References from './References.vue'
+import MsgMgr from './MsgMgr.vue'
 import Settings from './Settings/Settings.vue'
 import ImportReferences from './ImportReferences.vue'
 
@@ -30,22 +27,17 @@ export const router = createRouter({
 				{
 					name: "references",
 					path: "references",
-					component: References
+					component: MsgMgr
 				},
-				// {
-				// 	name: "draft",
-				// 	path: "draft",
-				// 	component: Draft
-				// },
 				{
 					name: "history",
 					path: "history",
-					component: History
+					component: MsgMgr
 				},
 				{
 					name: "trash",
 					path: "trash",
-					component: Trash
+					component: MsgMgr
 				},
 				{
 					name: "import-references",

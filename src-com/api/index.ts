@@ -6,3 +6,4 @@ export * from './ISceneApi';
 export * from './ISpecialCaseApi';
 export * from './ITermApi';
 export * from './IDataApi';
+export * from './IMsgMgrApi';

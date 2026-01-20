@@ -17,7 +17,7 @@ export async function messageLastToken(text: string) {
 	const tokens = tokenizer.tokenizeAll(text)
 	let token: IToken;
 	while (token = tokens.pop()) {
-		if (token.type !== 'space' && token.type !== 'punctuation') {
+		if (token.type !== 'space') {
 			return token.txt;
 		}
 	}
