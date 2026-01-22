@@ -14,9 +14,9 @@ export const sceneSchema: IStoreSchema = {
 	],
 	defaultData: <IScene[]>[
 		{
-			id: builtInSceneIds.genericScene,
-			name: 'genericScene',
-			description: 'genericSceneDesc',
+			id: builtInSceneIds.unspecifiedScene,
+			name: 'unspecifiedScene',
+			description: 'unspecifiedSceneDesc',
 			isBuiltIn: true,
 			sites: []
 		},
@@ -159,13 +159,6 @@ export const sceneSchema: IStoreSchema = {
 					urlPrefix: 'target.com',
 				}
 			]
-		},
-		{
-			id: builtInSceneIds.unresolvedScene,
-			name: 'unresolvedScene',
-			description: 'unresolvedSceneDesc',
-			isBuiltIn: true,
-			sites: []
-		},
+		}
 	]
 }

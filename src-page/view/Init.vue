@@ -93,9 +93,9 @@ const onConfirm = async () => {
       const [lang, sceneKey] = keys[i];
       try {
         const sceneId = builtInSceneIds[sceneKey];
-        if (sceneId === builtInSceneIds.unresolvedScene) {
-          continue;
-        }
+        // if (sceneId === builtInSceneIds.unresolvedScene) {
+        //   continue;
+        // }
         const path = `data/references/${lang.replace(/-/, '_')}/${sceneKey}.txt`;
         const data = (await fetch(path).then(r => r.text())).split(/\s*[\r\n]\s*/).filter(Boolean)
         const msgs: IMessage[] = data.map(text => ({sceneId, text, is_reference: Bool.True}))

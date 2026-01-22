@@ -8,10 +8,12 @@
         class="preview-message"
         @click="fullInput(msg)"
     >
-      <div v-for="part in msg.parts" :class="PartType[part.type]"
-           v-html="formatText(part.text)"
-      >
-      </div>
+      <section>
+        <div v-for="part in msg.parts" :class="PartType[part.type]"
+             v-html="formatText(part.text)"
+        >
+        </div>
+      </section>
     </li>
     <li
         v-else v-for="msg in message.messages" :key="msg.id"

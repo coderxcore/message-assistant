@@ -31,7 +31,9 @@
             {{ locale.confirmImport }}
           </icon-btn>
         </template>
-        <li v-for="(row,i) in ir.preview" :key="i" v-html="row"></li>
+        <li v-for="(row,i) in ir.preview" :key="i" >
+          <section v-html="row"></section>
+        </li>
       </list-panel>
       <list-panel v-else>
         <li v-if="ir.loading">

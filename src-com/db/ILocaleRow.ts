@@ -8,7 +8,7 @@ const settingsPageKeys = [
 	'importReferences', 'mode', 'preview', 'confirmImport', 'emptyContent', 'loading', 'importing', 'imported', 'importError', 'askImport',
 	'import_fileReading', 'import_dbSaving', 'import_indexing', 'import_done', 'showImportBuiltIn',
 	'scene', 'importAs', 'initTitle', 'initSubtitle', 'importCustomReference', 'selectImportLanguage',
-	'genericSceneDesc', 'unresolvedSceneDesc', 'selectScene', 'ecommerceSceneDesc', 'aiSceneDesc', 'socioSceneDesc', 'videoSceneDesc',
+	'unspecifiedSceneDesc', 'selectScene', 'ecommerceSceneDesc', 'aiSceneDesc', 'socioSceneDesc', 'videoSceneDesc',
 ] as const;
 
 export const importModes = ['blankLine', 'eachLine', 'custom'] as const;

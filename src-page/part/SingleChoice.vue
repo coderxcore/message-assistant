@@ -151,7 +151,7 @@ const adjustContainerWidth = () => {
 
   // 取最大值作为容器宽度
   const newWidth = Math.max(dropdownWidth, triggerWidth);
-  containerWidth.value = `${newWidth}px`;
+  containerWidth.value = `${newWidth+1}px`;
 };
 
 

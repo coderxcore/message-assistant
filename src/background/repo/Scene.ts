@@ -6,18 +6,16 @@ export class Scene {
 
 	static #scenes?: IScene[]
 	static #siteSceneMap?: Map<string, IScene>
-	static #unresolvedScene?: IScene
+	static #unspecifiedScene?: IScene
 
 	static async query(): Promise<IScene[]> {
 		if (this.#scenes) {
 			return this.#scenes;
 		}
 		const scenes = await Db.scene.all();
-		const index = scenes.findIndex(s => s.id === builtInSceneIds.unresolvedScene);
+		const index = scenes.findIndex(s => s.id === builtInSceneIds.unspecifiedScene);
 		if (index >= 0) {
-			this.#unresolvedScene = scenes[index];
-			scenes.splice(index, 1);
-			scenes.push(this.#unresolvedScene)
+			this.#unspecifiedScene = scenes[index];
 		}
 		return this.#scenes = scenes;
 	}
@@ -33,7 +31,7 @@ export class Scene {
 		if (prefix && map.has(prefix)) {
 			return map.get(prefix);
 		}
-		return this.#unresolvedScene;
+		return this.#unspecifiedScene;
 	}
 
 	static #getSiteMap(): Map<string, IScene> {

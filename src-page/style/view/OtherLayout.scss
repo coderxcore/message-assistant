@@ -71,11 +71,13 @@
 	}
 
 	> header {
-	  padding-top: 12px;
-	  padding-bottom: 8px;
+	  padding-top: 6px;
+	  padding-bottom: 6px;
 	  min-height: 44px;
 	  max-height: 96px;
-	  height: 10vh;
+	  //height: 10vh;
+	  margin-top: 3vh;
+	  margin-bottom: 2vh;
 	  gap: 16px;
 
 	  > label, > div {

@@ -45,7 +45,7 @@ export const useImportReferencesStore: () => IImportReferencesStore = defineStor
 			pattern: '(\\s*\\n+\\s*){2,}',
 			preview: [],
 			loading: false,
-			sceneId: builtInSceneIds.genericScene
+			sceneId: builtInSceneIds.unspecifiedScene
 		};
 	},
 	getters: {

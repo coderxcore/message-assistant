@@ -13,6 +13,10 @@ function toRecord(result: ILocaleRow[]): LocaleRecord {
 	return record as any;
 }
 
+export async function clearMessageCache(): Promise<void> {
+	cache = undefined;
+}
+
 setMsgMethod<ILocaleService>({
 	async getMessages(): Promise<Record<LocaleKey, string>> {
 		if (cache) return cache;
@@ -24,7 +28,5 @@ setMsgMethod<ILocaleService>({
 			}
 		})
 	},
-	async clearMessageCache(): Promise<void> {
-		cache = undefined;
-	}
+	clearMessageCache
 })

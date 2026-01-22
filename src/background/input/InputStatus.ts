@@ -61,7 +61,7 @@ async function saveTmpMsg({text, inputStatus: {url, isReply}}: ITmpMsg) {
 	const scene = Scene.getSceneByUrl(url);
 	const msg: IMessage = {
 		text,
-		sceneId: scene?.id || builtInSceneIds.unresolvedScene,
+		sceneId: scene?.id || builtInSceneIds.unspecifiedScene,
 		is_content: Bool.True
 	}
 	if (isReply) {

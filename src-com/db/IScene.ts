@@ -1,4 +1,4 @@
-export const BuiltInSceneKeys = ['aiScene', 'ecommerceScene', 'genericScene', 'videoScene', 'socioScene', 'unresolvedScene'] as const;
+export const BuiltInSceneKeys = ['unspecifiedScene', 'aiScene', 'socioScene', 'videoScene', 'ecommerceScene'] as const;
 
 export type BuiltInSceneKey = typeof BuiltInSceneKeys[number];
 
@@ -16,10 +16,9 @@ export interface IScene {
 }
 
 export const builtInSceneIds: Record<BuiltInSceneKey, number> = Object.freeze({
-	genericScene: -1,
+	unspecifiedScene: -1,
 	aiScene: 1,
 	socioScene: 2,
 	videoScene: 3,
-	ecommerceScene: 4,
-	unresolvedScene: -2,
+	ecommerceScene: 4
 })

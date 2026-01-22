@@ -38,7 +38,7 @@ export const useMessageStore: () => IMessageStore = defineStore('message', {
 			status: {} as any,
 			messages: [],
 			query: {
-				sceneId: builtInSceneIds.genericScene,
+				sceneId: builtInSceneIds.unspecifiedScene,
 				text: ''
 			},
 			previewMessages: [],
