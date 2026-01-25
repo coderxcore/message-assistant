@@ -14,11 +14,8 @@
 ∃ 存在 存在 有 存在 存在 있다 exists
 ∅ 空集 空集 空集合 空集合 空集合 공집합 empty set
 ∆ 三角形 三角形 三角 三角形 삼각形 triangle
-∆ 增量 变化量 差分 差分 差分 차분 increment
 ∇ 三角形 三角形 三角 三角形 삼각形 triangle
 ∇ 梯度 散度 旋度 勾配 勾配 기울기 gradient nabla
-∇· 散度 散度 発散 発散 발산 divergence
-∇× 旋度 旋度 回転 回転 회전 curl
 ∇² 拉普拉斯算子 ラプラシアン ラプラシアン 라플라시안 laplacian
 ∉ 不属于 不属于 不包含于 属さない 所属しない 包含しない 소속되지 않다 not element of
 ∈ 属于 属于 包含于 属する 所属 包含 소속하다 element of
@@ -82,7 +79,6 @@
 ⊢ 可证明 可证明 証明可能 証明可能 증명 가능하다 proves
 ⊥ 垂直 垂直 正交 垂直 垂直 직각하다 perpendicular
 ⊨ 满足 满足 滿足 充足する 充足하다 만족하다 satisfies
-⊿ 三角形 三角形 三角 三角形 삼각形 triangle
 ⊿ 三角形 三角形 增量 三角形 三角 変化량 삼각形 triangle
 ⏜ 弧 弧 弧 弧 호 arc
 □ 正方形 正方形 四角形 四角形 사각형 square
