@@ -1,5 +1,5 @@
-@mixin vars($selector:root) {
-  :#{$selector} {
+@mixin vars($selector:':root') {
+  #{$selector} {
 	&:not(.dark) {
 	  --color-bg: #f8f9fb;
 	  --color-bottom-bg: #f8f9fb;

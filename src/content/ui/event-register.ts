@@ -1,7 +1,7 @@
 import {isEditable} from "../util/isEditable";
 import {getInputValue} from "../util/getInputValue";
 import {Timer} from "gs-base";
-import {Hub} from "../hub/Hub";
+import {Hub} from "../util/Hub";
 
 const timer = new Timer(300);
 

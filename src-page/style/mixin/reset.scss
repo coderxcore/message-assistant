@@ -1,5 +1,5 @@
-@mixin reset($selector:'root') {
-  :#{$selector} {
+@mixin reset($selector:':root') {
+  #{$selector} {
 	&, body, #app, #app > div {
 	  height: 100%;
 	}

@@ -7,7 +7,7 @@ import {
 	ISceneApi,
 	ITermApi,
 	ISettingsApi,
-	IMsgMgrApi
+	IMsgMgrApi, IContentToBgApi
 } from "/src-com";
 import {createMsgMethodProxy} from "gs-br-ext";
 
@@ -49,6 +49,10 @@ export class Api {
 	}
 
 	static get search(): ITermApi {
+		return this.#api
+	}
+
+	static get contentToBg(): IContentToBgApi {
 		return this.#api
 	}
 

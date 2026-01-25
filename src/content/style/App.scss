@@ -1,0 +1,17 @@
+#message-assistant-app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 99999;
+  >*{
+    pointer-events: auto;
+  }
+  button{
+    color: var(--color-text-main);
+    background-color: var(--color-bg);
+  }
+}

@@ -1,7 +1,7 @@
-import {Api} from "../Api";
-import {getInputValue} from "../util/getInputValue";
+import {getInputValue} from "./getInputValue";
 import {getPureUrl} from "/src-com/lib/getPureUrl";
-import {writeTextToElement} from "../util/writeTextToElement";
+import {writeTextToElement} from "./writeTextToElement";
+import {Api} from "/src-page/api";
 
 const idMap = new WeakMap<Element | string, number>()
 

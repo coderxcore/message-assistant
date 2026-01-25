@@ -6,7 +6,7 @@ import "./ui";
 
 export default defineContentScript({
 	matches: ['<all_urls>'],
-	cssInjectionMode: 'manual',
+	cssInjectionMode: 'ui',
 	main(): void | Promise<void> {
 		console.log('plugin loaded')
 	}
