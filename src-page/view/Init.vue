@@ -71,10 +71,9 @@
 
 <script lang="ts" setup>
 import {Store} from "../store";
-import {builtInSceneIds, BuiltInSceneKey, IMessage, Locale} from "/src-com";
+import {BuiltInSceneKey, Locale} from "/src-com";
 import {wait} from "gs-base";
 import {Api} from "../api";
-import {Bool} from "gs-idb-basic";
 
 const {locale, settings, importReferences, init, front, message} = Store;
 
@@ -92,15 +91,8 @@ const onConfirm = async () => {
     for (let i = 0; i < total; i++) {
       const [lang, sceneKey] = keys[i];
       try {
-        const sceneId = builtInSceneIds[sceneKey];
-        // if (sceneId === builtInSceneIds.unresolvedScene) {
-        //   continue;
-        // }
-        const path = `data/references/${lang.replace(/-/, '_')}/${sceneKey}.txt`;
-        const data = (await fetch(path).then(r => r.text())).split(/\s*[\r\n]\s*/).filter(Boolean)
-        const msgs: IMessage[] = data.map(text => ({sceneId, text, is_reference: Bool.True}))
-        await Api.import.importReferences(msgs)
-        // console.log(await Api.import.importReferences(msgs))
+        await Api.import.importBuiltIn({lang, scene: sceneKey})
+        // console.log(await Api.import.importBuiltIn({lang, scene: sceneKey}))
         init.addSaveData(lang, sceneKey, true)
         front.updateProgress({
           progress: i,
