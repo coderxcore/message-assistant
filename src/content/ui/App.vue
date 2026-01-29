@@ -1,14 +1,13 @@
 <template>
   <link rel="stylesheet" :href="cssHref">
   <div id="message-assistant-app" :class="{'dark': settings.theme === 'dark'}">
-    <button @click="test" v-if="cxt.el">{{ cxt.inputPoint }}</button>
     <term-list/>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {ContentStore as cs} from "./store";
+import {ContentStore as cs} from "../store";
 import {Api} from "/src-page/api";
 import {listenRoot} from "../context/listenRoot";
 import TermList from "./view/TermList.vue";

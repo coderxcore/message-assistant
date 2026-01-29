@@ -1,7 +1,7 @@
-import {ContentStore as cs} from "../ui/store";
+import {ContentStore as cs} from "../store";
 import {getInputValue} from "../lib/getInputValue";
 import {readInput} from "./readInput";
-import {ContextVars} from "./contextVars";
+import {ContextVars, rootEl} from "./contextVars";
 import {AutoMode} from "../type";
 
 const arrowReg = /^(Arrow|Backspace)/i
@@ -25,6 +25,7 @@ export function listenInput(inputEl?: HTMLElement) {
 		}
 		cxt.inputItem = {id, el: inputEl, text: getInputValue(inputEl) || ''};
 	}
+	cxt.active = true;
 	addInputListeners()
 }
 
@@ -51,31 +52,33 @@ function removeInputListeners() {
 	document.body.removeEventListener("keyup", onkeyup, true);
 	document.body.removeEventListener("onkeydown", onkeydown, true);
 	document.body.removeEventListener("blur", onBlur, true);
-
 	window.removeEventListener('resize', onInput, true);
 }
 
 function onBlur(e: FocusEvent) {
-	// if(e.relatedTarget!==cs.pageContext.r)
-	console.log(e)
+	if (e.target === cs.pageContext.el && e.relatedTarget !== rootEl) {
+		cs.pageContext.active = false
+	}
 }
 
 function compositionstart() {
 	ContextVars.composing = true;
 }
 
-
-async function compositionend() {
+async function compositionend(e: CompositionEvent) {
 	ContextVars.composing = false;
-	await readInput();
+	await readInput(e.target);
 }
 
-async function onInput() {
-	if (!ContextVars.composing) await readInput()
+async function onInput(e: Event) {
+	if (!ContextVars.composing) await readInput(e.target)
 }
 
 function onkeydown(e: KeyboardEvent) {
-	if (e.code === 'Tab' && (cs.settings.lockAutoKey || cs.pageContext.autoMode != 2)) {
+	if (
+		e.code === 'Tab'
+		&& (cs.settings.lockAutoKey || cs.pageContext.autoMode != 2 && cs.pageContext.hasWork)
+	) {
 		e.stopPropagation();
 		e.preventDefault();
 	}
@@ -92,7 +95,7 @@ function onkeyup(e: KeyboardEvent) {
 	} else {
 		cxt.changeAutoMode(AutoMode.Off);
 		if (!ContextVars.lastValue || ContextVars.lastValue.length < 3 || arrowReg.test(e.code)) {
-			onInput().catch(console.warn);
+			onInput(e).catch(console.warn);
 		}
 	}
 	// else {

@@ -9,6 +9,7 @@ export const enum AutoMode {
 }
 
 export interface IPageContextState {
+	active: boolean
 	scene: IScene
 	inputItem?: IInputItem
 	terms: ISearchTerm[]
@@ -19,8 +20,9 @@ export interface IPageContextState {
 }
 
 export interface IPageContextGetters {
-	el?: HTMLElement
-	lineHeight: number
+	readonly el?: HTMLElement
+	readonly lineHeight: number
+	readonly hasWork: boolean
 }
 
 export interface IPageContextActions {

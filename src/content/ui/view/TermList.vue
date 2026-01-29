@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ContentStore as cs} from "../store";
+import {ContentStore as cs} from "../../store";
 import {computed, watch} from "vue";
 import {ref} from "vue";
 import {IPosition} from "/src-page/type";
@@ -25,7 +25,7 @@ const position = ref<IPosition>()
 const focus = ref(false)
 
 const showNum = computed(() => cxt.autoMode === 1 && focus.value);
-const visible = computed(() => !!(cxt.el && cxt.terms.length));
+const visible = computed(() => cxt.active && cxt.terms.length > 0);
 
 const timer = new Timer(10);
 
@@ -43,9 +43,7 @@ watch(() => cxt.changeAutoModeTime, async () => {
   }
 })
 
-watch(termListRef,(el)=>{
-  console.log(el)
-})
+watch(termListRef, (el) => cxt.termListEl = el)
 
 function calcPosition(): IPosition {
   const {inputPoint: p, lineHeight: lh} = cxt

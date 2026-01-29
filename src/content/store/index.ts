@@ -5,7 +5,7 @@ import {ISceneStore, useSceneStore} from "/src-page/store/ISceneStore";
 import {IInitStore, useInitStore} from "/src-page/store/IInitStore";
 import {INotifyStore, useNotifyStore} from "/src-page/store/INotifyStore";
 import {usePageContextStore} from "./usePageContextStore";
-import {IPageContextStore} from "../../type";
+import {IPageContextStore} from "../type";
 
 export class ContentStore {
 

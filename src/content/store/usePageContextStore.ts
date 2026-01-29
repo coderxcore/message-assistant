@@ -1,10 +1,10 @@
 import {defineStore} from "pinia";
 import {builtInSceneIds, IScene, ISearchTerm} from "/src-com";
-import {AutoMode, IPageContextActions, IPageContextState, IPageContextStore} from "../../type";
+import {AutoMode, IPageContextActions, IPageContextState, IPageContextStore} from "../type";
 import {queryTerm} from "/src-page/lib/queryTerm";
-import {getCaretPoint} from "../../lib/getCaretPoint";
-import {getSafeLineHeight} from "../../lib/getSafeLineHeight";
-import {writeInput} from "../../lib/writeInput";
+import {getCaretPoint} from "../lib/getCaretPoint";
+import {getSafeLineHeight} from "../lib/getSafeLineHeight";
+import {writeInput} from "../lib/writeInput";
 import {getTermText} from "/src-com/lib/getTermText";
 
 
@@ -17,7 +17,8 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 			inputPoint: undefined,
 			autoMode: AutoMode.Off,
 			changeAutoModeTime: undefined,
-			termListEl: undefined
+			termListEl: undefined,
+			active: false,
 		};
 	},
 	getters: {
@@ -27,6 +28,9 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 		lineHeight({el}: IPageContextStore): number {
 			if (!el) return 12;
 			return getSafeLineHeight(el);
+		},
+		hasWork({terms, inputItem}: IPageContextStore): boolean {
+			return inputItem?.text?.length > 0 && terms.length > 0;
 		},
 	},
 	actions: <IPageContextActions>{
@@ -48,10 +52,10 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 			await this.changeText(text);
 		},
 		changeAutoMode(autoMode: AutoMode): void {
-			if(autoMode===AutoMode.Term && this.terms.length) {
+			if (autoMode === AutoMode.Term && this.terms.length) {
 				this.autoMode = AutoMode.Term;
 			} else {
-				this.autoMode =  AutoMode.Off;
+				this.autoMode = AutoMode.Off;
 			}
 			this.changeAutoModeTime = Date.now();
 		}
