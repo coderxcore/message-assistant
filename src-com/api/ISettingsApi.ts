@@ -14,6 +14,8 @@ export interface ISettings {
 	enableAutoFirstInput?: boolean
 	autoFirstDelay?: number
 	lockAutoKey?: boolean
+	deactivateKey?: string
+	selectBeginKey?: string
 }
 
 export const defaultSettings: Readonly<ISettings> = Object.freeze({
@@ -23,7 +25,9 @@ export const defaultSettings: Readonly<ISettings> = Object.freeze({
 	applyToSearch: false,
 	keyDoubleDelay: 300,
 	enableAutoFirstInput: false,
-	autoFirstDelay: 800
+	autoFirstDelay: 800,
+	deactivateKey: 'Escape',
+	selectBeginKey: 'Tab'
 })
 
 interface ISettingsBase {

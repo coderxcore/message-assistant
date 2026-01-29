@@ -29,8 +29,8 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 			if (!el) return 12;
 			return getSafeLineHeight(el);
 		},
-		hasWork({terms, inputItem}: IPageContextStore): boolean {
-			return inputItem?.text?.length > 0 && terms.length > 0;
+		hasWork({terms, inputItem, active}: IPageContextStore): boolean {
+			return active && inputItem?.text?.length > 0 && terms.length > 0;
 		},
 	},
 	actions: <IPageContextActions>{

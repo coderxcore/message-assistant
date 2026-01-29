@@ -20,13 +20,13 @@ export async function queryTermBySearch(results: ISearchTerm[], text: string): P
 					continue;
 				}
 			}
-			if( result.tokens.some(t=>term.text.includes(t)) ) {
+			if (result.tokens.some(t => term.text.includes(t))) {
 				terms.push({
 					...result,
 					text: term.text,
 				} as any);
 			}
-			if (terms.length > 6) break;
+			if (terms.length >= 9) break;
 		}
 		return terms;
 	})

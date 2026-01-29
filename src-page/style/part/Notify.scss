@@ -29,7 +29,7 @@
     /* 使用单个动画组合实现滑入和淡出效果 */
     animation: notificationAnimation var(--animation-duration) ease-in-out forwards;
     &:hover{
-      background-color: rgb(var(--color-surface) / 30%);
+      background-color: rgb(from var(--color-surface) r g b / 30%);
       backdrop-filter: blur(1px);
     }
   }

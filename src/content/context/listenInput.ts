@@ -11,7 +11,7 @@ const idMap = new WeakMap<Element, number>()
 
 export function listenInput(inputEl?: HTMLElement) {
 	if (!inputEl) {
-		if (lastCode !== 'Tab' || cs.pageContext.autoMode === 2) {
+		if (lastCode !== cs.settings.selectBeginKey || cs.pageContext.autoMode === 2) {
 			removeInputListeners();
 		}
 		return;
@@ -76,7 +76,7 @@ async function onInput(e: Event) {
 
 function onkeydown(e: KeyboardEvent) {
 	if (
-		e.code === 'Tab'
+		e.code === cs.settings.selectBeginKey
 		&& (cs.settings.lockAutoKey || cs.pageContext.autoMode != 2 && cs.pageContext.hasWork)
 	) {
 		e.stopPropagation();
@@ -86,21 +86,21 @@ function onkeydown(e: KeyboardEvent) {
 
 function onkeyup(e: KeyboardEvent) {
 	const {pageContext: cxt} = cs;
-	if (e.code === 'Tab') {
-		if (lastCode === 'Tab' && Date.now() - lastTime <= cs.settings.keyDoubleDelay) {
+	if (e.code === cs.settings.selectBeginKey) {
+		if (lastCode === cs.settings.selectBeginKey && Date.now() - lastTime <= cs.settings.keyDoubleDelay) {
 			cxt.changeAutoMode(AutoMode.Msg);
 		} else {
 			cxt.changeAutoMode(AutoMode.Term);
 		}
+	} else if (e.code === cs.settings.deactivateKey) {
+		cxt.active = false;
 	} else {
+		console.log(e.code)
 		cxt.changeAutoMode(AutoMode.Off);
 		if (!ContextVars.lastValue || ContextVars.lastValue.length < 3 || arrowReg.test(e.code)) {
 			onInput(e).catch(console.warn);
 		}
 	}
-	// else {
-	// 	console.log(lastValue, e.code)
-	// }
 	lastCode = e.code;
 	lastTime = Date.now();
 }

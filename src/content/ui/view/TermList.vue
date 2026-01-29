@@ -1,6 +1,7 @@
 <template>
   <div class="TermList" v-show="visible" ref="termListRef" :style="position">
-    <ul tabindex="0" ref="ulRef" @blur="focus=false">
+    <ul tabindex="0" ref="ulRef" @blur="focus=false" @keyup="keyup">
+      <li v-if="!showNum" class="term-header">Tab:</li>
       <li v-for="(term,i) in cxt.terms" :key="term.id" @click="cxt.fullTerm(term)">
         {{ showNum ? `${i + 1}. ` : '' }}
         {{ term.text }}
@@ -16,6 +17,8 @@ import {ref} from "vue";
 import {IPosition} from "/src-page/type";
 import {Timer} from "gs-base";
 
+const numRegex = /^[1-9]$/
+
 const termListRef = ref<HTMLDivElement>(null);
 const ulRef = ref<HTMLUListElement>(null);
 
@@ -28,6 +31,20 @@ const showNum = computed(() => cxt.autoMode === 1 && focus.value);
 const visible = computed(() => cxt.active && cxt.terms.length > 0);
 
 const timer = new Timer(10);
+
+function keyup(e: KeyboardEvent) {
+  if (e.code === cs.settings.deactivateKey) {
+    cxt.active = false;
+    cxt.el?.focus();
+    return;
+  }
+  if (numRegex.test(e.key)) {
+    const term = cxt.terms[parseInt(e.key) - 1]
+    if (term) {
+      cxt.fullTerm(term);
+    }
+  }
+}
 
 watch(() => cxt.inputPoint, async () => {
   await timer.reWait();
