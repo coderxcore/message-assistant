@@ -1,9 +1,7 @@
 import {isEditable} from "../lib/isEditable";
 import {Timer} from "gs-base";
 import {listenInput} from "./listenInput";
-import {rootEl} from "./contextVars";
-
-let lastInputEl: HTMLElement | undefined, lastEl: HTMLElement | undefined;
+import {ContextVars, rootEl} from "./contextVars";
 
 const timer = new Timer(20);
 
@@ -15,18 +13,16 @@ export function listenRoot() {
 async function check() {
 	await timer.reWait()
 	const el = document.activeElement as HTMLElement;
-	if (el === lastEl) {
+	if (el === ContextVars.lastListenEl) {
 		return;
 	}
-	// console.log(el)
+	ContextVars.lastListenEl = el;
 	if (el === rootEl) {
 		return;
 	}
-	lastEl = el;
 	if (isEditable(el)) {
-		lastInputEl = el;
+		await listenInput(el);
 	} else {
-		lastInputEl = undefined;
+		await listenInput();
 	}
-	listenInput(lastInputEl);
 }

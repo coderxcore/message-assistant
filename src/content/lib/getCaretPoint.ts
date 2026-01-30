@@ -18,8 +18,8 @@ export function getCaretPoint(el: HTMLElement): IPoint {
 		}
 
 		return {
-			x: rect.left + window.scrollX,
-			y: rect.top + window.scrollY,
+			x: rect.left,
+			y: rect.top,
 		};
 	}
 
@@ -67,15 +67,13 @@ export function getCaretPoint(el: HTMLElement): IPoint {
 		inputRect.left +
 		spanRect.left -
 		div.getBoundingClientRect().left -
-		input.scrollLeft +
-		window.scrollX;
+		input.scrollLeft
 
 	const y =
 		inputRect.top +
 		spanRect.top -
 		div.getBoundingClientRect().top -
-		input.scrollTop +
-		window.scrollY;
+		input.scrollTop
 
 	div.remove();
 

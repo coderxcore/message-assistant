@@ -2,49 +2,54 @@
 
 #message-assistant-app > .TermList {
   position: absolute;
-  @include m.flex();
+  @include m.flex(row, wrap);
+  gap: 6px;
+  padding: 0 10px;
+  border-radius: var(--radius-md);
+  background-color: rgb(from var(--color-surface) r g b / 80%);
+  backdrop-filter: blur(3px);
+  box-shadow: var(--shadow-md);
+  border: solid 1px transparent;
+  outline: none;
+  overflow: auto;
 
-  > ul {
-	@include m.flex(row, wrap);
-	gap: 6px;
-	padding: 0 10px;
+  &:focus {
+	border-color: var(--color-border-active);
+  }
+
+  > li {
 	border-radius: var(--radius-md);
-	background-color: rgb(from var(--color-surface) r g b / 80%);
-	backdrop-filter: blur(3px);
-	box-shadow: var(--shadow-md);
-	border: solid 1px transparent;
+	transition: all 0.2s ease;
+	word-wrap: break-word;
+	word-break: break-word;
+	overflow: auto;
+	font-size: 12px;
+	line-height: 20px;
 	outline: none;
+	color: var(--color-text-main);
 
-	&:focus {
-	  border-color: var(--color-border-active);
+	&:not(.term-header) {
+	  padding: 0 2px;
+	  border: 1px solid transparent;
+	  cursor: pointer;
+
+	  &:hover {
+		background-color: rgb(from var(--color-surface) r g b / 50%);
+		border-color: var(--color-border);
+		box-shadow: var(--shadow-sm);
+	  }
 	}
 
-	> li {
-	  border-radius: var(--radius-md);
-	  transition: all 0.2s ease;
-	  word-wrap: break-word;
-	  word-break: break-word;
-	  overflow: auto;
-	  font-size: 12px;
-	  line-height: 20px;
-	  outline: none;
+	&.term-header {
+	  font-weight: bold;
+	  user-select: none;
+	}
 
-	  &:not(.term-header) {
-		padding: 0 2px;
-		border: 1px solid transparent;
-		cursor: pointer;
-
-		&:hover {
-		  background-color: rgb(from var(--color-surface) r g b / 50%);
-		  border-color: var(--color-border);
-		  box-shadow: var(--shadow-sm);
-		}
-	  }
-
-	  &.term-header {
-		font-weight: bold;
-		user-select: none;
-	  }
+	&.term-icon-btn {
+	  @include m.flex(row, center);
+	  padding: 0 4px;
+	  height: 20px;
+	  color: var(--color-text-secondary);
 	}
   }
 }

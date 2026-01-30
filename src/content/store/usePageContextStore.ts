@@ -1,9 +1,7 @@
 import {defineStore} from "pinia";
 import {builtInSceneIds, IScene, ISearchTerm} from "/src-com";
-import {AutoMode, IPageContextActions, IPageContextState, IPageContextStore} from "../type";
+import {AutoMode, IInputItem, IPageContextActions, IPageContextState, IPageContextStore} from "../type";
 import {queryTerm} from "/src-page/lib/queryTerm";
-import {getCaretPoint} from "../lib/getCaretPoint";
-import {getSafeLineHeight} from "../lib/getSafeLineHeight";
 import {writeInput} from "../lib/writeInput";
 import {getTermText} from "/src-com/lib/getTermText";
 
@@ -14,20 +12,16 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 			scene: {id: builtInSceneIds.unspecifiedScene} as IScene,
 			terms: [],
 			inputItem: undefined,
-			inputPoint: undefined,
 			autoMode: AutoMode.Off,
 			changeAutoModeTime: undefined,
 			termListEl: undefined,
 			active: false,
+			locationChangeTime: undefined
 		};
 	},
 	getters: {
 		el(state): HTMLElement | undefined {
 			return state.inputItem?.el;
-		},
-		lineHeight({el}: IPageContextStore): number {
-			if (!el) return 12;
-			return getSafeLineHeight(el);
 		},
 		hasWork({terms, inputItem, active}: IPageContextStore): boolean {
 			return active && inputItem?.text?.length > 0 && terms.length > 0;
@@ -39,7 +33,6 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 				this.terms = [];
 				return;
 			}
-			this.inputPoint = getCaretPoint(this.el!);
 			this.terms = await queryTerm(search, this.inputItem.text, start, end);
 		},
 		async changeText(text: string): Promise<void> {
@@ -57,8 +50,14 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 			} else {
 				this.autoMode = AutoMode.Off;
 			}
+			// console.log(autoMode,this.autoMode)
 			this.changeAutoModeTime = Date.now();
+		},
+		setInputItem(item: IInputItem): void {
+			this.inputItem = item;
+			this.locationChangeTime = Date.now();
 		}
+
 
 	}
 }) as any;

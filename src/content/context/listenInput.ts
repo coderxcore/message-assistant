@@ -9,7 +9,7 @@ let eventAdded = false, lastCode: string, lastTime: number;
 
 const idMap = new WeakMap<Element, number>()
 
-export function listenInput(inputEl?: HTMLElement) {
+export async function listenInput(inputEl?: HTMLElement) {
 	if (!inputEl) {
 		if (lastCode !== cs.settings.selectBeginKey || cs.pageContext.autoMode === 2) {
 			removeInputListeners();
@@ -23,9 +23,10 @@ export function listenInput(inputEl?: HTMLElement) {
 			id = Date.now() + Math.floor(Date.now() / 1000)
 			idMap.set(inputEl, id);
 		}
-		cxt.inputItem = {id, el: inputEl, text: getInputValue(inputEl) || ''};
+		cxt.setInputItem({id, el: inputEl, text: getInputValue(inputEl) || ''})
+	} else {
+		cxt.active = true;
 	}
-	cxt.active = true;
 	addInputListeners()
 }
 
@@ -36,10 +37,10 @@ function addInputListeners() {
 	document.body.addEventListener("compositionend", compositionend, true);
 	document.body.addEventListener("input", onInput, true);
 	document.body.addEventListener("click", onInput, true);
-	document.body.addEventListener("keyup", onkeyup, true);
-	document.body.addEventListener("keydown", onkeydown, true);
+	document.body.addEventListener("keydown", onSelectBeginKeydown, true);
 	document.body.addEventListener("blur", onBlur, true);
-	window.addEventListener('resize', onInput, true);
+	document.addEventListener("keyup", onkeyup, true);
+	window.addEventListener('resize', onresize, true);
 }
 
 function removeInputListeners() {
@@ -49,15 +50,23 @@ function removeInputListeners() {
 	document.body.removeEventListener("compositionend", compositionend, true);
 	document.body.removeEventListener("input", onInput, true);
 	document.body.removeEventListener("click", onInput, true);
-	document.body.removeEventListener("keyup", onkeyup, true);
-	document.body.removeEventListener("onkeydown", onkeydown, true);
+	document.body.removeEventListener("keydown", onSelectBeginKeydown, true);
 	document.body.removeEventListener("blur", onBlur, true);
-	window.removeEventListener('resize', onInput, true);
+	document.removeEventListener("keyup", onkeyup, true);
+	window.removeEventListener('resize', onresize, true);
+}
+
+function onresize() {
+	cs.pageContext.locationChangeTime = Date.now();
 }
 
 function onBlur(e: FocusEvent) {
 	if (e.target === cs.pageContext.el && e.relatedTarget !== rootEl) {
+		if (cs.pageContext.hasWork && ContextVars.termHover) {
+			return
+		}
 		cs.pageContext.active = false
+		ContextVars.lastListenEl = undefined;
 	}
 }
 
@@ -74,10 +83,10 @@ async function onInput(e: Event) {
 	if (!ContextVars.composing) await readInput(e.target)
 }
 
-function onkeydown(e: KeyboardEvent) {
+export function onSelectBeginKeydown(e: KeyboardEvent) {
 	if (
 		e.code === cs.settings.selectBeginKey
-		&& (cs.settings.lockAutoKey || cs.pageContext.autoMode != 2 && cs.pageContext.hasWork)
+		&& (cs.settings.lockAutoKey || cs.pageContext.hasWork)
 	) {
 		e.stopPropagation();
 		e.preventDefault();
@@ -95,7 +104,7 @@ function onkeyup(e: KeyboardEvent) {
 	} else if (e.code === cs.settings.deactivateKey) {
 		cxt.active = false;
 	} else {
-		console.log(e.code)
+		// console.log(e.code)
 		cxt.changeAutoMode(AutoMode.Off);
 		if (!ContextVars.lastValue || ContextVars.lastValue.length < 3 || arrowReg.test(e.code)) {
 			onInput(e).catch(console.warn);

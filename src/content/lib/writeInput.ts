@@ -1,13 +1,17 @@
 import {selectElText} from "./selectElText";
 import {wait} from "gs-base";
+import {getInputValue} from "./getInputValue";
 
 const InputRegex = /input|textarea/i
 
 export async function writeInput(el: HTMLElement, text: string) {
 	el.focus();
 	if (InputRegex.test(el.tagName)) {
+		console.log(text)
 		inputWriteText(el as HTMLInputElement | HTMLTextAreaElement, text);
-		return
+		if(getInputValue(el) === text) {
+			return
+		}
 	}
 	await editableWrite(el, text);
 }

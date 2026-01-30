@@ -11,6 +11,13 @@ setMsgMethod<ITermService>({
 	async searchTerm(text: string): Promise<ISearchTerm[]> {
 		const emoji = searchSymbol(text);
 		const texts = await queryTermBySearch(await searchTerm(text), text);
-		return mergeWithMaxLength(emoji, texts, maxTermNum);
+		texts.sort((a, b) => {
+			const r = b.text.length - a.text.length;
+			if (r === 0) {
+				return a.score - b.score;
+			}
+			return r;
+		});
+		return mergeWithMaxLength(texts, emoji, maxTermNum);
 	}
 });

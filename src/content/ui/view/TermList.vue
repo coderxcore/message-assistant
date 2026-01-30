@@ -1,30 +1,45 @@
 <template>
-  <div class="TermList" v-show="visible" ref="termListRef" :style="position">
-    <ul tabindex="0" ref="ulRef" @blur="focus=false" @keyup="keyup">
-      <li v-if="!showNum" class="term-header">{{ settings.selectBeginKey}}:</li>
-      <li v-for="(term,i) in cxt.terms" :key="term.id" @click="cxt.fullTerm(term)">
-        {{ showNum ? `${i + 1}. ` : '' }}
-        {{ term.text }}
-      </li>
-    </ul>
-  </div>
+  <ul
+      v-show="visible"
+      class="TermList"
+      :style="style"
+      tabindex="0"
+      ref="ulRef"
+      @blur="focus=false"
+      @keyup="keyup"
+      @keydown="onSelectBeginKeydown"
+      @mouseenter="ContextVars.termHover=true"
+      @mouseleave="ContextVars.termHover=false"
+  >
+    <li v-if="!showNum" class="term-header">{{ settings.selectBeginKey }}:</li>
+    <li v-for="(term,i) in cxt.terms" :key="term.id" @click="cxt.fullTerm(term)">
+      {{ showNum ? `${i + 1}. ` : '' }}
+      {{ term.text }}
+    </li>
+    <!--    <li v-if="!showNum" class="term-icon-btn">-->
+    <!--      <edit :size="13"/>-->
+    <!--    </li>-->
+  </ul>
 </template>
 
 <script lang="ts" setup>
 import {ContentStore as cs} from "../../store";
-import {computed, watch} from "vue";
-import {ref} from "vue";
-import {IPosition} from "/src-page/type";
-import {Timer} from "gs-base";
+import {computed, ref, watch} from "vue";
+import {IBounds, ISize} from "/src-page/type";
+import {Timer, wait} from "gs-base";
+import {onSelectBeginKeydown} from "../../context/listenInput";
+import {ContextVars} from "../../context/contextVars";
+import {getCaretPoint} from "../../lib/getCaretPoint";
+import {getSafeLineHeight} from "../../lib/getSafeLineHeight";
+
+const defaultStyle = {top: `50%`, left: `50%`, maxWidth: `100%`, maxHeight: `50%`};
 
 const numRegex = /^[1-9]$/
-
-const termListRef = ref<HTMLDivElement>(null);
 const ulRef = ref<HTMLUListElement>(null);
 
 const {pageContext: cxt, settings} = cs
 
-const position = ref<IPosition>()
+const style = ref<IBounds>(defaultStyle)
 const focus = ref(false)
 
 const showNum = computed(() => cxt.autoMode === 1 && focus.value);
@@ -46,10 +61,13 @@ function keyup(e: KeyboardEvent) {
   }
 }
 
-watch(() => cxt.inputPoint, async () => {
+watch(() => [cxt.locationChangeTime, cxt.terms, cxt.active], async () => {
   await timer.reWait();
-  position.value = calcPosition();
-}, {immediate: true})
+  if (!cxt.active) {
+    return;
+  }
+  style.value = await calcPosition();
+}, {deep: true})
 
 watch(() => cxt.changeAutoModeTime, async () => {
   if (cxt.autoMode !== 1 || !visible) {
@@ -60,28 +78,38 @@ watch(() => cxt.changeAutoModeTime, async () => {
   }
 })
 
-watch(termListRef, (el) => cxt.termListEl = el)
+watch(ulRef, (el) => cxt.termListEl = el)
 
-function calcPosition(): IPosition {
-  const {inputPoint: p, lineHeight: lh} = cxt
-  if (!p) {
-    return {top: `0px`, left: `0px`}
+async function calcPosition(): Promise<IBounds> {
+  if (!cxt.inputItem?.el) {
+    return defaultStyle;
   }
-  let {x, y} = p
-  if (!termListRef.value) {
-    return {top: `${y + lh}px`, left: `${x}px`}
+  let rect: ISize<number> = ulRef.value.getBoundingClientRect();
+  for (let i = 0; i < 20 && !rect?.height; i++) {
+    await wait(10);
+    rect = ulRef.value.getBoundingClientRect();
   }
-  const {innerWidth: ww, innerHeight: wh} = window;
-  const {width: w, height: h} = termListRef.value.getBoundingClientRect();
-  if (x + w > ww) {
+  const {width: w, height: h} = rect;
+  let {x, y} = getCaretPoint(cxt.inputItem.el)
+  const lh = getSafeLineHeight(cxt.inputItem.el)
+  const {innerWidth: bw, innerHeight: bh} = window;
+  if (x + w > bw) {
     x = x - w;
   }
-  if (y + h > wh) {
+  const maxWidth = bw - w - 20;
+  let maxHeight;
+  if (y + h + lh > bh) {
     y = y - h;
+    if (y < 0) {
+      y = 0;
+    }
+    maxHeight = h;
   } else {
     y = y + lh;
+    maxHeight = bh - y - 10;
   }
-  return {top: `${y}px`, left: `${x}px`}
+  if (maxHeight < 20) maxHeight = 20;
+  return {top: `${y}px`, left: `${x}px`, maxWidth: `${maxWidth}px`, maxHeight: `${maxHeight}px`}
 }
 
 </script>
