@@ -6,7 +6,8 @@ import {AutoMode} from "../type";
 import {matchShortcut} from "/src-page/lib/matchShortcut";
 
 const arrowReg = /^(Arrow|Backspace)/i
-let eventAdded = false, lastCode: string
+const numRegex = /^[1-9]$/
+let eventAdded = false
 
 const idMap = new WeakMap<Element, number>()
 
@@ -38,7 +39,7 @@ function addInputListeners() {
 	document.body.addEventListener("click", onInput, true);
 	document.body.addEventListener("keydown", onSelectBeginKeydown, true);
 	document.body.addEventListener("blur", onBlur, true);
-	document.addEventListener("keyup", onkeyup, true);
+	document.addEventListener("keyup", onKeyup, true);
 	window.addEventListener('resize', onresize, true);
 }
 
@@ -51,7 +52,7 @@ function removeInputListeners() {
 	document.body.removeEventListener("click", onInput, true);
 	document.body.removeEventListener("keydown", onSelectBeginKeydown, true);
 	document.body.removeEventListener("blur", onBlur, true);
-	document.removeEventListener("keyup", onkeyup, true);
+	document.removeEventListener("keyup", onKeyup, true);
 	window.removeEventListener('resize', onresize, true);
 }
 
@@ -97,15 +98,18 @@ export function onSelectBeginKeydown(e: KeyboardEvent) {
 	}
 }
 
-function onkeyup(e: KeyboardEvent) {
+export async function onKeyup(e: KeyboardEvent) {
 	const s = cs.settings;
 	const {pageContext: cxt} = cs;
 	if (matchShortcut(e, s.selectBeginKey)) {
 		cxt.changeAutoMode(AutoMode.Term);
 	} else if (matchShortcut(e, s.selectBeginKey2)) {
 		cxt.changeAutoMode(AutoMode.Msg);
-	} else if (matchShortcut(e, s.deactivateKey)) {
+	} else if (matchShortcut(e, s.deactivateKey) || matchShortcut(e, s.deactivateKey2)) {
 		cxt.active = false;
+		cxt.el?.focus();
+	} else if (cxt.autoMode && cxt.hasWork && numRegex.test(e.key)) {
+		await cxt.autoComplete(Number(e.key) - 1)
 	} else {
 		// console.log(e.code)
 		cxt.changeAutoMode(AutoMode.Off);
@@ -113,5 +117,4 @@ function onkeyup(e: KeyboardEvent) {
 			onInput(e).catch(console.warn);
 		}
 	}
-	lastCode = e.code;
 }

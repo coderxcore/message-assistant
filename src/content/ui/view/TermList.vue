@@ -6,7 +6,7 @@
       tabindex="0"
       ref="ulRef"
       @blur="focus=false"
-      @keyup="keyup"
+      @keyup="onKeyup"
       @keydown="onSelectBeginKeydown"
       @mouseenter="ContextVars.termHover=true"
       @mouseleave="ContextVars.termHover=false"
@@ -27,12 +27,11 @@ import {ContentStore as cs} from "../../store";
 import {computed, ref, watch} from "vue";
 import {IBounds, ISize} from "/src-page/type";
 import {Timer, wait} from "gs-base";
-import {onSelectBeginKeydown} from "../../context/listenInput";
+import {onKeyup, onSelectBeginKeydown} from "../../context/listenInput";
 import {ContextVars} from "../../context/contextVars";
 import {getCaretPoint} from "../../lib/getCaretPoint";
 import {getSafeLineHeight} from "../../lib/getSafeLineHeight";
 import {AutoMode} from "../../type";
-import {matchShortcut} from "/src-page/lib/matchShortcut";
 
 const defaultStyle = {top: `50%`, left: `50%`, maxWidth: `100%`, maxHeight: `50%`};
 
@@ -49,19 +48,6 @@ const visible = computed(() => cxt.active && cxt.terms.length > 0);
 
 const timer = new Timer(10);
 
-function keyup(e: KeyboardEvent) {
-  if (matchShortcut(e, cs.settings.deactivateKey) || matchShortcut(e, cs.settings.deactivateKey2)) {
-    cxt.active = false;
-    cxt.el?.focus();
-    return;
-  }
-  if (numRegex.test(e.key)) {
-    const term = cxt.terms[parseInt(e.key) - 1]
-    if (term) {
-      cxt.fullTerm(term);
-    }
-  }
-}
 
 watch(() => [cxt.locationChangeTime, cxt.terms, cxt.active], async () => {
   await timer.reWait();

@@ -40,6 +40,7 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 			setTimeout(() => this.queryTerm(text, text.length, text.length), 10)
 		},
 		async fullTerm(term: ISearchTerm): Promise<void> {
+			if (!term) return;
 			const text = this.inputItem.text = getTermText(this.inputItem.text, term);
 			this.terms.length = 0;
 			await this.changeText(text);
@@ -49,6 +50,7 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 				this.autoMode = AutoMode.Term;
 			} else {
 				this.autoMode = AutoMode.Off;
+				this.el?.focus();
 			}
 			// console.log(autoMode,this.autoMode)
 			this.changeAutoModeTime = Date.now();
@@ -56,8 +58,12 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 		setInputItem(item: IInputItem): void {
 			this.inputItem = item;
 			this.locationChangeTime = Date.now();
+		},
+		async autoComplete(index: number): Promise<void> {
+			if (this.autoMode === AutoMode.Term) {
+				await this.fullTerm(this.terms[index])
+			}
+			this.changeAutoMode(AutoMode.Off);
 		}
-
-
 	}
 }) as any;

@@ -34,6 +34,8 @@ export interface IPageContextActions {
 	changeAutoMode(autoMode: AutoMode): void
 
 	setInputItem(item: IInputItem): void
+
+	autoComplete(index: number): Promise<void>
 }
 
 export interface IPageContextStore extends IPageContextState, IPageContextGetters, IPageContextActions {
