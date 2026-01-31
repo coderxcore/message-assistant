@@ -13,6 +13,7 @@ export const draftSchema: IStoreSchema = {
 		isIndexed:false
 	},
 	indexSchemas: [
-		'scope',
+		'tabId',
+		'siteKey',
 	]
 }

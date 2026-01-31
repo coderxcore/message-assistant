@@ -1,4 +1,4 @@
-import {IScene, ISearchTerm} from "/src-com";
+import {IScene, ISearchMessage, ISearchTerm} from "/src-com";
 import {IInputItem} from "./IInputItem";
 
 export const enum AutoMode {
@@ -16,6 +16,7 @@ export interface IPageContextState {
 	changeAutoModeTime?: number,
 	termListEl?: HTMLElement
 	locationChangeTime?: number
+	searchMsgs: Partial<ISearchMessage>[]
 }
 
 export interface IPageContextGetters {
@@ -36,6 +37,8 @@ export interface IPageContextActions {
 	setInputItem(item: IInputItem): void
 
 	autoComplete(index: number): Promise<void>
+
+	draftChang(): Promise<void>
 }
 
 export interface IPageContextStore extends IPageContextState, IPageContextGetters, IPageContextActions {

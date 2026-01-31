@@ -14,10 +14,13 @@ export interface ISceneGetters {
 	readonly defaultScene: IScene
 }
 
-export interface ISceneStore extends ISceneState, ISceneGetters {
-	findScenes(url: string): IScene
+export interface ISceneActions {
+	findScene(url: string): IScene
 
 	loadScenes(): Promise<void>
+}
+
+export interface ISceneStore extends ISceneState, ISceneGetters, ISceneActions {
 }
 
 export const useSceneStore: () => ISceneStore = defineStore('scene', {
@@ -45,12 +48,12 @@ export const useSceneStore: () => ISceneStore = defineStore('scene', {
 			return idSceneMap.get(builtInSceneIds.unspecifiedScene);
 		},
 	},
-	actions: {
-		findScenes(url: string): IScene {
+	actions: <ISceneActions>{
+		findScene(url: string): IScene {
 			const {urlParts, urlSceneMap} = this as ISceneGetters;
-			for (const prefix of urlParts) {
-				if (url.includes(prefix)) {
-					const scene = urlSceneMap.get(prefix);
+			for (const urlPart of urlParts) {
+				if (url.includes(urlPart)) {
+					const scene = urlSceneMap.get(urlPart);
 					if (scene) {
 						return scene;
 					}

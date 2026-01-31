@@ -4,6 +4,7 @@ import {localeStoreSchema} from "./localeStoreSchema";
 import {messageSchema, MessageStoreName} from "./messageSchema";
 import {termSchema, TermStoreName} from "./termSchema";
 import {sceneSchema} from "./sceneSchema";
+import {draftSchema} from "./draftSchema";
 
 const dbName = 'message-assistant'
 
@@ -12,10 +13,10 @@ let currentDb: IIDbPro | undefined;
 export class Db {
 
 	static locale: IDataWriter<ILocaleRow> = Db.db.store(localeStoreSchema, 'locale');
-	// static draft: IDataWriter<IMessage> = Db.db.store(draftSchema);
+	static draft: IDataWriter<IMessage> = Db.db.store(draftSchema);
 	static message: IDataWriter<IMessage> = Db.db.store(messageSchema);
 
-	static msgDeleted: IDataWriter<IMessage> = this.message.index('deleted',true)
+	static msgDeleted: IDataWriter<IMessage> = this.message.index('deleted', true)
 	static msgContentDeleted: IDataReader<IMessage> = this.message.index('is_content_deleted')
 	static msgReferenceDeleted: IDataReader<IMessage> = this.message.index('is_reference_deleted')
 

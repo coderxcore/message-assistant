@@ -25,7 +25,7 @@ onMounted(async () => {
     await cs.init.loadInitData();
     await cs.locale.loadLocaleTexts()
     await cs.scene.loadScenes();
-    cxt.scene = cs.scene.findScenes(location.href);
+    cxt.scene = cs.scene.findScene(location.href);
   } catch (e) {
     console.error(e);
   } finally {

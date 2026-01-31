@@ -4,6 +4,7 @@ import {AutoMode, IInputItem, IPageContextActions, IPageContextState, IPageConte
 import {queryTerm} from "/src-page/lib/queryTerm";
 import {writeInput} from "../lib/writeInput";
 import {getTermText} from "/src-com/lib/getTermText";
+import {Api} from "/src-page/api";
 
 
 export const usePageContextStore: () => IPageContextStore = defineStore('page-context-store', {
@@ -16,7 +17,8 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 			changeAutoModeTime: undefined,
 			termListEl: undefined,
 			active: false,
-			locationChangeTime: undefined
+			locationChangeTime: undefined,
+			searchMsgs: []
 		};
 	},
 	getters: {
@@ -64,6 +66,15 @@ export const usePageContextStore: () => IPageContextStore = defineStore('page-co
 				await this.fullTerm(this.terms[index])
 			}
 			this.changeAutoMode(AutoMode.Off);
+		},
+		async draftChang(): Promise<void> {
+			const me: IPageContextStore = this;
+			const {inputItem: {id, text}, scene: {id: sceneId}} = me;
+			me.searchMsgs = await Api.contentToBg.onDraftChange({
+				draft: {id, text},
+				title: document.title,
+				sceneId
+			});
 		}
 	}
 }) as any;

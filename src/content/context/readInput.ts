@@ -31,6 +31,6 @@ export async function readInput(target: EventTarget, always?: boolean) {
 	if (value !== ContextVars.lastValue || sizeChanged || always || lastTarget !== target) {
 		ContextVars.lastValue = value;
 		await timer.reWait(100);
-		console.log("当前输入值:", value);
+		await cxt.draftChang();
 	}
 }

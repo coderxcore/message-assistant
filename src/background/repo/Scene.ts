@@ -1,4 +1,4 @@
-import {builtInSceneIds, IScene} from "/src-com";
+import {builtInSceneIds, IFullDaft, IScene} from "/src-com";
 import {Db} from "../db";
 
 export class Scene {
@@ -23,13 +23,20 @@ export class Scene {
 		this.#scenes = undefined;
 	}
 
-	static getSceneByUrl(url: string): IScene | undefined {
+	static getSceneByUrl(url: string): Partial<IFullDaft> {
 		const map = this.#getSiteMap();
-		const prefix = Array.from(map.keys()).find(p => url.includes(p));
-		if (prefix && map.has(prefix)) {
-			return map.get(prefix);
+		const urlPart = Array.from(map.keys()).find(p => url.includes(p));
+		if (urlPart && map.has(urlPart)) {
+			return {
+				siteKey: urlPart,
+				sceneId: map.get(urlPart)?.id,
+			};
 		}
-		return this.#unspecifiedScene;
+		const objUrl = new URL(url);
+		return {
+			siteKey: objUrl.hostname,
+			sceneId: this.#unspecifiedScene?.id,
+		};
 	}
 
 	static #getSiteMap(): Map<string, IScene> {
@@ -39,7 +46,7 @@ export class Scene {
 		const map = new Map<string, IScene>();
 		for (const scene of this.#scenes || []) {
 			for (const site of scene.sites || []) {
-				map.set(site.urlPrefix, scene);
+				map.set(site.urlPart, scene);
 			}
 		}
 		return this.#siteSceneMap = map;
